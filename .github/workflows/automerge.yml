@@ -1,10 +1,12 @@
 name: automerge
 
 on:
-  push:
-    branches: [develop]
   pull_request:
     branches: [develop]
+
+permissions:
+  contents: write
+  pull-requests: write
 
 env:
   NODE_VERSION: 22
@@ -15,6 +17,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Node ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
@@ -25,7 +29,8 @@ jobs:
       - name: Get changed files
         id: changes-files
         run: |
-          echo "CHANGED_JSON_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^assets/[^/]\+\.json$' || true)" >> $GITHUB_ENV
+          git fetch origin develop
+          echo "CHANGED_JSON_FILES=$(git diff --name-only origin/develop...HEAD | grep '^assets/[^/]\+\.json$' || true)" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: npm clean-install
@@ -34,3 +39,18 @@ jobs:
         run: |
           echo "Changed JSON files: $CHANGED_JSON_FILES"
           CHANGED_JSON_FILES=$CHANGED_JSON_FILES npm run test:automerge
+
+  automerge:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Automerge
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} --merge --auto
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
