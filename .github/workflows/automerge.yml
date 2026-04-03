@@ -1,10 +1,12 @@
 name: automerge
 
 on:
-  push:
-    branches: [develop]
   pull_request:
     branches: [develop]
+
+permissions:
+  contents: write
+  pull-requests: write
 
 env:
   NODE_VERSION: 22
