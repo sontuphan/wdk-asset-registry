@@ -25,7 +25,8 @@ jobs:
       - name: Get changed files
         id: changes-files
         run: |
-          echo "CHANGED_JSON_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^assets/[^/]\+\.json$' || true)" >> $GITHUB_ENV
+          git fetch origin develop
+          echo "CHANGED_JSON_FILES=$(git diff --name-only origin/develop...HEAD | grep '^assets/[^/]\+\.json$' || true)" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: npm clean-install
