@@ -12,8 +12,17 @@ const ChangeFilesSchema = z.object({
 describe('CI: Automerge', () => {
   const { CHANGED_JSON_FILES: changedFiles } = ChangeFilesSchema.parse(process.env)
 
-  test("should be valid object following the wdk asset schema", () => {
-    console.log(changedFiles)
-    expect(true).toBe(true)
+  test('should change exactly one file', () => {
+    expect(changedFiles).toHaveLength(1)
+  })
+
+  test("should be valid object against the wdk asset schema", async () => {
+    const [changedFile] = changedFiles
+    const { default: entry } = await import(`../${changedFile}`, { with: { type: 'json' } })
+
+    const data = WdkAssetSchema.parse(entry)
+
+    expect(typeof data).toBe('object')
+    expect(data).toBeDefined()
   })
 })
