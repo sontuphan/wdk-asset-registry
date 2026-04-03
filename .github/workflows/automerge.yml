@@ -37,3 +37,15 @@ jobs:
         run: |
           echo "Changed JSON files: $CHANGED_JSON_FILES"
           CHANGED_JSON_FILES=$CHANGED_JSON_FILES npm run test:automerge
+
+  automerge:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Automerge
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} --merge --auto
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
