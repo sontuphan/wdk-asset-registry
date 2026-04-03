@@ -28,7 +28,6 @@ jobs:
         id: changes-files
         run: |
           git fetch origin develop
-          git diff --name-only origin/develop...HEAD | grep '^assets/[^/]\+\.json$' || true
           echo "CHANGED_JSON_FILES=$(git diff --name-only origin/develop...HEAD | grep '^assets/[^/]\+\.json$' || true)" >> $GITHUB_ENV
 
       - name: Install dependencies

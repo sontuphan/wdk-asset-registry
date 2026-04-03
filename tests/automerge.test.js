@@ -1,9 +1,9 @@
 import { describe, expect, test } from '@jest/globals'
-import { z } from zod;
+import { z } from 'zod'
 
 import { WdkAssetSchema } from '@tetherto/wdk-asset-registry'
 
-const ChangeFilesSchema = z.object({CHANGED_JSON_FILES: z.string()}).transform(str => {
+const ChangeFilesSchema = z.object({ CHANGED_JSON_FILES: z.string() }).transform(str => {
   return str.split('\n').filter(e => !e)
 })
 
