@@ -30,6 +30,7 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
 
-      - name: Test
+      - name: Validate the changed files
         run: |
           echo "Changed JSON files: $CHANGED_JSON_FILES"
+          CHANGED_JSON_FILES=$CHANGED_JSON_FILES npm run test:automerge
