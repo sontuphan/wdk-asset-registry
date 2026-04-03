@@ -1,0 +1,49 @@
+{
+  "name": "@tetherto/wdk-asset-registry",
+  "version": "1.0.0",
+  "description": "The type system and interfaces for standardized asset identification across all WDK modules.",
+  "keywords": [
+    "wdk",
+    "asset",
+    "registry"
+  ],
+  "author": "Tether",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tetherto/wdk-asset-registry.git"
+  },
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build:types": "tsc",
+    "test": "node ./src/wallet-asset.js",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
+  },
+  "dependencies": {
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "standard": "17.1.2",
+    "typescript": "6.0.2"
+  },
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./index.js"
+    },
+    "./package": {
+      "default": "./package.json"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "standard": {
+    "ignore": [
+      "tests/**/*.js"
+    ]
+  }
+}
