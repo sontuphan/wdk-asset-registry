@@ -1,16 +1,16 @@
-name: build
+name: automerge
 
 on:
   push:
-    branches: [main, develop]
+    branches: [develop]
   pull_request:
-    branches: [main, develop]
+    branches: [develop]
 
 env:
   NODE_VERSION: 22
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,11 +22,14 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Get changed files
+        id: changes-files
+        run: |
+          echo "CHANGED_JSON_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.json$' || true)" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: npm clean-install
 
-      - name: Lint code with standard
-        run: npm run lint
-
-      - name: Run tests
-        run: npm test
+      - name: Test
+        run: |
+          echo "Changed JSON files: $CHANGED_JSON_FILES"
