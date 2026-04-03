@@ -4,7 +4,7 @@ import { z } from zod;
 import { WdkAssetSchema } from '@tetherto/wdk-asset-registry'
 
 const ChangeFilesSchema = z.object({CHANGED_JSON_FILES: z.string()}).transform(str => {
-  return val.split('\n').filter(e => !e)
+  return str.split('\n').filter(e => !e)
 })
 
 describe('CI: Automerge', () => {
