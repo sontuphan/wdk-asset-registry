@@ -20,6 +20,8 @@ describe('CI: Automerge', () => {
     const [changedFile] = changedFiles
     const { default: entry } = await import(`../${changedFile}`, { with: { type: 'json' } })
 
+    console.log(entry)
+
     const data = WdkAssetSchema.parse(entry)
 
     expect(typeof data).toBe('object')
