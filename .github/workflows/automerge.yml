@@ -30,20 +30,38 @@ jobs:
         id: changes-files
         run: |
           git fetch origin develop
-          echo "CHANGED_JSON_FILES=$(git diff --name-only origin/develop...HEAD | grep '^assets/[^/]\+\.json$' || true)" >> $GITHUB_ENV
+
+          FILES=$(git diff --name-only origin/develop...HEAD)
+          
+          # All files must be in assets/*.json
+          INVALID=$(echo "$FILES" | grep -vE '^assets/[^/]+\.json$' || true)
+          if [ -n "$INVALID" ]; then
+            echo "Invalid files detected:"
+            echo "$INVALID"
+            exit 1
+          fi
+
+          # Update exactly one file
+          COUNT=$(echo "$FILES" | grep -cE '^assets/[^/]+\.json$' || true)
+          if [ "$COUNT" -ne 1 ]; then
+            echo "Expected exactly 1 JSON file, got $COUNT"
+            exit 1
+          fi
+
+          echo "CHANGED_JSON_FILE=$FILES" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: npm clean-install
 
       - name: Validate the changed files
         run: |
-          echo "Changed JSON files: $CHANGED_JSON_FILES"
-          CHANGED_JSON_FILES=$CHANGED_JSON_FILES npm run test:automerge
+          echo "Changed JSON file: $CHANGED_JSON_FILE"
+          CHANGED_JSON_FILE=$CHANGED_JSON_FILE npm run test:automerge
 
   automerge:
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false
+    if: github.event_name == 'pull_request'
 
     steps:
       - uses: actions/checkout@v4
