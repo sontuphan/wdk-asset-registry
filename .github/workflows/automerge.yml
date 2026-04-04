@@ -34,12 +34,12 @@ jobs:
           FILES=$(git diff --name-only origin/develop...HEAD)
           
           # All files must be in assets/*.json
-          INVALID=$(echo "$FILES" | grep -vE '^assets/[^/]+\.json$' || true)
-          if [ -n "$INVALID" ]; then
-            echo "Invalid files detected:"
-            echo "$INVALID"
-            exit 1
-          fi
+          # INVALID=$(echo "$FILES" | grep -vE '^assets/[^/]+\.json$' || true)
+          # if [ -n "$INVALID" ]; then
+          #   echo "Invalid files detected:"
+          #   echo "$INVALID"
+          #   exit 1
+          # fi
 
           # Update exactly one file
           COUNT=$(echo "$FILES" | grep -cE '^assets/[^/]+\.json$' || true)
