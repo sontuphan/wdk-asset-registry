@@ -13,9 +13,11 @@ describe('CI: Automerge', () => {
   test("should be valid object against the wdk asset schema", async () => {
     const { default: entry } = await import(`../${changedFile}`, { with: { type: 'json' } })
 
-    const data = WdkAssetSchema.parse(entry)
-
-    expect(typeof data).toBe('object')
-    expect(data).toBeDefined()
+    for (const token of entry) {
+      const data = WdkAssetSchema.parse(token)
+      
+      expect(typeof data).toBe('object')
+      expect(data).toBeDefined()
+    }
   })
 })

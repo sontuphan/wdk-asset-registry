@@ -1,4 +1,4 @@
-{
+[{
   "address": "0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb",
   "symbol": "USDT0",
   "name": "Tether",
@@ -11,4 +11,4 @@
     "coingecko": "https://www.coingecko.com/en/coins/usdt0",
     "plasmascan": "https://plasmascan.to/address/0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb"
   }
-}
+}]

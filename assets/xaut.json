@@ -1,4 +1,4 @@
-{
+[{
   "address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
   "symbol": "XAUt",
   "name": "Tether Gold",
@@ -11,4 +11,4 @@
     "coingecko": "https://www.coingecko.com/en/coins/tether-gold",
     "etherscan": "https://etherscan.io/token/0x68749665ff8d2d112fa859aa293f07a622782f38"
   }
-}
+}]
