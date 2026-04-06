@@ -8,10 +8,10 @@
  * @param {number} [chainId] - todo
  * @returns { Promise<WdkAsset | undefined> } - todo
  */
-export async function getTokenByTicker(ticker, chainId) {
+export async function getTokenByTicker (ticker, chainId) {
   try {
     const res = await fetch(`https://raw.githubusercontent.com/sontuphan/wdk-asset-registry/refs/heads/main/assets/${ticker}.json`)
-    
+
     if (!res.ok) {
       return undefined
     }
@@ -26,11 +26,11 @@ export async function getTokenByTicker(ticker, chainId) {
 
 /**
  * Alias of {@link getTokenByTicker}.
- * 
+ *
  * @param {string} symbol -
  * @param {number} [chainId] -
- * @returns 
+ * @returns
  */
-export async function getTokenBySymbol(symbol, chainId) {
+export async function getTokenBySymbol (symbol, chainId) {
   return await getTokenByTicker(symbol, chainId)
 }
