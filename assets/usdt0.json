@@ -1,0 +1,44 @@
+[
+  {
+    "address": "0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb",
+    "symbol": "USDT0",
+    "name": "Tether",
+    "decimals": 6,
+    "chainId": 9745,
+    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
+    "tags": ["stablecoin", "erc20", "bridged_token"],
+    "extensions": {
+      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
+      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
+      "plasmascan": "https://plasmascan.to/address/0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb"
+    }
+  },
+  {
+    "address": "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
+    "symbol": "USDT0",
+    "name": "Tether",
+    "decimals": 6,
+    "chainId": 137,
+    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
+    "tags": ["stablecoin", "erc20", "bridged_token"],
+    "extensions": {
+      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
+      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
+      "polygonscan": "https://polygonscan.com/address/0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
+    }
+  },
+  {
+    "address": "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
+    "symbol": "USDT0",
+    "name": "Tether",
+    "decimals": 6,
+    "chainId": 42161,
+    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
+    "tags": ["stablecoin", "erc20", "bridged_token"],
+    "extensions": {
+      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
+      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
+      "polygonscan": "https://arbiscan.io/address/0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9"
+    }
+  }
+]
