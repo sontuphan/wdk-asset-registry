@@ -17,7 +17,7 @@
   "main": "index.js",
   "scripts": {
     "build:types": "tsc",
-    "test": "echo test",
+    "test": "node ./src/wallet-asset.js",
     "test:automerge": "cross-env NODE_OPTIONS=--experimental-vm-modules jest ./tests/automerge.test.js",
     "lint": "standard",
     "lint:fix": "standard --fix"
