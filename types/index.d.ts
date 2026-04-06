@@ -1,3 +1,4 @@
 export * from "./src/wallet-asset.js";
 export * from "./src/wallet-asset-util.js";
 export type WdkAsset = import("./src/wallet-asset.js").WdkAsset;
+export type WdkAssetPagination = import("./src/wallet-asset-util.js").WdkAsset;
