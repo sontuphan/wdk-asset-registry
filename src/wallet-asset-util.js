@@ -18,7 +18,10 @@ export async function getTokenByTicker (ticker, chainId) {
 
     const data = await res.json()
 
-    return data
+    if (!data) return undefined
+    if (!chainId) return data
+
+    return data.filter(token => token.chainId === chainId)
   } catch {
     return undefined
   }
