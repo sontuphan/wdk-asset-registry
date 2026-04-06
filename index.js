@@ -16,3 +16,4 @@
 /** @typedef {import('./src/wallet-asset.js').WdkAsset} WdkAsset */
 
 export * from './src/wallet-asset.js'
+export * from './src/wallet-asset-util.js'

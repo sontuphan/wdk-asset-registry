@@ -7,7 +7,6 @@
     "target": "ES2015",
     "module": "NodeNext",
     "moduleResolution": "nodenext",
-    "checkJs": true,
     "allowJs": true,
     "declaration": true,
     "emitDeclarationOnly": true,
