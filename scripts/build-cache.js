@@ -49,4 +49,3 @@ for (const file of files) {
     writeFileSync(destination, JSON.stringify(output, null, 2))
   }
 }
-
