@@ -1,4 +1,4 @@
-# wdk-asset-registry
+# @tetherto/wdk-asset-registry
 
 **Note**: This package is currently in beta. Please test thoroughly in development environments before using in production.
 
