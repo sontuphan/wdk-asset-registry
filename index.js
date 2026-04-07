@@ -14,6 +14,7 @@
 'use strict'
 
 /** @typedef {import('./src/wallet-asset.js').WdkAsset} WdkAsset */
+/** @typedef {import('./src/wallet-asset.js').WdkAssetList} WdkAssetList */
 /** @typedef {import('./src/wallet-asset-util.js').WdkAsset} WdkAssetPagination */
 
 export * from './src/wallet-asset.js'
