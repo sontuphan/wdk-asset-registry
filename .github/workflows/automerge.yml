@@ -37,7 +37,7 @@ jobs:
           npm run ci:build-cache
           cp -r cache public/cache
           cp -r assets public/assets
-          cp README.md LICENSE package.json dist/
+          cp README.md LICENSE package.json public/
 
       - name: Deploy to public
         uses: peaceiris/actions-gh-pages@v4
