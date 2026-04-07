@@ -3,3 +3,6 @@ coverage
 tests
 tsconfig.json
 .github
+assets
+scripts
+cache

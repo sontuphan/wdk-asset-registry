@@ -3,6 +3,7 @@ name: automerge
 on:
   pull_request:
     branches: [develop]
+    types: [closed]
 
 permissions:
   contents: write
@@ -14,61 +15,34 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Set up Node ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Get changed files
-        id: changes-files
-        run: |
-          git fetch origin develop
-
-          FILES=$(git diff --name-only origin/develop...HEAD)
-          
-          # All files must be in assets/*.json
-          INVALID=$(echo "$FILES" | grep -vE '^assets/[^/]+\.json$' || true)
-          if [ -n "$INVALID" ]; then
-            echo "Invalid files detected:"
-            echo "$INVALID"
-            exit 1
-          fi
-
-          # Update exactly one file
-          COUNT=$(echo "$FILES" | grep -cE '^assets/[^/]+\.json$' || true)
-          if [ "$COUNT" -ne 1 ]; then
-            echo "Expected exactly 1 JSON file, got $COUNT"
-            exit 1
-          fi
-
-          echo "CHANGED_JSON_FILE=$FILES" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: npm clean-install
 
-      - name: Validate the changed files
+      - name: Run build public
         run: |
-          echo "Changed JSON file: $CHANGED_JSON_FILE"
-          CHANGED_JSON_FILE=$CHANGED_JSON_FILE npm run test:automerge
+          mkdir -p public
+          npm run ci:build-cache
+          cp -r cache public/cache
+          cp -r assets public/assets
+          cp README.md LICENSE package.json public/
 
-  automerge:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-
-    steps:
-      - uses: actions/checkout@v4
+      - name: Deploy to public
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          fetch-depth: 0
-      - name: Automerge
-        run: |
-          gh pr merge ${{ github.event.pull_request.number }} --merge --auto
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: public
+          force_orphan: true

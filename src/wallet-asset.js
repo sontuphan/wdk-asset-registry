@@ -20,31 +20,37 @@ import { z } from 'zod'
  * @typedef {z.infer<typeof WdkAssetSchema>} WdkAsset - Type representing a validated WDK asset object.
  */
 
-export const WdkAssetSchema = z.array(
-  z.object({
-    address: z.string(),
-    symbol: z.string(),
-    name: z.string(),
-    decimals: z.number().int().gte(0).lte(255),
-    chainId: z.number().int().positive(),
-    logoURI: z.url({ protocol: /^https?$/ }).refine(
-      (url) => {
-        const pattern = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)(\?.*)?$/i
-        return pattern.test(url)
-      },
-      { message: 'URL must be a valid image url.' }
-    ),
-    tags: z.array(
-      z.union([
-        z.string(),
-        z.object({
-          name: z.string(),
-          description: z.string()
-        })
-      ])
-    ).optional(),
-    extensions: z.record(z.string(), z.unknown()).optional()
-  })
-)
+/**
+ * @typedef {z.infer<typeof WdkAssetListSchema>} WdkAssetList - Type representing a validated WDK asset object.
+ */
+
+export const WdkAssetSchema = z.object({
+  address: z.string(),
+  symbol: z.string(),
+  name: z.string(),
+  decimals: z.number().int().gte(0).lte(255),
+  chainId: z.number().int().positive(),
+  logoURI: z.url({ protocol: /^https?$/ }).refine(
+    (url) => {
+      const pattern = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)(\?.*)?$/i
+      return pattern.test(url)
+    },
+    { message: 'URL must be a valid image url.' }
+  ),
+  tags: z.array(
+    z.union([
+      z.string(),
+      z.object({
+        name: z.string(),
+        description: z.string()
+      })
+    ])
+  ).optional(),
+  extensions: z.record(z.string(), z.unknown()).optional()
+})
 
 export const WdkAssetJsonSchema = WdkAssetSchema.toJSONSchema()
+
+export const WdkAssetListSchema = z.array(WdkAssetSchema)
+
+export const WdkAssetListJsonSchema = WdkAssetSchema.toJSONSchema()
