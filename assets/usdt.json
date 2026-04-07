@@ -1,14 +1,30 @@
-[{
-  "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-  "symbol": "USDT",
-  "name": "Tether",
-  "decimals": 6,
-  "chainId": 1,
-  "logoURI": "https://tether.to/images/logoCircle.svg",
-  "tags": ["stablecoin", "erc20"],
-  "extensions": {
-    "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-    "coingecko": "https://www.coingecko.com/en/coins/tether",
-    "etherscan": "https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7"
+[
+  {
+    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "symbol": "USDT",
+    "name": "Tether",
+    "decimals": 6,
+    "chainId": 1,
+    "logoURI": "https://tether.to/images/logoCircle.svg",
+    "tags": ["stablecoin", "erc20"],
+    "extensions": {
+      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
+      "coingecko": "https://www.coingecko.com/en/coins/tether",
+      "etherscan": "https://etherscan.io/token/0xdac17f958d2ee523a2206206994597c13d831ec7"
+    }
+  },
+  {
+    "address": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+    "symbol": "USDT",
+    "name": "Tether",
+    "decimals": 6,
+    "chainId": 900,
+    "logoURI": "https://tether.to/images/logoCircle.svg",
+    "tags": ["stablecoin", "erc20"],
+    "extensions": {
+      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
+      "coingecko": "https://www.coingecko.com/en/coins/tether",
+      "solscan": "https://solscan.io/token/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
+    }
   }
-}]
+]
