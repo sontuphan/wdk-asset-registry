@@ -35,8 +35,8 @@ jobs:
         run: |
           mkdir -p public
           npm run ci:build-cache
-          cp -r /cache public/cache
-          cp -r /assets public/assets
+          cp -r cache public/cache
+          cp -r assets public/assets
           cp README.md LICENSE package.json dist/
 
       - name: Deploy to public
