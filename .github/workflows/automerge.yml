@@ -58,17 +58,17 @@ jobs:
           echo "Changed JSON file: $CHANGED_JSON_FILE"
           CHANGED_JSON_FILE=$CHANGED_JSON_FILE npm run test:automerge
 
-  automerge:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+  # automerge:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'pull_request'
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Automerge
-        run: |
-          gh pr merge ${{ github.event.pull_request.number }} --merge --auto
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+  #     - name: Automerge
+  #       run: |
+  #         gh pr merge ${{ github.event.pull_request.number }} --merge --auto
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
