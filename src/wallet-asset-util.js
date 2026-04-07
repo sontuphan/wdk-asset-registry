@@ -61,13 +61,3 @@ export async function getTokenByTicker (ticker, chainId) {
 export async function getTokenByAddress (address, chainId) {
 
 }
-
-/**
- * Fetches all tokens with pagination.
- *
- * @param {number} page - The page number to fetch (starting from 1).
- * @returns {{ result: WdkAsset[], pagination: WdkAssetPagination }} An object containing the list of tokens for the page and pagination info.
- */
-export async function getAllTokens (page) {
-
-}
