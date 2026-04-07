@@ -1,50 +1,52 @@
-import { mkdir, readdir, readFile, rm, writeFile } from 'fs/promises'
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'fs'
 
 /** @typedef {import('../types').WdkAssetList} WdkAssetList */
 
-async function loadOrCreateJSON (path, defaultObj = []) {
+function loadOrCreateJSON (path, defaultObj = []) {
   try {
-    const data = await readFile(path, 'utf-8')
+    const data = readFileSync(path, 'utf-8')
     return JSON.parse(data)
   } catch (err) {
     if (err.code !== 'ENOENT') {
       throw err
     }
 
-    await writeFile(path, JSON.stringify(defaultObj, null, 2))
+    writeFileSync(path, JSON.stringify(defaultObj, null, 2))
     return defaultObj
   }
 }
 
-async function main () {
-  const OUTPUT = 'cache'
-  await rm(OUTPUT, { recursive: true, force: true })
-  await mkdir(OUTPUT, { recursive: true })
+const INPUT = 'assets'
+const OUTPUT = 'cache'
 
-  const files = await readdir('assets')
+// Clean the cache
+rmSync(OUTPUT, { recursive: true, force: true })
+mkdirSync(OUTPUT, { recursive: true })
 
-  for (const file of files) {
-    const from = `assets/${file}`
-    const raw = await readFile(from, 'utf-8')
+const files = readdirSync(INPUT)
 
-    /** @type {WdkAssetList} */
-    const input = JSON.parse(raw)
+for (const file of files) {
+  const source = `${INPUT}/${file}`
 
-    for (const { address, symbol } of input) {
-      const normalizedSymbol = symbol.toLowerCase()
-      const to = `${OUTPUT}/${address}.json`
+  const raw = readFileSync(source, 'utf-8')
 
-      /** @type {string[]} */
-      const output = await loadOrCreateJSON(to)
+  /** @type {WdkAssetList} */
+  const input = JSON.parse(raw)
 
-      if (!output.includes(normalizedSymbol)) {
-        output.push(normalizedSymbol)
-      }
+  for (const { address, symbol } of input) {
+    const normalizedSymbol = symbol.toLowerCase()
+    const normalizedAddress = address.toLowerCase()
 
-      await writeFile(to, JSON.stringify(output, null, 2))
+    const destination = `${OUTPUT}/${normalizedAddress}.json`
+
+    /** @type {string[]} */
+    const output = loadOrCreateJSON(destination)
+
+    if (!output.includes(normalizedSymbol)) {
+      output.push(normalizedSymbol)
     }
+
+    writeFileSync(destination, JSON.stringify(output, null, 2))
   }
 }
 
-// Execute
-main()
