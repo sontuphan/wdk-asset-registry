@@ -26,5 +26,19 @@
       "coingecko": "https://www.coingecko.com/en/coins/tether",
       "solscan": "https://solscan.io/token/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
     }
+  },
+  {
+    "address": "0x617f3112bf5397d0467d315cc709ef968d9ba546",
+    "symbol": "USDT",
+    "name": "Tether",
+    "decimals": 6,
+    "chainId": 42220,
+    "logoURI": "https://tether.to/images/logoCircle.svg",
+    "tags": ["stablecoin", "erc20"],
+    "extensions": {
+      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
+      "coingecko": "https://www.coingecko.com/en/coins/tether",
+      "solscan": "https://celoscan.io/token/0x617f3112bf5397d0467d315cc709ef968d9ba546"
+    }
   }
 ]
