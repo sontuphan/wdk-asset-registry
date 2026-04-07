@@ -19,6 +19,7 @@
     "build:types": "tsc",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --testPathIgnorePatterns=automerge.test.js",
     "test:automerge": "cross-env NODE_OPTIONS=--experimental-vm-modules jest tests/automerge.test.js",
+    "ci:build-cache": "node scripts/build-cache.js",
     "lint": "standard",
     "lint:fix": "standard --fix"
   },
