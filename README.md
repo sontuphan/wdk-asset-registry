@@ -36,41 +36,41 @@ npm install @tetherto/wdk-asset-registry
 import {
   getAssetBySymbol,
   getAssetByAddress,
-} from '@tetherto/wdk-asset-registry'
+} from "@tetherto/wdk-asset-registry";
 ```
 
 ### Get Asset by Symbol
 
 ```javascript
-const usdt = await getAssetBySymbol('usdt')
-console.log(usdt)
+const usdt = await getAssetBySymbol("usdt");
+console.log(usdt);
 ```
 
 ### Get Asset by Address
 
 ```javascript
 const usdt = await getAssetByAddress(
-  '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-)
-console.log(usdt)
+  "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+);
+console.log(usdt);
 ```
 
 ### Get Asset by symbol (or address) and filter by chainId
 
 ```javascript
 // Get USDT0 metadata on Arbitrum
-const usdt0 = await getAssetBySymbol('usdt0', 42161)
-console.log(usdt0)
+const usdt0 = await getAssetBySymbol("usdt0", 42161);
+console.log(usdt0);
 ```
 
 ## 📚 API Reference
 
 ### Table of Contents
 
-| Section                  | Description                | Methods                                                                       |
-| ------------------------ | -------------------------- | ----------------------------------------------------------------------------- |
-| [Types](#wdkasset-types) | Asset data structure       | [WdkAsset](#wdkasset), [WdkAssetList](#wdkassetlist)                          |
-| [Methods](#methods)      | Available lookup functions | [getAssetBySymbol](getassetbysymbol), [getAssetByAddress](#getassetbyaddress) |
+| Section                  | Description                | Methods                                                                        |
+| ------------------------ | -------------------------- | ------------------------------------------------------------------------------ |
+| [Types](#wdkasset-types) | Asset data structure       | [WdkAsset](#wdkasset), [WdkAssetList](#wdkassetlist)                           |
+| [Methods](#methods)      | Available lookup functions | [getAssetBySymbol](#getassetbysymbol), [getAssetByAddress](#getassetbyaddress) |
 
 ### Types
 
@@ -78,21 +78,21 @@ console.log(usdt0)
 
 ```typescript
 type WdkAsset = {
-  address: string
-  symbol: string
-  name: string
-  decimals: number
-  chainId: number
-  logoURI: string
-  tags?: (string | { name: string; description: string })[] | undefined
-  extensions?: Record<string, unknown> | undefined
-}
+  address: string;
+  symbol: string;
+  name: string;
+  decimals: number;
+  chainId: number;
+  logoURI: string;
+  tags?: (string | { name: string; description: string })[] | undefined;
+  extensions?: Record<string, unknown> | undefined;
+};
 ```
 
 #### WdkAssetList
 
 ```typescript
-type WdkAssetList = WdkAsset[]
+type WdkAssetList = WdkAsset[];
 ```
 
 ### Methods
@@ -116,15 +116,15 @@ Get asset metadata by symbol.
 **Example:**
 
 ```javascript
-const assets = await getAssetBySymbol('usdt')
-console.log(assets)
+const assets = await getAssetBySymbol("usdt");
+console.log(assets);
 ```
 
 You can also filter by chain:
 
 ```javascript
-const arbitrumUsdt0 = await getAssetBySymbol('usdt0', 42161)
-console.log(arbitrumUsdt0)
+const arbitrumUsdt0 = await getAssetBySymbol("usdt0", 42161);
+console.log(arbitrumUsdt0);
 ```
 
 #### getAssetByAddress
@@ -142,19 +142,19 @@ Get asset metadata by contract address.
 
 ```javascript
 const assets = await getAssetByAddress(
-  '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-)
-console.log(assets)
+  "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+);
+console.log(assets);
 ```
 
 You can also filter by chain:
 
 ```javascript
 const ethereumUsdt = await getAssetByAddress(
-  '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+  "0xdAC17F958D2ee523a2206206994597C13D831ec7",
   1,
-)
-console.log(ethereumUsdt)
+);
+console.log(ethereumUsdt);
 ```
 
 ### JSON Schemas
