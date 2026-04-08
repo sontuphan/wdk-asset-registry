@@ -5,6 +5,28 @@
 const REPO = 'https://raw.githubusercontent.com/sontuphan/wdk-asset-registry'
 
 /**
+ * Fetch all tokens.
+ *
+ * @returns {Promise<WdkAssetList | undefined>} A list of all tokens or undefined if not found.
+ */
+export async function getAllTokens () {
+  try {
+    const res = await fetch(`${REPO}/refs/heads/public/cache/all.json`)
+
+    if (!res.ok) {
+      return undefined
+    }
+
+    /** @type {WdkAssetList} */
+    const data = await res.json()
+
+    return data || undefined
+  } catch {
+    return undefined
+  }
+}
+
+/**
  * Fetch tokens by symbol.
  *
  * @param {string} symbol - The token symbol (e.g. "USDT", "ETH").
@@ -64,24 +86,12 @@ export async function getTokenByAddress (address, chainId) {
       return undefined
     }
 
-    /** @type {string[]} */
+    /** @type {WdkAssetList[]} */
     const data = await res.json()
 
-    if (!data) {
-      return undefined
-    }
-
-    /** @type {WdkAssetList} */
-    let result = []
-    for (const symbol of data) {
-      let re = await getTokenBySymbol(symbol, chainId)
-      if (Array.isArray(re)) {
-        re = re.filter(token => token.address.toLowerCase() === normalizedAddress)
-        result = result.concat(re)
-      }
-    }
-
-    return result
+    return !chainId
+      ? data
+      : data.filter(token => token.chainId === chainId)
   } catch {
     return undefined
   }

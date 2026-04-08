@@ -25,6 +25,7 @@ mkdirSync(OUTPUT, { recursive: true })
 
 const files = readdirSync(INPUT)
 
+// Build the address-to-symbol map
 for (const file of files) {
   const source = `${INPUT}/${file}`
 
@@ -33,19 +34,32 @@ for (const file of files) {
   /** @type {WdkAssetList} */
   const input = JSON.parse(raw)
 
-  for (const { address, symbol } of input) {
-    const normalizedSymbol = symbol.toLowerCase()
+  for (const { address, ...rest } of input) {
     const normalizedAddress = address.toLowerCase()
 
     const destination = `${OUTPUT}/${normalizedAddress}.json`
 
-    /** @type {string[]} */
+    /** @type {WdkAssetList} */
     const output = loadOrCreateJSON(destination)
 
-    if (!output.includes(normalizedSymbol)) {
-      output.push(normalizedSymbol)
-    }
+    output.push({ address, ...rest })
 
     writeFileSync(destination, JSON.stringify(output, null, 2))
   }
 }
+
+// Build the full list
+let all = []
+
+for (const file of files) {
+  const source = `${INPUT}/${file}`
+
+  const raw = readFileSync(source, 'utf-8')
+
+  /** @type {WdkAssetList} */
+  const input = JSON.parse(raw)
+
+  all = all.concat(input)
+}
+
+writeFileSync(`${OUTPUT}/all.json`, JSON.stringify(all, null, 2))
