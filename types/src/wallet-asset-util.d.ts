@@ -1,4 +1,10 @@
 /**
+ * Fetch all tokens.
+ *
+ * @returns {Promise<WdkAssetList | undefined>} A list of all tokens or undefined if not found.
+ */
+export function getAllTokens(): Promise<WdkAssetList | undefined>;
+/**
  * Fetch tokens by symbol.
  *
  * @param {string} symbol - The token symbol (e.g. "USDT", "ETH").
