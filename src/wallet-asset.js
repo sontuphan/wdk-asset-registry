@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-"use strict";
+'use strict'
 
-import { z } from "zod";
+import { z } from 'zod'
 
 /**
  * @typedef {z.infer<typeof WdkAssetSchema>} WdkAsset - Type representing a validated WDK asset object.
@@ -32,10 +32,10 @@ export const WdkAssetSchema = z.object({
   chainId: z.number().int().positive(),
   logoURI: z.url({ protocol: /^https?$/ }).refine(
     (url) => {
-      const pattern = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)(\?.*)?$/i;
-      return pattern.test(url);
+      const pattern = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)(\?.*)?$/i
+      return pattern.test(url)
     },
-    { message: "URL must be a valid image url." },
+    { message: 'URL must be a valid image url.' }
   ),
   tags: z
     .array(
@@ -43,16 +43,16 @@ export const WdkAssetSchema = z.object({
         z.string(),
         z.object({
           name: z.string(),
-          description: z.string(),
-        }),
-      ]),
+          description: z.string()
+        })
+      ])
     )
     .optional(),
-  extensions: z.record(z.string(), z.unknown()).optional(),
-});
+  extensions: z.record(z.string(), z.unknown()).optional()
+})
 
-export const WdkAssetListSchema = z.array(WdkAssetSchema);
+export const WdkAssetListSchema = z.array(WdkAssetSchema)
 
-export const WdkAssetJsonSchema = WdkAssetSchema.toJSONSchema();
+export const WdkAssetJsonSchema = WdkAssetSchema.toJSONSchema()
 
-export const WdkAssetListJsonSchema = WdkAssetSchema.toJSONSchema();
+export const WdkAssetListJsonSchema = WdkAssetListSchema.toJSONSchema()
