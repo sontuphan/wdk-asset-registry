@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-'use strict'
+"use strict";
 
-import { z } from 'zod'
+import { z } from "zod";
 
 /**
  * @typedef {z.infer<typeof WdkAssetSchema>} WdkAsset - Type representing a validated WDK asset object.
  */
 
 /**
- * @typedef {z.infer<typeof WdkAssetListSchema>} WdkAssetList - Type representing a validated WDK asset object.
+ * @typedef {z.infer<typeof WdkAssetListSchema>} WdkAssetList - Type representing a list of validated WDK asset objects.
  */
 
 export const WdkAssetSchema = z.object({
@@ -32,25 +32,27 @@ export const WdkAssetSchema = z.object({
   chainId: z.number().int().positive(),
   logoURI: z.url({ protocol: /^https?$/ }).refine(
     (url) => {
-      const pattern = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)(\?.*)?$/i
-      return pattern.test(url)
+      const pattern = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)(\?.*)?$/i;
+      return pattern.test(url);
     },
-    { message: 'URL must be a valid image url.' }
+    { message: "URL must be a valid image url." },
   ),
-  tags: z.array(
-    z.union([
-      z.string(),
-      z.object({
-        name: z.string(),
-        description: z.string()
-      })
-    ])
-  ).optional(),
-  extensions: z.record(z.string(), z.unknown()).optional()
-})
+  tags: z
+    .array(
+      z.union([
+        z.string(),
+        z.object({
+          name: z.string(),
+          description: z.string(),
+        }),
+      ]),
+    )
+    .optional(),
+  extensions: z.record(z.string(), z.unknown()).optional(),
+});
 
-export const WdkAssetJsonSchema = WdkAssetSchema.toJSONSchema()
+export const WdkAssetListSchema = z.array(WdkAssetSchema);
 
-export const WdkAssetListSchema = z.array(WdkAssetSchema)
+export const WdkAssetJsonSchema = WdkAssetSchema.toJSONSchema();
 
-export const WdkAssetListJsonSchema = WdkAssetSchema.toJSONSchema()
+export const WdkAssetListJsonSchema = WdkAssetSchema.toJSONSchema();
