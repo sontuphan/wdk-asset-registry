@@ -2,7 +2,7 @@
 
 **Note**: This package is currently in beta. Please test thoroughly in development environments before using in production.
 
-A lightweight registry for accessing predefined blockchain assets across mutiple chain. This package provides a simple and consistent way to retrieve asset metadata such as symbol, decimals, and contract address.
+A lightweight registry for accessing predefined blockchain assets across mutiple chain. This package provides a simple and consistent way to retrieve asset metadata such as symbol, decimals, contract address, and native-asset status.
 
 ## 🔍 About WDK
 
@@ -13,7 +13,7 @@ For detailed documentation about the complete WDK ecosystem, visit [docs.wallet.
 ## 🌟 Features
 
 - **Predefined Asset Registry**: Access commonly used assets out of the box
-- **Standardized Metadata**: Symbol, name, decimals, and contract address
+- **Standardized Metadata**: Symbol, name, decimals, contract address, and native-asset flag
 - **Fast Lookup**: Retrieve assets by symbol or address
 - **Lightweight**: No RPC or blockchain interaction required
 - **Read-Only Design**: Focused on asset retrieval, not mutation
@@ -83,6 +83,7 @@ type WdkAsset = {
   name: string;
   decimals: number;
   chainId: number;
+  isNative: boolean;
   logoURI: string;
   tags?: (string | { name: string; description: string })[] | undefined;
   extensions?: Record<string, unknown> | undefined;

@@ -12,6 +12,7 @@ const TEST_ASSET = {
   name: 'Tether USD',
   decimals: 6,
   chainId: 1,
+  isNative: false,
   logoURI: 'https://example.com/usdt.png',
   tags: [
     'stablecoin',

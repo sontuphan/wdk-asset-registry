@@ -30,6 +30,7 @@ export const WdkAssetSchema = z.object({
   name: z.string(),
   decimals: z.number().int().gte(0).lte(255),
   chainId: z.number().int().positive(),
+  isNative: z.boolean(),
   logoURI: z.url({ protocol: /^https?$/ }).refine(
     (url) => {
       const pattern = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)(\?.*)?$/i

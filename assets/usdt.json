@@ -5,6 +5,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": 1,
+    "isNative": false,
     "logoURI": "https://tether.to/images/logoCircle.svg",
     "tags": ["stablecoin", "erc20"],
     "extensions": {
@@ -19,6 +20,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": 900,
+    "isNative": false,
     "logoURI": "https://tether.to/images/logoCircle.svg",
     "tags": ["stablecoin", "erc20"],
     "extensions": {
@@ -33,6 +35,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": 42220,
+    "isNative": false,
     "logoURI": "https://tether.to/images/logoCircle.svg",
     "tags": ["stablecoin", "erc20"],
     "extensions": {
