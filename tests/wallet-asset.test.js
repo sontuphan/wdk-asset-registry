@@ -1,4 +1,6 @@
 import { describe, expect, test } from '@jest/globals'
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'fs'
+
 import {
   WdkAssetJsonSchema,
   WdkAssetListJsonSchema,
@@ -59,5 +61,17 @@ describe('wallet-asset', () => {
     expect(WdkAssetListJsonSchema.type).toBe('array')
     expect(WdkAssetListJsonSchema.items.type).toBe('object')
     expect(WdkAssetListJsonSchema.items.properties.address.type).toBe('string')
+  })
+
+  test('should validate all the current assets', () => {
+    const files = readdirSync('assets')
+
+    for (const file of files) {
+      const raw = readFileSync(`assets/${file}`, 'utf-8')
+      const data = JSON.parse(raw)
+      const assets = WdkAssetListSchema.parse(data)
+
+      expect(assets.length).toBeGreaterThanOrEqual(1)
+    }
   })
 })

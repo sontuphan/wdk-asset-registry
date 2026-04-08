@@ -2,10 +2,14 @@ name: automerge
 
 on:
   push:
-    branches: [develop]
+    branches: [main]
+    paths:
+      - 'assets/*.json'
   pull_request:
-    branches: [develop]
+    branches: [main]
     types: [closed]
+    paths:
+      - 'assets/*.json'
 
 permissions:
   contents: write
@@ -14,14 +18,12 @@ env:
   NODE_VERSION: 22
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' || github.event.pull_request.merged == true
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Node ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
