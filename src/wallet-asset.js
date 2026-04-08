@@ -21,7 +21,7 @@ import { z } from 'zod'
  */
 
 /**
- * @typedef {z.infer<typeof WdkAssetListSchema>} WdkAssetList - Type representing a validated WDK asset object.
+ * @typedef {z.infer<typeof WdkAssetListSchema>} WdkAssetList - Type representing a list of validated WDK asset objects.
  */
 
 export const WdkAssetSchema = z.object({
@@ -37,20 +37,22 @@ export const WdkAssetSchema = z.object({
     },
     { message: 'URL must be a valid image url.' }
   ),
-  tags: z.array(
-    z.union([
-      z.string(),
-      z.object({
-        name: z.string(),
-        description: z.string()
-      })
-    ])
-  ).optional(),
+  tags: z
+    .array(
+      z.union([
+        z.string(),
+        z.object({
+          name: z.string(),
+          description: z.string()
+        })
+      ])
+    )
+    .optional(),
   extensions: z.record(z.string(), z.unknown()).optional()
 })
 
-export const WdkAssetJsonSchema = WdkAssetSchema.toJSONSchema()
-
 export const WdkAssetListSchema = z.array(WdkAssetSchema)
 
-export const WdkAssetListJsonSchema = WdkAssetSchema.toJSONSchema()
+export const WdkAssetJsonSchema = WdkAssetSchema.toJSONSchema()
+
+export const WdkAssetListJsonSchema = WdkAssetListSchema.toJSONSchema()
