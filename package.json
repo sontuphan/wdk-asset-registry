@@ -18,9 +18,8 @@
   "scripts": {
     "build:types": "tsc",
     "build:assets": "node scripts/build-assets.js",
-    "pretest": "npm run build:assets",
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --testPathIgnorePatterns=automerge.test.js",
-    "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --testPathIgnorePatterns=automerge.test.js --coverage",
+    "test": "npm run build:assets && cross-env NODE_OPTIONS=--experimental-vm-modules jest --testPathIgnorePatterns=automerge.test.js",
+    "test:coverage": "npm run build:assets && cross-env NODE_OPTIONS=--experimental-vm-modules jest --testPathIgnorePatterns=automerge.test.js --coverage",
     "lint": "standard",
     "lint:fix": "standard --fix"
   },
