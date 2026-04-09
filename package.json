@@ -41,7 +41,7 @@
       "default": "./package.json"
     },
     "./assets/*": {
-      "default": "./dist/*"
+      "default": "./dist/*.json"
     }
   },
   "publishConfig": {

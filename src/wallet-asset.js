@@ -33,7 +33,7 @@ export default class WdkAssetRegistry {
    *
    * @example
    * import { WdkAssetRegistry } from '@tetherto/wdk-asset-registry'
-   * import commonAssets from '@tetherto/wdk-asset-registry/assets/common.json'
+   * import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
    *
    * const registry = new WdkAssetRegistry(commonAssets)
    */
