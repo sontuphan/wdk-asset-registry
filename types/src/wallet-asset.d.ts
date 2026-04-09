@@ -9,7 +9,7 @@ export default class WdkAssetRegistry {
     /**
      * Creates a new asset registry.
      *
-     * @param {WdkAssetList} assets - Predefined asset list used by the registry.
+     * @param {...WdkAssetList} assets - One or more asset lists to preload into the registry.
      *
      * @example
      * import { WdkAssetRegistry } from '@tetherto/wdk-asset-registry'
@@ -17,7 +17,7 @@ export default class WdkAssetRegistry {
      *
      * const registry = new WdkAssetRegistry(commonAssets)
      */
-    constructor(assets: WdkAssetList);
+    constructor(...assets: WdkAssetList[]);
     /**
      * @private
      * @type {WdkAssetList}
@@ -47,36 +47,36 @@ export default class WdkAssetRegistry {
      * Fetch all tokens.
      *
      * @public
-     * @returns {Promise<WdkAssetList | undefined>} A list of all tokens or undefined if not found.
+     * @returns {WdkAssetList} A list of all registered tokens.
      */
-    public getAllTokens(): Promise<WdkAssetList | undefined>;
+    public getAllTokens(): WdkAssetList;
     /**
      * Fetch tokens by symbol.
      *
      * @public
      * @param {string} symbol - The token symbol (e.g. "USDT", "ETH").
      * @param {WdkAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-     * @returns {Promise<WdkAssetList | undefined>} A list of matching tokens or undefined if not found.
+     * @returns {WdkAssetList} A list of matching tokens.
      */
-    public getTokenBySymbol(symbol: string, filter?: WdkAssetFilter): Promise<WdkAssetList | undefined>;
+    public getTokenBySymbol(symbol: string, filter?: WdkAssetFilter): WdkAssetList;
     /**
      * Alias of {@link getTokenBySymbol}.
      *
      * @public
      * @param {string} ticker - The token symbol (e.g. "USDT", "ETH").
      * @param {WdkAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-     * @returns {Promise<WdkAssetList | undefined>} A list of matching tokens or undefined if not found.
+     * @returns {WdkAssetList} A list of matching tokens.
      */
-    public getTokenByTicker(ticker: string, filter?: WdkAssetFilter): Promise<WdkAssetList | undefined>;
+    public getTokenByTicker(ticker: string, filter?: WdkAssetFilter): WdkAssetList;
     /**
      * Fetch tokens by contract address.
      *
      * @public
      * @param {string} address - The token address.
      * @param {WdkAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-     * @returns {Promise<WdkAssetList | undefined>} A list of matching tokens or undefined if not found.
+     * @returns {WdkAssetList} A list of matching tokens.
      */
-    public getTokenByAddress(address: string, filter?: WdkAssetFilter): Promise<WdkAssetList | undefined>;
+    public getTokenByAddress(address: string, filter?: WdkAssetFilter): WdkAssetList;
 }
 export type WdkAsset = import("./wallet-asset-schema.js").WdkAsset;
 export type WdkAssetList = import("./wallet-asset-schema.js").WdkAssetList;

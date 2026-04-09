@@ -24,6 +24,15 @@ const TEST_REPLACED_ASSET = {
   isNative: false,
   logoURI: 'https://example.com/usdt-updated.png'
 }
+const TEST_EXTRA_ASSET = {
+  address: '0x3333333333333333333333333333333333333333',
+  symbol: 'EXTRA',
+  name: 'Extra Token',
+  decimals: 18,
+  chainId: 10,
+  isNative: false,
+  logoURI: 'https://example.com/extra.png'
+}
 
 describe('wallet-asset', () => {
   let wdkAssetRegistry
@@ -43,6 +52,21 @@ describe('wallet-asset', () => {
     expect(assets.length).toBeGreaterThan(0)
   })
 
+  test('should allow multiple asset sets in the constructor', () => {
+    const registry = new WdkAssetRegistry(
+      structuredClone(commonAssets),
+      [TEST_EXTRA_ASSET]
+    )
+
+    const assets = registry.getAllTokens()
+    const [extraAsset] = registry.getTokenBySymbol(TEST_EXTRA_ASSET.symbol, {
+      chainId: TEST_EXTRA_ASSET.chainId
+    })
+
+    expect(assets.length).toBe(commonAssets.length + 1)
+    expect(extraAsset).toEqual(TEST_EXTRA_ASSET)
+  })
+
   test('should get tokens by symbol', () => {
     const assets = wdkAssetRegistry.getTokenBySymbol(TEST_SYMBOL)
 
@@ -54,8 +78,13 @@ describe('wallet-asset', () => {
     }
   })
 
-  test('should get tokens by ticker with chainId', async () => {
-    const assets = await wdkAssetRegistry.getTokenByTicker(TEST_SYMBOL, { chainId: TEST_CHAINID })
+  test('should support case sensitive symbol lookup', () => {
+    expect(wdkAssetRegistry.getTokenBySymbol('USDT', { caseSensitive: true }).length).toBeGreaterThan(0)
+    expect(wdkAssetRegistry.getTokenBySymbol(TEST_SYMBOL, { caseSensitive: true })).toEqual([])
+  })
+
+  test('should get tokens by ticker with chainId', () => {
+    const assets = wdkAssetRegistry.getTokenByTicker(TEST_SYMBOL, { chainId: TEST_CHAINID })
 
     expect(Array.isArray(assets)).toBe(true)
 
@@ -64,6 +93,24 @@ describe('wallet-asset', () => {
     expect(asset.symbol.toLowerCase()).toBe(TEST_SYMBOL)
     expect(asset.chainId).toBe(TEST_CHAINID)
     expect(asset.address).toBe(TEST_ADDRESS)
+  })
+
+  test('should get tokens by ticker as an alias of symbol lookup', () => {
+    const assets = wdkAssetRegistry.getTokenByTicker('USDT', { caseSensitive: true })
+
+    expect(Array.isArray(assets)).toBe(true)
+    expect(assets.length).toBeGreaterThan(0)
+
+    for (const asset of assets) {
+      expect(asset.symbol).toBe('USDT')
+    }
+  })
+
+  test('should return the same result for ticker and symbol lookup', () => {
+    const byTicker = wdkAssetRegistry.getTokenByTicker(TEST_SYMBOL, { chainId: TEST_CHAINID })
+    const bySymbol = wdkAssetRegistry.getTokenBySymbol(TEST_SYMBOL, { chainId: TEST_CHAINID })
+
+    expect(byTicker).toEqual(bySymbol)
   })
 
   test('should get tokens by address', () => {
@@ -76,6 +123,11 @@ describe('wallet-asset', () => {
 
     expect(asset.symbol.toLowerCase()).toBe(TEST_SYMBOL)
     expect(asset.address).toBe(TEST_ADDRESS)
+  })
+
+  test('should support case sensitive address lookup', () => {
+    expect(wdkAssetRegistry.getTokenByAddress(TEST_ADDRESS, { caseSensitive: true }).length).toBeGreaterThan(0)
+    expect(wdkAssetRegistry.getTokenByAddress(TEST_ADDRESS.toLowerCase(), { caseSensitive: true })).toEqual([])
   })
 
   test('should get tokens by address with chainId', () => {

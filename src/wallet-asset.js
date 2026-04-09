@@ -29,7 +29,7 @@ export default class WdkAssetRegistry {
   /**
    * Creates a new asset registry.
    *
-   * @param {WdkAssetList} assets - Predefined asset list used by the registry.
+   * @param {...WdkAssetList} assets - One or more asset lists to preload into the registry.
    *
    * @example
    * import { WdkAssetRegistry } from '@tetherto/wdk-asset-registry'
@@ -37,12 +37,16 @@ export default class WdkAssetRegistry {
    *
    * const registry = new WdkAssetRegistry(commonAssets)
    */
-  constructor (assets) {
+  constructor (...assets) {
     /**
      * @private
      * @type {WdkAssetList}
      */
-    this._assets = assets
+    this._assets = []
+
+    for (const entry of assets) {
+      this.registerAssets(entry)
+    }
   }
 
   /**
@@ -97,7 +101,7 @@ export default class WdkAssetRegistry {
    * Fetch all tokens.
    *
    * @public
-   * @returns {Promise<WdkAssetList | undefined>} A list of all tokens or undefined if not found.
+   * @returns {WdkAssetList} A list of all registered tokens.
    */
   getAllTokens () {
     return this._assets
@@ -109,7 +113,7 @@ export default class WdkAssetRegistry {
    * @public
    * @param {string} symbol - The token symbol (e.g. "USDT", "ETH").
    * @param {WdkAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-   * @returns {Promise<WdkAssetList | undefined>} A list of matching tokens or undefined if not found.
+   * @returns {WdkAssetList} A list of matching tokens.
    */
   getTokenBySymbol (symbol, filter = {}) {
     const { chainId, caseSensitive = false } = filter
@@ -130,10 +134,10 @@ export default class WdkAssetRegistry {
    * @public
    * @param {string} ticker - The token symbol (e.g. "USDT", "ETH").
    * @param {WdkAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-   * @returns {Promise<WdkAssetList | undefined>} A list of matching tokens or undefined if not found.
+   * @returns {WdkAssetList} A list of matching tokens.
    */
-  async getTokenByTicker (ticker, filter = {}) {
-    return await this.getTokenBySymbol(ticker, filter)
+  getTokenByTicker (ticker, filter = {}) {
+    return this.getTokenBySymbol(ticker, filter)
   }
 
   /**
@@ -142,7 +146,7 @@ export default class WdkAssetRegistry {
    * @public
    * @param {string} address - The token address.
    * @param {WdkAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-   * @returns {Promise<WdkAssetList | undefined>} A list of matching tokens or undefined if not found.
+   * @returns {WdkAssetList} A list of matching tokens.
    */
   getTokenByAddress (address, filter = {}) {
     const { chainId, caseSensitive = false } = filter
