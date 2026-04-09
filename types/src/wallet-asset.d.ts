@@ -13,7 +13,7 @@ export default class WdkAssetRegistry {
      *
      * @example
      * import { WdkAssetRegistry } from '@tetherto/wdk-asset-registry'
-     * import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
+     * import commonAssets from '@tetherto/wdk-asset-registry/assets/common.json'
      *
      * const registry = new WdkAssetRegistry(commonAssets)
      */
@@ -23,6 +23,26 @@ export default class WdkAssetRegistry {
      * @type {WdkAssetList}
      */
     private _assets;
+    /**
+     * Register a single asset in the registry.
+     *
+     * @public
+     * @param {WdkAsset} asset - Asset definition to insert or replace.
+     * @param {boolean} [force] - When `true`, replaces an existing asset with the same address and chain ID.
+     * @returns {number} The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled.
+     * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
+     */
+    public registerAsset(asset: WdkAsset, force?: boolean): number;
+    /**
+     * Register multiple assets in the registry.
+     *
+     * @public
+     * @param {WdkAssetList} assets - Asset definitions to insert or replace.
+     * @param {boolean} [force] - When `true`, replaces existing assets with the same address and chain ID.
+     * @returns {number[]} The result of each `registerAsset` call in input order.
+     * @throws {Error} Thrown when any asset already exists and `force` is not enabled.
+     */
+    public registerAssets(assets: WdkAssetList, force?: boolean): number[];
     /**
      * Fetch all tokens.
      *
