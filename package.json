@@ -17,9 +17,9 @@
   "main": "index.js",
   "scripts": {
     "build:types": "tsc",
+    "build:assets": "node scripts/build-assets.js",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --testPathIgnorePatterns=automerge.test.js",
     "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --testPathIgnorePatterns=automerge.test.js --coverage",
-    "ci:build-cache": "node scripts/build-cache.js",
     "lint": "standard",
     "lint:fix": "standard --fix"
   },
@@ -39,6 +39,9 @@
     },
     "./package": {
       "default": "./package.json"
+    },
+    "./assets/*": {
+      "default": "./dist/*"
     }
   },
   "publishConfig": {
