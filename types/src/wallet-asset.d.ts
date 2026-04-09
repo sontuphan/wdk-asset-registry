@@ -9,7 +9,7 @@ export default class WdkAssetRegistry {
     /**
      * Creates a new asset registry.
      *
-     * @param {...WdkAssetList} assets - One or more asset lists to preload into the registry.
+     * @param {WdkAssetList[]} assets - One or more asset lists to preload into the registry.
      *
      * @example
      * import { WdkAssetRegistry } from '@tetherto/wdk-asset-registry'
