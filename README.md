@@ -40,6 +40,12 @@ import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
 const registry = new WdkAssetRegistry(commonAssets)
 ```
 
+You can also preload multiple asset sets:
+
+```javascript
+const registry = new WdkAssetRegistry(commonAssets, customAssets)
+```
+
 ### Get Assets by Symbol
 
 ```javascript
@@ -131,7 +137,7 @@ new WdkAssetRegistry(assets)
 
 **Parameters:**
 
-- `assets` (`WdkAssetList`): Predefined asset list used by the registry
+- `...assets` (`WdkAssetList[]`): One or more asset lists to preload into the registry
 
 **Example:**
 
@@ -150,7 +156,7 @@ const registry = new WdkAssetRegistry(commonAssets)
 | `registerAssets(assets, [force])` | Register multiple assets | `number[]` |
 | `getAllTokens()` | Get all registered assets | `WdkAssetList` |
 | `getTokenBySymbol(symbol, [filter])` | Get assets by symbol | `WdkAssetList` |
-| `getTokenByTicker(ticker, [filter])` | Alias of `getTokenBySymbol` | `Promise<WdkAssetList>` |
+| `getTokenByTicker(ticker, [filter])` | Alias of `getTokenBySymbol` | `WdkAssetList` |
 | `getTokenByAddress(address, [filter])` | Get assets by address | `WdkAssetList` |
 
 #### registerAsset
@@ -215,7 +221,7 @@ Alias of `getTokenBySymbol`.
 - `ticker` (string): Asset symbol to look up
 - `filter` (`WdkAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
 
-**Returns:** `Promise<WdkAssetList>`
+**Returns:** `WdkAssetList`
 
 #### getTokenByAddress
 
