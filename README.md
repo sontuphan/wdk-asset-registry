@@ -13,10 +13,11 @@ For detailed documentation about the complete WDK ecosystem, visit [docs.wallet.
 ## 🌟 Features
 
 - **Predefined Asset Registry**: Access commonly used assets out of the box
+- **Bundled Asset Lists**: Import registry-ready assets from `@tetherto/wdk-asset-registry/assets/*`
 - **Standardized Metadata**: Symbol, name, decimals, contract address, and native-asset flag
 - **Fast Lookup**: Retrieve assets by symbol or address
 - **Lightweight**: No RPC or blockchain interaction required
-- **Read-Only Design**: Focused on asset retrieval, not mutation
+- **In-Memory Registry**: Supports both lookup and local registration of assets
 
 ## ⬇️ Installation
 
@@ -33,34 +34,47 @@ npm install @tetherto/wdk-asset-registry
 ### Importing from `@tetherto/wdk-asset-registry`
 
 ```javascript
-import {
-  getAssetBySymbol,
-  getAssetByAddress,
-} from "@tetherto/wdk-asset-registry";
+import { WdkAssetRegistry } from '@tetherto/wdk-asset-registry'
+import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
+
+const registry = new WdkAssetRegistry(commonAssets)
 ```
 
-### Get Asset by Symbol
+### Get Assets by Symbol
 
 ```javascript
-const usdt = await getAssetBySymbol("usdt");
-console.log(usdt);
+const usdt = registry.getTokenBySymbol('usdt')
+console.log(usdt)
 ```
 
-### Get Asset by Address
+### Get Assets by Address
 
 ```javascript
-const usdt = await getAssetByAddress(
-  "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-);
-console.log(usdt);
+const usdt = registry.getTokenByAddress(
+  '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+)
+console.log(usdt)
 ```
 
-### Get Asset by symbol (or address) and filter by chainId
+### Filter by Chain ID
 
 ```javascript
-// Get USDT0 metadata on Arbitrum
-const usdt0 = await getAssetBySymbol("usdt0", 42161);
-console.log(usdt0);
+const ethereumUsdt = registry.getTokenBySymbol('usdt', { chainId: 1 })
+console.log(ethereumUsdt)
+```
+
+### Register a Custom Asset
+
+```javascript
+registry.registerAsset({
+  address: '0x1111111111111111111111111111111111111111',
+  symbol: 'TEST',
+  name: 'Test Token',
+  decimals: 18,
+  chainId: 1,
+  isNative: false,
+  logoURI: 'https://example.com/test.png'
+})
 ```
 
 ## 📚 API Reference
@@ -70,7 +84,7 @@ console.log(usdt0);
 | Section                  | Description                | Methods                                                                        |
 | ------------------------ | -------------------------- | ------------------------------------------------------------------------------ |
 | [Types](#wdkasset-types) | Asset data structure       | [WdkAsset](#wdkasset), [WdkAssetList](#wdkassetlist)                           |
-| [Methods](#methods)      | Available lookup functions | [getAssetBySymbol](#getassetbysymbol), [getAssetByAddress](#getassetbyaddress) |
+| [Registry](#wdkassetregistry) | Registry class for asset storage and lookup | [Constructor](#constructor), [Methods](#methods) |
 
 ### Types
 
@@ -96,66 +110,141 @@ type WdkAsset = {
 type WdkAssetList = WdkAsset[];
 ```
 
-### Methods
+#### WdkAssetFilter
 
-| Method                                  | Description                   | Returns                              |
-| --------------------------------------- | ----------------------------- | ------------------------------------ |
-| `getAssetBySymbol(symbol, [chainId])`   | Get asset metadata by symbol  | `Promise<WdkAssetList \| undefined>` |
-| `getAssetByAddress(address, [chainId])` | Get asset metadata by address | `Promise<WdkAssetList \| undefined>` |
+```typescript
+type WdkAssetFilter = {
+  chainId?: number;
+  caseSensitive?: boolean;
+};
+```
 
-#### getAssetBySymbol
+### WdkAssetRegistry
+
+Registry class for storing and looking up assets in memory.
+
+#### Constructor
+
+```javascript
+new WdkAssetRegistry(assets)
+```
+
+**Parameters:**
+
+- `assets` (`WdkAssetList`): Predefined asset list used by the registry
+
+**Example:**
+
+```javascript
+import { WdkAssetRegistry } from '@tetherto/wdk-asset-registry'
+import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
+
+const registry = new WdkAssetRegistry(commonAssets)
+```
+
+#### Methods
+
+| Method | Description | Returns |
+| --- | --- | --- |
+| `registerAsset(asset, [force])` | Register a single asset | `number` |
+| `registerAssets(assets, [force])` | Register multiple assets | `number[]` |
+| `getAllTokens()` | Get all registered assets | `WdkAssetList` |
+| `getTokenBySymbol(symbol, [filter])` | Get assets by symbol | `WdkAssetList` |
+| `getTokenByTicker(ticker, [filter])` | Alias of `getTokenBySymbol` | `Promise<WdkAssetList>` |
+| `getTokenByAddress(address, [filter])` | Get assets by address | `WdkAssetList` |
+
+#### registerAsset
+
+Register a single asset in the registry.
+
+**Parameters:**
+
+- `asset` (`WdkAsset`): Asset definition to insert or replace
+- `force` (boolean, optional): When `true`, replaces an existing asset with the same address and chain ID
+
+**Returns:** `number` - The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled
+
+#### registerAssets
+
+Register multiple assets in the registry.
+
+**Parameters:**
+
+- `assets` (`WdkAssetList`): Asset definitions to insert or replace
+- `force` (boolean, optional): When `true`, replaces existing assets with the same address and chain ID
+
+**Returns:** `number[]` - The result of each `registerAsset` call in input order
+
+#### getAllTokens
+
+Get all registered assets.
+
+**Returns:** `WdkAssetList`
+
+#### getTokenBySymbol
 
 Get asset metadata by symbol.
 
 **Parameters:**
 
 - `symbol` (string): Asset symbol to look up, such as `usdt` or `usdt0`
-- `chainId` (number, optional): Chain ID used to filter matching assets
+- `filter` (`WdkAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
 
-**Returns:** `Promise<WdkAssetList | undefined>` - A list of matching assets, or `undefined` if no asset is found
+**Returns:** `WdkAssetList`
 
 **Example:**
 
 ```javascript
-const assets = await getAssetBySymbol("usdt");
-console.log(assets);
+const assets = registry.getTokenBySymbol('usdt')
+console.log(assets)
 ```
 
 You can also filter by chain:
 
 ```javascript
-const arbitrumUsdt0 = await getAssetBySymbol("usdt0", 42161);
-console.log(arbitrumUsdt0);
+const ethereumUsdt = registry.getTokenBySymbol('usdt', { chainId: 1 })
+console.log(ethereumUsdt)
 ```
 
-#### getAssetByAddress
+#### getTokenByTicker
+
+Alias of `getTokenBySymbol`.
+
+**Parameters:**
+
+- `ticker` (string): Asset symbol to look up
+- `filter` (`WdkAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
+
+**Returns:** `Promise<WdkAssetList>`
+
+#### getTokenByAddress
 
 Get asset metadata by contract address.
 
 **Parameters:**
 
 - `address` (string): Contract address to look up
-- `chainId` (number, optional): Chain ID used to filter matching assets
+- `filter` (`WdkAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
 
-**Returns:** `Promise<WdkAssetList | undefined>` - A list of matching assets, or `undefined` if no asset is found
+**Returns:** `WdkAssetList`
 
 **Example:**
 
 ```javascript
-const assets = await getAssetByAddress(
-  "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-);
-console.log(assets);
+const assets = registry.getTokenByAddress(
+  '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+)
+console.log(assets)
 ```
 
 You can also filter by chain:
 
 ```javascript
-const ethereumUsdt = await getAssetByAddress(
-  "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-  1,
-);
-console.log(ethereumUsdt);
+const ethereumUsdt = registry.getTokenByAddress(
+  '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+  { chainId: 1 }
+)
+console.log(ethereumUsdt)
 ```
 
 ### JSON Schemas

@@ -1,71 +1,92 @@
+/** @typedef {import("./wallet-asset-schema.js").WdkAsset} WdkAsset */
+/** @typedef {import("./wallet-asset-schema.js").WdkAssetList} WdkAssetList */
 /**
- * @typedef {z.infer<typeof WdkAssetSchema>} WdkAsset - Type representing a validated WDK asset object.
+ * @typedef {object} WdkAssetFilter
+ * @property {number} [chainId] - Optional chain ID used to filter matching assets.
+ * @property {boolean} [caseSensitive] - Defaults to `false`. When true, matches symbols and addresses without lowercasing.
  */
-/**
- * @typedef {z.infer<typeof WdkAssetListSchema>} WdkAssetList - Type representing a list of validated WDK asset objects.
- */
-export const WdkAssetSchema: z.ZodObject<{
-    address: z.ZodString;
-    symbol: z.ZodString;
-    name: z.ZodString;
-    decimals: z.ZodNumber;
-    chainId: z.ZodNumber;
-    isNative: z.ZodBoolean;
-    logoURI: z.ZodURL;
-    tags: z.ZodOptional<z.ZodArray<z.ZodUnion<readonly [z.ZodString, z.ZodObject<{
-        name: z.ZodString;
-        description: z.ZodString;
-    }, z.core.$strip>]>>>;
-    extensions: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-}, z.core.$strip>;
-export const WdkAssetListSchema: z.ZodArray<z.ZodObject<{
-    address: z.ZodString;
-    symbol: z.ZodString;
-    name: z.ZodString;
-    decimals: z.ZodNumber;
-    chainId: z.ZodNumber;
-    isNative: z.ZodBoolean;
-    logoURI: z.ZodURL;
-    tags: z.ZodOptional<z.ZodArray<z.ZodUnion<readonly [z.ZodString, z.ZodObject<{
-        name: z.ZodString;
-        description: z.ZodString;
-    }, z.core.$strip>]>>>;
-    extensions: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-}, z.core.$strip>>;
-export const WdkAssetJsonSchema: z.core.ZodStandardJSONSchemaPayload<z.ZodObject<{
-    address: z.ZodString;
-    symbol: z.ZodString;
-    name: z.ZodString;
-    decimals: z.ZodNumber;
-    chainId: z.ZodNumber;
-    isNative: z.ZodBoolean;
-    logoURI: z.ZodURL;
-    tags: z.ZodOptional<z.ZodArray<z.ZodUnion<readonly [z.ZodString, z.ZodObject<{
-        name: z.ZodString;
-        description: z.ZodString;
-    }, z.core.$strip>]>>>;
-    extensions: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-}, z.core.$strip>>;
-export const WdkAssetListJsonSchema: z.core.ZodStandardJSONSchemaPayload<z.ZodArray<z.ZodObject<{
-    address: z.ZodString;
-    symbol: z.ZodString;
-    name: z.ZodString;
-    decimals: z.ZodNumber;
-    chainId: z.ZodNumber;
-    isNative: z.ZodBoolean;
-    logoURI: z.ZodURL;
-    tags: z.ZodOptional<z.ZodArray<z.ZodUnion<readonly [z.ZodString, z.ZodObject<{
-        name: z.ZodString;
-        description: z.ZodString;
-    }, z.core.$strip>]>>>;
-    extensions: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
-}, z.core.$strip>>>;
-/**
- * - Type representing a validated WDK asset object.
- */
-export type WdkAsset = z.infer<typeof WdkAssetSchema>;
-/**
- * - Type representing a list of validated WDK asset objects.
- */
-export type WdkAssetList = z.infer<typeof WdkAssetListSchema>;
-import { z } from 'zod';
+export default class WdkAssetRegistry {
+    /**
+     * Creates a new asset registry.
+     *
+     * @param {WdkAssetList} assets - Predefined asset list used by the registry.
+     *
+     * @example
+     * import { WdkAssetRegistry } from '@tetherto/wdk-asset-registry'
+     * import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
+     *
+     * const registry = new WdkAssetRegistry(commonAssets)
+     */
+    constructor(assets: WdkAssetList);
+    /**
+     * @private
+     * @type {WdkAssetList}
+     */
+    private _assets;
+    /**
+     * Register a single asset in the registry.
+     *
+     * @public
+     * @param {WdkAsset} asset - Asset definition to insert or replace.
+     * @param {boolean} [force] - When `true`, replaces an existing asset with the same address and chain ID.
+     * @returns {number} The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled.
+     * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
+     */
+    public registerAsset(asset: WdkAsset, force?: boolean): number;
+    /**
+     * Register multiple assets in the registry.
+     *
+     * @public
+     * @param {WdkAssetList} assets - Asset definitions to insert or replace.
+     * @param {boolean} [force] - When `true`, replaces existing assets with the same address and chain ID.
+     * @returns {number[]} The result of each `registerAsset` call in input order.
+     * @throws {Error} Thrown when any asset already exists and `force` is not enabled.
+     */
+    public registerAssets(assets: WdkAssetList, force?: boolean): number[];
+    /**
+     * Fetch all tokens.
+     *
+     * @public
+     * @returns {Promise<WdkAssetList | undefined>} A list of all tokens or undefined if not found.
+     */
+    public getAllTokens(): Promise<WdkAssetList | undefined>;
+    /**
+     * Fetch tokens by symbol.
+     *
+     * @public
+     * @param {string} symbol - The token symbol (e.g. "USDT", "ETH").
+     * @param {WdkAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+     * @returns {Promise<WdkAssetList | undefined>} A list of matching tokens or undefined if not found.
+     */
+    public getTokenBySymbol(symbol: string, filter?: WdkAssetFilter): Promise<WdkAssetList | undefined>;
+    /**
+     * Alias of {@link getTokenBySymbol}.
+     *
+     * @public
+     * @param {string} ticker - The token symbol (e.g. "USDT", "ETH").
+     * @param {WdkAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+     * @returns {Promise<WdkAssetList | undefined>} A list of matching tokens or undefined if not found.
+     */
+    public getTokenByTicker(ticker: string, filter?: WdkAssetFilter): Promise<WdkAssetList | undefined>;
+    /**
+     * Fetch tokens by contract address.
+     *
+     * @public
+     * @param {string} address - The token address.
+     * @param {WdkAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+     * @returns {Promise<WdkAssetList | undefined>} A list of matching tokens or undefined if not found.
+     */
+    public getTokenByAddress(address: string, filter?: WdkAssetFilter): Promise<WdkAssetList | undefined>;
+}
+export type WdkAsset = import("./wallet-asset-schema.js").WdkAsset;
+export type WdkAssetList = import("./wallet-asset-schema.js").WdkAssetList;
+export type WdkAssetFilter = {
+    /**
+     * - Optional chain ID used to filter matching assets.
+     */
+    chainId?: number | undefined;
+    /**
+     * - Defaults to `false`. When true, matches symbols and addresses without lowercasing.
+     */
+    caseSensitive?: boolean | undefined;
+};
