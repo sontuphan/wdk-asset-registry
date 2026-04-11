@@ -13,9 +13,9 @@
 // limitations under the License.
 'use strict'
 
-/** @typedef {import('./src/wallet-asset.js').WdkAsset} WdkAsset */
-/** @typedef {import('./src/wallet-asset.js').WdkAssetList} WdkAssetList */
-/** @typedef {import('./src/wallet-asset-util.js').WdkAsset} WdkAssetPagination */
+/** @typedef {import('./src/wallet-asset.js').BaseAssetFilter} BaseAssetFilter */
+/** @typedef {import('./src/wallet-asset-schema.js').TokenAsset} TokenAsset */
 
+export * from './src/wallet-asset-schema.js'
 export * from './src/wallet-asset.js'
-export * from './src/wallet-asset-util.js'
+export { WdkBaseAssetRegistry as default } from './src/wallet-asset.js'

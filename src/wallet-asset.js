@@ -14,43 +14,223 @@
 
 'use strict'
 
-import { z } from 'zod'
+import { NotImplementedError } from '@tetherto/wdk-wallet'
+
+import { TokenAssetSchema } from './wallet-asset-schema.js'
+
+/** @typedef {import("./wallet-asset-schema.js").BaseAsset} BaseAsset */
+/** @typedef {import("./wallet-asset-schema.js").TokenAsset} TokenAsset */
 
 /**
- * @typedef {z.infer<typeof WdkAssetSchema>} WdkAsset - Type representing a validated WDK asset object.
+ * @typedef {object} BaseAssetFilter
+ * @property {number} [chainId] - Optional chain ID used to filter matching assets.
+ * @property {boolean} [caseSensitive] - Defaults to `false`. When true, matches symbols and addresses without lowercasing.
  */
 
 /**
- * @typedef {z.infer<typeof WdkAssetListSchema>} WdkAssetList - Type representing a validated WDK asset object.
+ * The base registry for asset-agnostic use cases.
+ *
+ * @template {BaseAsset} T
+ *
+ * @example
+ * import { z } from 'zod'
+ * import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
+ *
+ * type CustomAsset = {
+ *   address: string
+ *   chainId: number
+ *   label: string
+ * }
+ *
+ * const CustomAssetSchema = BaseAssetSchema.extend({
+ *   label: z.string()
+ * })
+ *
+ * class CustomAssetRegistry extends WdkBaseAssetRegistry<CustomAsset> {
+ *   _assertAsset (asset: CustomAsset): CustomAsset {
+ *     return CustomAssetSchema.parse(asset)
+ *   }
+ * }
  */
+export class WdkBaseAssetRegistry {
+  /**
+   * Creates a new asset registry.
+   * 
+   * @param {T[][]} assets - One or more asset lists to preload into the registry.
+   */
+  constructor (...assets) {
+    /**
+     * @private
+     * @type {T[][]}
+     */
+    this._assets = []
 
-export const WdkAssetSchema = z.object({
-  address: z.string(),
-  symbol: z.string(),
-  name: z.string(),
-  decimals: z.number().int().gte(0).lte(255),
-  chainId: z.number().int().positive(),
-  logoURI: z.url({ protocol: /^https?$/ }).refine(
-    (url) => {
-      const pattern = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)(\?.*)?$/i
-      return pattern.test(url)
-    },
-    { message: 'URL must be a valid image url.' }
-  ),
-  tags: z.array(
-    z.union([
-      z.string(),
-      z.object({
-        name: z.string(),
-        description: z.string()
-      })
-    ])
-  ).optional(),
-  extensions: z.record(z.string(), z.unknown()).optional()
-})
+    for (const entry of assets) {
+      this.registerAssets(entry)
+    }
+  }
 
-export const WdkAssetJsonSchema = WdkAssetSchema.toJSONSchema()
+  /**
+   * Assert a single asset.
+   *
+   * @private
+   * @param {T} asset - Asset definition to validate.
+   * @returns {T} The normalized asset after the sucessful validation.
+   * @throws {Error} Throw an error if the provided asset is invalid.
+   */
+  _assertAsset (asset) {
+    throw new NotImplementedError('_validateAsset(asset)')
+  }
 
-export const WdkAssetListSchema = z.array(WdkAssetSchema)
+  /**
+   * Register a single asset in the registry.
+   *
+   * @public
+   * @param {T} asset - Asset definition to insert or replace.
+   * @param {boolean} [force] - When `true`, replaces an existing asset with the same address and chain ID.
+   * @returns {number} The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled.
+   * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
+   */
+  registerAsset (asset, force = false) {
+    const normalizedAsset = this._assertAsset(asset)
 
-export const WdkAssetListJsonSchema = WdkAssetSchema.toJSONSchema()
+    const index = this._assets.findIndex(({ address, chainId }) => {
+      return address.toLowerCase() === normalizedAsset.address.toLowerCase() && chainId === normalizedAsset.chainId
+    })
+
+    if (index < 0) {
+      return this._assets.push(asset)
+    }
+
+    if (force) {
+      this._assets[index] = asset
+      return index
+    }
+
+    throw new Error('Asset already exists. Set force to `true` to replace it.')
+  }
+
+  /**
+   * Register multiple assets in the registry.
+   *
+   * @public
+   * @param {T[]} assets - Asset definitions to insert or replace.
+   * @param {boolean} [force] - When `true`, replaces existing assets with the same address and chain ID.
+   * @returns {number[]} The result of each `registerAsset` call in input order.
+   * @throws {Error} Thrown when any asset already exists and `force` is not enabled.
+   */
+  registerAssets (assets, force = false) {
+    const indexes = []
+
+    for (const asset of assets) {
+      const index = this.registerAsset(asset, force)
+      indexes.push(index)
+    }
+
+    return indexes
+  }
+
+  /**
+   * Fetch all assets.
+   *
+   * @public
+   * @returns {T[]} A list of all registered assets.
+   */
+  getAllAssets () {
+    return this._assets
+  }
+
+  /**
+   * Fetch assets by contract address.
+   *
+   * @public
+   * @param {string} address - The asset address.
+   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @returns {T[]} A list of matching assets.
+   */
+  getAssetByAddress (address, filter = {}) {
+    const { chainId, caseSensitive = false } = filter
+
+    const data = this._assets.filter(asset => {
+      if (caseSensitive) return asset.address === address
+      return asset.address.toLowerCase() === address.toLowerCase()
+    })
+
+    if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
+
+    return data
+  }
+}
+
+/**
+ * @extends {WdkBaseAssetRegistry<TokenAsset>}
+ */
+export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
+  _assertAsset (/** @type {TokenAsset} */ asset) {
+    return TokenAssetSchema.parse(asset)
+  }
+
+  /**
+   * Fetch all tokens.
+   *
+   * @public
+   * @returns {TokenAsset[]} A list of all registered tokens.
+   */
+  getAllTokens () {
+    return this.getAllAssets()
+  }
+
+  /**
+   * Fetch tokens by contract address.
+   *
+   * @public
+   * @param {string} address - The token address.
+   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @returns {TokenAsset[]} A list of matching tokens.
+   */
+  getTokenByAddress (address, filter = {}) {
+    const { chainId, caseSensitive = false } = filter
+
+    const data = this._assets.filter(asset => {
+      if (caseSensitive) return asset.address === address
+      return asset.address.toLowerCase() === address.toLowerCase()
+    })
+
+    if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
+
+    return data
+  }
+
+  /**
+   * Fetch tokens by symbol.
+   *
+   * @public
+   * @param {string} symbol - The token symbol (e.g. "USDT", "ETH").
+   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @returns {TokenAsset[]} A list of matching tokens.
+   */
+  getTokenBySymbol (symbol, filter = {}) {
+    const { chainId, caseSensitive = false } = filter
+
+    const data = this._assets.filter(asset => {
+      if (caseSensitive) return asset.symbol === symbol
+      return asset.symbol.toLowerCase() === symbol.toLowerCase()
+    })
+
+    if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
+
+    return data
+  }
+
+  /**
+   * Alias of {@link getTokenBySymbol}.
+   *
+   * @public
+   * @param {string} ticker - The token symbol (e.g. "USDT", "ETH").
+   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @returns {TokenAsset[]} A list of matching tokens.
+   */
+  getTokenByTicker (ticker, filter = {}) {
+    return this.getTokenBySymbol(ticker, filter)
+  }
+}

@@ -5,6 +5,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": 9745,
+    "isNative": false,
     "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
     "tags": ["stablecoin", "erc20", "bridged_token"],
     "extensions": {
@@ -19,6 +20,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": 137,
+    "isNative": false,
     "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
     "tags": ["stablecoin", "erc20", "bridged_token"],
     "extensions": {
@@ -33,6 +35,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": 42161,
+    "isNative": false,
     "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
     "tags": ["stablecoin", "erc20", "bridged_token"],
     "extensions": {
@@ -47,6 +50,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": 999,
+    "isNative": false,
     "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
     "tags": ["stablecoin", "erc20", "bridged_token"],
     "extensions": {
