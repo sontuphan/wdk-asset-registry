@@ -2,7 +2,7 @@
 
 **Note**: This package is currently in beta. Please test thoroughly in development environments before using in production.
 
-A lightweight registry for accessing predefined blockchain assets across mutiple chain. This package provides a simple and consistent way to retrieve asset metadata such as symbol, decimals, contract address, and native-asset status.
+A lightweight registry for accessing predefined blockchain assets across multiple chains. This package provides a generic base asset registry plus a token-specific registry for retrieving metadata such as symbol, decimals, contract address, and native-asset status.
 
 ## 🔍 About WDK
 
@@ -12,10 +12,11 @@ For detailed documentation about the complete WDK ecosystem, visit [docs.wallet.
 
 ## 🌟 Features
 
-- **Predefined Asset Registry**: Access commonly used assets out of the box
+- **Generic Asset Registry**: Build registries for reusable asset collections
+- **Token Asset Registry**: Use token-specific lookups such as symbol, ticker, and address
 - **Bundled Asset Lists**: Import registry-ready assets from `@tetherto/wdk-asset-registry/assets/*`
-- **Standardized Metadata**: Symbol, name, decimals, contract address, and native-asset flag
-- **Fast Lookup**: Retrieve assets by symbol or address
+- **Standardized Schemas**: Validate base assets and token assets with Zod
+- **Fast Lookup**: Retrieve assets by address, with symbol and ticker lookup for token registries
 - **Lightweight**: No RPC or blockchain interaction required
 - **In-Memory Registry**: Supports both lookup and local registration of assets
 
@@ -34,16 +35,16 @@ npm install @tetherto/wdk-asset-registry
 ### Importing from `@tetherto/wdk-asset-registry`
 
 ```javascript
-import { WdkAssetRegistry } from '@tetherto/wdk-asset-registry'
-import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
+import { WdkTokenAssetRegistry } from '@tetherto/wdk-asset-registry'
+import commonTokens from '@tetherto/wdk-asset-registry/assets/common-tokens'
 
-const registry = new WdkAssetRegistry(commonAssets)
+const registry = new WdkTokenAssetRegistry(commonTokens)
 ```
 
 You can also preload multiple asset sets:
 
 ```javascript
-const registry = new WdkAssetRegistry(commonAssets, customAssets)
+const registry = new WdkTokenAssetRegistry(commonTokens, customTokens)
 ```
 
 ### Get Assets by Symbol
@@ -87,22 +88,30 @@ registry.registerAsset({
 
 ### Table of Contents
 
-| Section                  | Description                | Methods                                                                        |
-| ------------------------ | -------------------------- | ------------------------------------------------------------------------------ |
-| [Types](#wdkasset-types) | Asset data structure       | [WdkAsset](#wdkasset), [WdkAssetList](#wdkassetlist)                           |
-| [Registry](#wdkassetregistry) | Registry class for asset storage and lookup | [Constructor](#constructor), [Methods](#methods) |
+| Section | Description | Methods |
+| --- | --- | --- |
+| [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter) |
+| [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with address and chain ID | [Constructor](#constructor), [Methods](#methods) |
+| [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with symbol and ticker lookups | [Methods](#methods-1) |
 
 ### Types
 
-#### WdkAsset
+#### BaseAsset
 
 ```typescript
-type WdkAsset = {
+type BaseAsset = {
   address: string;
+  chainId: number;
+};
+```
+
+#### TokenAsset
+
+```typescript
+type TokenAsset = BaseAsset & {
   symbol: string;
   name: string;
   decimals: number;
-  chainId: number;
   isNative: boolean;
   logoURI: string;
   tags?: (string | { name: string; description: string })[] | undefined;
@@ -110,42 +119,59 @@ type WdkAsset = {
 };
 ```
 
-#### WdkAssetList
+#### BaseAssetFilter
 
 ```typescript
-type WdkAssetList = WdkAsset[];
-```
-
-#### WdkAssetFilter
-
-```typescript
-type WdkAssetFilter = {
+type BaseAssetFilter = {
   chainId?: number;
   caseSensitive?: boolean;
 };
 ```
 
-### WdkAssetRegistry
+### WdkBaseAssetRegistry
 
-Registry class for storing and looking up assets in memory.
+Generic registry class for storing and looking up assets in memory.
 
 #### Constructor
 
 ```javascript
-new WdkAssetRegistry(assets)
+new WdkBaseAssetRegistry(...assets)
 ```
 
 **Parameters:**
 
-- `...assets` (`WdkAssetList[]`): One or more asset lists to preload into the registry
+- `...assets` (`T[][]`): One or more asset lists to preload into the registry
 
-**Example:**
+**Example using a concrete token registry:**
 
 ```javascript
-import { WdkAssetRegistry } from '@tetherto/wdk-asset-registry'
-import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
+import { WdkTokenAssetRegistry } from '@tetherto/wdk-asset-registry'
+import commonTokens from '@tetherto/wdk-asset-registry/assets/common-tokens'
 
-const registry = new WdkAssetRegistry(commonAssets)
+const registry = new WdkTokenAssetRegistry(commonTokens)
+```
+
+**Extend the base registry in TypeScript:**
+
+```typescript
+import { z } from 'zod'
+import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
+
+type CustomAsset = {
+  address: string
+  chainId: number
+  label: string
+}
+
+const CustomAssetSchema = BaseAssetSchema.extend({
+  label: z.string()
+})
+
+class CustomAssetRegistry extends WdkBaseAssetRegistry<CustomAsset> {
+  _assertAsset (asset: CustomAsset): CustomAsset {
+    return CustomAssetSchema.parse(asset)
+  }
+}
 ```
 
 #### Methods
@@ -154,10 +180,8 @@ const registry = new WdkAssetRegistry(commonAssets)
 | --- | --- | --- |
 | `registerAsset(asset, [force])` | Register a single asset | `number` |
 | `registerAssets(assets, [force])` | Register multiple assets | `number[]` |
-| `getAllTokens()` | Get all registered assets | `WdkAssetList` |
-| `getTokenBySymbol(symbol, [filter])` | Get assets by symbol | `WdkAssetList` |
-| `getTokenByTicker(ticker, [filter])` | Alias of `getTokenBySymbol` | `WdkAssetList` |
-| `getTokenByAddress(address, [filter])` | Get assets by address | `WdkAssetList` |
+| `getAllAssets()` | Get all registered assets | `T[]` |
+| `getAssetByAddress(address, [filter])` | Get assets by address | `T[]` |
 
 #### registerAsset
 
@@ -165,7 +189,7 @@ Register a single asset in the registry.
 
 **Parameters:**
 
-- `asset` (`WdkAsset`): Asset definition to insert or replace
+- `asset` (`T`): Asset definition to insert or replace
 - `force` (boolean, optional): When `true`, replaces an existing asset with the same address and chain ID
 
 **Returns:** `number` - The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled
@@ -176,27 +200,57 @@ Register multiple assets in the registry.
 
 **Parameters:**
 
-- `assets` (`WdkAssetList`): Asset definitions to insert or replace
+- `assets` (`T[]`): Asset definitions to insert or replace
 - `force` (boolean, optional): When `true`, replaces existing assets with the same address and chain ID
 
 **Returns:** `number[]` - The result of each `registerAsset` call in input order
 
-#### getAllTokens
+#### getAllAssets
 
 Get all registered assets.
 
-**Returns:** `WdkAssetList`
+**Returns:** `T[]`
 
-#### getTokenBySymbol
+#### getAssetByAddress
 
-Get asset metadata by symbol.
+Get asset metadata by address.
 
 **Parameters:**
 
-- `symbol` (string): Asset symbol to look up, such as `usdt` or `usdt0`
-- `filter` (`WdkAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
+- `address` (string): Asset address to look up
+- `filter` (`BaseAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
 
-**Returns:** `WdkAssetList`
+**Returns:** `T[]`
+
+### WdkTokenAssetRegistry
+
+Token-specific registry built on top of `WdkBaseAssetRegistry<TokenAsset>`.
+
+#### Methods
+
+| Method | Description | Returns |
+| --- | --- | --- |
+| `getAllTokens()` | Get all registered tokens | `TokenAsset[]` |
+| `getTokenByAddress(address, [filter])` | Get tokens by address | `TokenAsset[]` |
+| `getTokenBySymbol(symbol, [filter])` | Get tokens by symbol | `TokenAsset[]` |
+| `getTokenByTicker(ticker, [filter])` | Alias of `getTokenBySymbol` | `TokenAsset[]` |
+
+#### getAllTokens
+
+Get all registered tokens.
+
+**Returns:** `TokenAsset[]`
+
+#### getTokenBySymbol
+
+Get token metadata by symbol.
+
+**Parameters:**
+
+- `symbol` (string): Token symbol to look up, such as `usdt` or `usdt0`
+- `filter` (`BaseAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
+
+**Returns:** `TokenAsset[]`
 
 **Example:**
 
@@ -218,21 +272,21 @@ Alias of `getTokenBySymbol`.
 
 **Parameters:**
 
-- `ticker` (string): Asset symbol to look up
-- `filter` (`WdkAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
+- `ticker` (string): Token symbol to look up
+- `filter` (`BaseAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
 
-**Returns:** `WdkAssetList`
+**Returns:** `TokenAsset[]`
 
 #### getTokenByAddress
 
-Get asset metadata by contract address.
+Get token metadata by contract address.
 
 **Parameters:**
 
-- `address` (string): Contract address to look up
-- `filter` (`WdkAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
+- `address` (string): Token address to look up
+- `filter` (`BaseAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
 
-**Returns:** `WdkAssetList`
+**Returns:** `TokenAsset[]`
 
 **Example:**
 
@@ -255,16 +309,16 @@ console.log(ethereumUsdt)
 
 ### JSON Schemas
 
-| Schemas                  | Description                                              |
-| ------------------------ | -------------------------------------------------------- |
-| `WdkAssetJsonSchema`     | JSON Schema representation of a single `WdkAsset` object |
-| `WdkAssetListJsonSchema` | JSON Schema representation of a `WdkAssetList` payload   |
+| Schemas | Description |
+| --- | --- |
+| `BaseAssetJsonSchema` | JSON Schema representation of a single `BaseAsset` object |
+| `TokenAssetJsonSchema` | JSON Schema representation of a single `TokenAsset` object |
 
 ## 🔒 Design Considerations
 
 - **No RPC Dependency**: Pure metadata access
 - **Deterministic Lookups**: Simple and predictable results
-- **Read-Only Registry**: No mutation or runtime changes
+- **Extensible Registry**: Supports runtime registration and replacement of assets
 - **Composable**: Designed to work alongside wallet/protocol modules (i.e. `wdk-wallet-*` and `wdk-protocol-*`)
 
 ## 🛠️ Development

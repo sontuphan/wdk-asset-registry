@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test, } from '@jest/globals'
 
 import { WdkTokenAssetRegistry } from '@tetherto/wdk-asset-registry'
-import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
+import commonTokens from '@tetherto/wdk-asset-registry/assets/common-tokens'
 
 const TEST_SYMBOL = 'usdt'
 const TEST_CHAINID = 1
@@ -38,7 +38,7 @@ describe('wallet-asset', () => {
   let wdkAssetRegistry
 
   beforeEach(() => {
-    wdkAssetRegistry = new WdkTokenAssetRegistry(structuredClone(commonAssets))
+    wdkAssetRegistry = new WdkTokenAssetRegistry(structuredClone(commonTokens))
   })
 
   afterEach(() => {
@@ -54,7 +54,7 @@ describe('wallet-asset', () => {
 
   test('should allow multiple asset sets in the constructor', () => {
     const registry = new WdkTokenAssetRegistry(
-      structuredClone(commonAssets),
+      structuredClone(commonTokens),
       [TEST_EXTRA_ASSET]
     )
 
@@ -63,7 +63,7 @@ describe('wallet-asset', () => {
       chainId: TEST_EXTRA_ASSET.chainId
     })
 
-    expect(assets.length).toBe(commonAssets.length + 1)
+    expect(assets.length).toBe(commonTokens.length + 1)
     expect(extraAsset).toEqual(TEST_EXTRA_ASSET)
   })
 

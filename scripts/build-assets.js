@@ -36,4 +36,4 @@ const assets = loadAllAssets()
 /**
  * Build the full list
  */
-writeFileSync(`${OUTPUT}/common.json`, JSON.stringify(assets, null, 2))
+writeFileSync(`${OUTPUT}/common-tokens.json`, JSON.stringify(assets, null, 2))

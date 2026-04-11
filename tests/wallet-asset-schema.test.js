@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals'
 
 import { TokenAssetJsonSchema, TokenAssetSchema } from '@tetherto/wdk-asset-registry'
-import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
+import commonTokens from '@tetherto/wdk-asset-registry/assets/common-tokens'
 
 const TEST_ASSET = {
   address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
@@ -46,7 +46,7 @@ describe('wallet-asset-schema', () => {
   })
 
   test('should validate common assets from the package export', () => {
-    for (const commonAsset of commonAssets) {
+    for (const commonAsset of commonTokens) {
       const asset = TokenAssetSchema.parse(commonAsset)
 
       expect(typeof asset).toBe('object')

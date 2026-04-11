@@ -28,19 +28,35 @@ import { TokenAssetSchema } from './wallet-asset-schema.js'
  */
 
 /**
+ * The base registry for asset-agnostic use cases.
+ *
  * @template {BaseAsset} T
+ *
+ * @example
+ * import { z } from 'zod'
+ * import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
+ *
+ * type CustomAsset = {
+ *   address: string
+ *   chainId: number
+ *   label: string
+ * }
+ *
+ * const CustomAssetSchema = BaseAssetSchema.extend({
+ *   label: z.string()
+ * })
+ *
+ * class CustomAssetRegistry extends WdkBaseAssetRegistry<CustomAsset> {
+ *   _assertAsset (asset: CustomAsset): CustomAsset {
+ *     return CustomAssetSchema.parse(asset)
+ *   }
+ * }
  */
 export class WdkBaseAssetRegistry {
   /**
    * Creates a new asset registry.
-   *
+   * 
    * @param {T[][]} assets - One or more asset lists to preload into the registry.
-   *
-   * @example
-   * import { TokenAssetRegistry, type TokenAsset } from '@tetherto/wdk-asset-registry'
-   * import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
-   *
-   * const registry = new TokenAssetRegistry<TokenAsset>(commonAssets)
    */
   constructor (...assets) {
     /**
