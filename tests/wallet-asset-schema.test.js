@@ -1,10 +1,10 @@
 import { describe, expect, test } from '@jest/globals'
 
 import {
-  WdkAssetJsonSchema,
-  WdkAssetListJsonSchema,
-  WdkAssetListSchema,
-  WdkAssetSchema
+  TokenAssetJsonSchema,
+  TokenAssetListJsonSchema,
+  TokenAssetListSchema,
+  TokenAssetSchema
 } from '@tetherto/wdk-asset-registry'
 import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
 
@@ -30,7 +30,7 @@ const TEST_ASSET = {
 
 describe('wallet-asset-schema', () => {
   test('should validate a valid asset', () => {
-    const asset = WdkAssetSchema.parse(TEST_ASSET)
+    const asset = TokenAssetSchema.parse(TEST_ASSET)
 
     expect(asset).toEqual(TEST_ASSET)
   })
@@ -41,30 +41,30 @@ describe('wallet-asset-schema', () => {
       logoURI: 'https://example.com/usdt'
     }
 
-    expect(() => WdkAssetSchema.parse(invalidAsset)).toThrow('URL must be a valid image url.')
+    expect(() => TokenAssetSchema.parse(invalidAsset)).toThrow('URL must be a valid image url.')
   })
 
   test('should validate a list of assets', () => {
-    const assets = WdkAssetListSchema.parse([TEST_ASSET])
+    const assets = TokenAssetListSchema.parse([TEST_ASSET])
 
     expect(assets).toHaveLength(1)
     expect(assets[0]).toEqual(TEST_ASSET)
   })
 
   test('should export a JSON schema for a single asset', () => {
-    expect(WdkAssetJsonSchema.type).toBe('object')
-    expect(WdkAssetJsonSchema.properties.symbol.type).toBe('string')
-    expect(WdkAssetJsonSchema.properties.decimals.type).toBe('integer')
+    expect(TokenAssetJsonSchema.type).toBe('object')
+    expect(TokenAssetJsonSchema.properties.symbol.type).toBe('string')
+    expect(TokenAssetJsonSchema.properties.decimals.type).toBe('integer')
   })
 
   test('should export a JSON schema for an asset list', () => {
-    expect(WdkAssetListJsonSchema.type).toBe('array')
-    expect(WdkAssetListJsonSchema.items.type).toBe('object')
-    expect(WdkAssetListJsonSchema.items.properties.address.type).toBe('string')
+    expect(TokenAssetListJsonSchema.type).toBe('array')
+    expect(TokenAssetListJsonSchema.items.type).toBe('object')
+    expect(TokenAssetListJsonSchema.items.properties.address.type).toBe('string')
   })
 
   test('should validate common assets from the package export', () => {
-    const assets = WdkAssetListSchema.parse(commonAssets)
+    const assets = TokenAssetListSchema.parse(commonAssets)
 
     expect(assets.length).toBeGreaterThanOrEqual(1)
   })

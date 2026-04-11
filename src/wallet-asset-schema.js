@@ -17,19 +17,22 @@
 import { z } from 'zod'
 
 /**
- * @typedef {z.infer<typeof WdkAssetSchema>} WdkAsset - Type representing a validated WDK asset object.
+ * @typedef {z.infer<typeof BaseAssetSchema>} BaseAsset - Type representing a validated base asset object.
  */
+
+export const BaseAssetSchema = z.object({
+  address: z.string(),
+  chainId: z.number().int().positive()
+})
 
 /**
- * @typedef {z.infer<typeof WdkAssetListSchema>} WdkAssetList - Type representing a list of validated WDK asset objects.
+ * @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset - Type representing a validated WDK asset object.
  */
 
-export const WdkAssetSchema = z.object({
-  address: z.string(),
+export const TokenAssetSchema = BaseAssetSchema.extend({
   symbol: z.string(),
   name: z.string(),
   decimals: z.number().int().gte(0).lte(255),
-  chainId: z.number().int().positive(),
   isNative: z.boolean(),
   logoURI: z.url({ protocol: /^https?$/ }).refine(
     (url) => {
@@ -52,8 +55,12 @@ export const WdkAssetSchema = z.object({
   extensions: z.record(z.string(), z.unknown()).optional()
 })
 
-export const WdkAssetListSchema = z.array(WdkAssetSchema)
+export const TokenAssetJsonSchema = TokenAssetSchema.toJSONSchema()
 
-export const WdkAssetJsonSchema = WdkAssetSchema.toJSONSchema()
+/**
+ * @typedef {z.infer<typeof TokenAssetListSchema>} TokenAssetList - Type representing a list of validated WDK asset objects.
+ */
 
-export const WdkAssetListJsonSchema = WdkAssetListSchema.toJSONSchema()
+export const TokenAssetListSchema = z.array(TokenAssetSchema)
+
+export const TokenAssetListJsonSchema = TokenAssetListSchema.toJSONSchema()
