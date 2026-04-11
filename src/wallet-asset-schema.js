@@ -25,6 +25,8 @@ export const BaseAssetSchema = z.object({
   chainId: z.number().int().positive()
 })
 
+export const BaseAssetJsonSchema = BaseAssetSchema.toJSONSchema()
+
 /**
  * @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset - Type representing a validated WDK asset object.
  */
@@ -56,11 +58,3 @@ export const TokenAssetSchema = BaseAssetSchema.extend({
 })
 
 export const TokenAssetJsonSchema = TokenAssetSchema.toJSONSchema()
-
-/**
- * @typedef {z.infer<typeof TokenAssetListSchema>} TokenAssetList - Type representing a list of validated WDK asset objects.
- */
-
-export const TokenAssetListSchema = z.array(TokenAssetSchema)
-
-export const TokenAssetListJsonSchema = TokenAssetListSchema.toJSONSchema()

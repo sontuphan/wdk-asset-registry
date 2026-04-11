@@ -154,7 +154,7 @@ describe('wallet-asset', () => {
 
   test('should throw when registering a duplicate asset without force', () => {
     expect(() => wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET)).toThrow(
-      'Asset already exists. Set force to true to replace it.'
+      'Asset already exists. Set force to `true` to replace it.'
     )
   })
 

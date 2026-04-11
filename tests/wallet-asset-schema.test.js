@@ -1,11 +1,6 @@
 import { describe, expect, test } from '@jest/globals'
 
-import {
-  TokenAssetJsonSchema,
-  TokenAssetListJsonSchema,
-  TokenAssetListSchema,
-  TokenAssetSchema
-} from '@tetherto/wdk-asset-registry'
+import { TokenAssetJsonSchema, TokenAssetSchema } from '@tetherto/wdk-asset-registry'
 import commonAssets from '@tetherto/wdk-asset-registry/assets/common'
 
 const TEST_ASSET = {
@@ -44,28 +39,17 @@ describe('wallet-asset-schema', () => {
     expect(() => TokenAssetSchema.parse(invalidAsset)).toThrow('URL must be a valid image url.')
   })
 
-  test('should validate a list of assets', () => {
-    const assets = TokenAssetListSchema.parse([TEST_ASSET])
-
-    expect(assets).toHaveLength(1)
-    expect(assets[0]).toEqual(TEST_ASSET)
-  })
-
   test('should export a JSON schema for a single asset', () => {
     expect(TokenAssetJsonSchema.type).toBe('object')
     expect(TokenAssetJsonSchema.properties.symbol.type).toBe('string')
     expect(TokenAssetJsonSchema.properties.decimals.type).toBe('integer')
   })
 
-  test('should export a JSON schema for an asset list', () => {
-    expect(TokenAssetListJsonSchema.type).toBe('array')
-    expect(TokenAssetListJsonSchema.items.type).toBe('object')
-    expect(TokenAssetListJsonSchema.items.properties.address.type).toBe('string')
-  })
-
   test('should validate common assets from the package export', () => {
-    const assets = TokenAssetListSchema.parse(commonAssets)
+    for (const commonAsset of commonAssets) {
+      const asset = TokenAssetSchema.parse(commonAsset)
 
-    expect(assets.length).toBeGreaterThanOrEqual(1)
+      expect(typeof asset).toBe('object')
+    }
   })
 })

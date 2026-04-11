@@ -14,22 +14,27 @@
 
 'use strict'
 
+import { NotImplementedError } from '@tetherto/wdk-wallet'
+
 import { TokenAssetSchema } from './wallet-asset-schema.js'
 
+/** @typedef {import("./wallet-asset-schema.js").BaseAsset} BaseAsset */
 /** @typedef {import("./wallet-asset-schema.js").TokenAsset} TokenAsset */
-/** @typedef {import("./wallet-asset-schema.js").TokenAssetList} TokenAssetList */
 
 /**
- * @typedef {object} TokenAssetFilter
+ * @typedef {object} BaseAssetFilter
  * @property {number} [chainId] - Optional chain ID used to filter matching assets.
  * @property {boolean} [caseSensitive] - Defaults to `false`. When true, matches symbols and addresses without lowercasing.
  */
 
-export default class WdkTokenAssetRegistry {
+/**
+ * @template {BaseAsset} T
+ */
+export class WdkBaseAssetRegistry {
   /**
    * Creates a new asset registry.
    *
-   * @param {TokenAssetList[]} assets - One or more asset lists to preload into the registry.
+   * @param {T[][]} assets - One or more asset lists to preload into the registry.
    *
    * @example
    * import { TokenAssetRegistry, type TokenAsset } from '@tetherto/wdk-asset-registry'
@@ -40,7 +45,7 @@ export default class WdkTokenAssetRegistry {
   constructor (...assets) {
     /**
      * @private
-     * @type {TokenAssetList}
+     * @type {T[][]}
      */
     this._assets = []
 
@@ -50,16 +55,28 @@ export default class WdkTokenAssetRegistry {
   }
 
   /**
+   * Assert a single asset.
+   *
+   * @private
+   * @param {T} asset - Asset definition to validate.
+   * @returns {T} The normalized asset after the sucessful validation.
+   * @throws {Error} Throw an error if the provided asset is invalid.
+   */
+  _assertAsset (asset) {
+    throw new NotImplementedError('_validateAsset(asset)')
+  }
+
+  /**
    * Register a single asset in the registry.
    *
    * @public
-   * @param {TokenAsset} asset - Asset definition to insert or replace.
+   * @param {T} asset - Asset definition to insert or replace.
    * @param {boolean} [force] - When `true`, replaces an existing asset with the same address and chain ID.
    * @returns {number} The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled.
    * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
    */
   registerAsset (asset, force = false) {
-    const normalizedAsset = TokenAssetSchema.parse(asset)
+    const normalizedAsset = this._assertAsset(asset)
 
     const index = this._assets.findIndex(({ address, chainId }) => {
       return address.toLowerCase() === normalizedAsset.address.toLowerCase() && chainId === normalizedAsset.chainId
@@ -74,14 +91,14 @@ export default class WdkTokenAssetRegistry {
       return index
     }
 
-    throw new Error('Asset already exists. Set force to true to replace it.')
+    throw new Error('Asset already exists. Set force to `true` to replace it.')
   }
 
   /**
    * Register multiple assets in the registry.
    *
    * @public
-   * @param {TokenAssetList} assets - Asset definitions to insert or replace.
+   * @param {T[]} assets - Asset definitions to insert or replace.
    * @param {boolean} [force] - When `true`, replaces existing assets with the same address and chain ID.
    * @returns {number[]} The result of each `registerAsset` call in input order.
    * @throws {Error} Thrown when any asset already exists and `force` is not enabled.
@@ -98,13 +115,74 @@ export default class WdkTokenAssetRegistry {
   }
 
   /**
+   * Fetch all assets.
+   *
+   * @public
+   * @returns {T[]} A list of all registered assets.
+   */
+  getAllAssets () {
+    return this._assets
+  }
+
+  /**
+   * Fetch assets by contract address.
+   *
+   * @public
+   * @param {string} address - The asset address.
+   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @returns {T[]} A list of matching assets.
+   */
+  getAssetByAddress (address, filter = {}) {
+    const { chainId, caseSensitive = false } = filter
+
+    const data = this._assets.filter(asset => {
+      if (caseSensitive) return asset.address === address
+      return asset.address.toLowerCase() === address.toLowerCase()
+    })
+
+    if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
+
+    return data
+  }
+}
+
+/**
+ * @extends {WdkBaseAssetRegistry<TokenAsset>}
+ */
+export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
+  _assertAsset (/** @type {TokenAsset} */ asset) {
+    return TokenAssetSchema.parse(asset)
+  }
+
+  /**
    * Fetch all tokens.
    *
    * @public
-   * @returns {TokenAssetList} A list of all registered tokens.
+   * @returns {TokenAsset[]} A list of all registered tokens.
    */
   getAllTokens () {
-    return this._assets
+    return this.getAllAssets()
+  }
+
+  /**
+   * Fetch tokens by contract address.
+   *
+   * @public
+   * @param {string} address - The token address.
+   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @returns {TokenAsset[]} A list of matching tokens.
+   */
+  getTokenByAddress (address, filter = {}) {
+    const { chainId, caseSensitive = false } = filter
+
+    const data = this._assets.filter(asset => {
+      if (caseSensitive) return asset.address === address
+      return asset.address.toLowerCase() === address.toLowerCase()
+    })
+
+    if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
+
+    return data
   }
 
   /**
@@ -112,8 +190,8 @@ export default class WdkTokenAssetRegistry {
    *
    * @public
    * @param {string} symbol - The token symbol (e.g. "USDT", "ETH").
-   * @param {TokenAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-   * @returns {TokenAssetList} A list of matching tokens.
+   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @returns {TokenAsset[]} A list of matching tokens.
    */
   getTokenBySymbol (symbol, filter = {}) {
     const { chainId, caseSensitive = false } = filter
@@ -133,31 +211,10 @@ export default class WdkTokenAssetRegistry {
    *
    * @public
    * @param {string} ticker - The token symbol (e.g. "USDT", "ETH").
-   * @param {WdkTokenFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-   * @returns {WdkTokenList} A list of matching tokens.
+   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @returns {TokenAsset[]} A list of matching tokens.
    */
   getTokenByTicker (ticker, filter = {}) {
     return this.getTokenBySymbol(ticker, filter)
-  }
-
-  /**
-   * Fetch tokens by contract address.
-   *
-   * @public
-   * @param {string} address - The token address.
-   * @param {TokenAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-   * @returns {TokenAssetList} A list of matching tokens.
-   */
-  getTokenByAddress (address, filter = {}) {
-    const { chainId, caseSensitive = false } = filter
-
-    const data = this._assets.filter(asset => {
-      if (caseSensitive) return asset.address === address
-      return asset.address.toLowerCase() === address.toLowerCase()
-    })
-
-    if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
-
-    return data
   }
 }
