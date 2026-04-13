@@ -52,31 +52,30 @@ describe('wallet-base-asset-registry', () => {
   })
 
   test('should get assets by address', () => {
-    const assets = wdkAssetRegistry.getAssetByAddress(TEST_ADDRESS)
+    const assets = wdkAssetRegistry.getAsset([{ address: TEST_ADDRESS }])
 
     expect(Array.isArray(assets)).toBe(true)
     expect(assets.length).toBeGreaterThan(0)
-    expect(assets[0].address).toBe(TEST_ADDRESS)
+    expect(assets).toContainEqual(expect.objectContaining({ address: TEST_ADDRESS }))
   })
 
   test('should support case sensitive address lookup', () => {
-    expect(wdkAssetRegistry.getAssetByAddress(TEST_ADDRESS, { caseSensitive: true }).length).toBeGreaterThan(0)
-    expect(wdkAssetRegistry.getAssetByAddress(TEST_ADDRESS.toLowerCase(), { caseSensitive: true })).toEqual([])
+    expect(wdkAssetRegistry.getAsset([{ address: TEST_ADDRESS }], { caseSensitive: true }).length).toBeGreaterThan(0)
+    expect(wdkAssetRegistry.getAsset([{ address: TEST_ADDRESS.toLowerCase() }], { caseSensitive: true })).toEqual([])
   })
 
-  test('should get assets by address with chainId', () => {
-    const assets = wdkAssetRegistry.getAssetByAddress(TEST_ADDRESS, { chainId: TEST_CHAINID })
+  test('should get assets with multiple filter conditions', () => {
+    const assets = wdkAssetRegistry.getAsset([{ address: TEST_ADDRESS, chainId: TEST_CHAINID }])
 
     expect(Array.isArray(assets)).toBe(true)
-    expect(assets).toHaveLength(1)
-    expect(assets[0].chainId).toBe(TEST_CHAINID)
+    expect(assets).toEqual([expect.objectContaining({ address: TEST_ADDRESS, chainId: TEST_CHAINID })])
   })
 
   test('should register a new asset', () => {
     const initialLength = wdkAssetRegistry.getAllAssets().length
 
     const result = wdkAssetRegistry.registerAsset(TEST_NEW_ASSET)
-    const assets = wdkAssetRegistry.getAssetByAddress(TEST_NEW_ASSET.address, { chainId: TEST_NEW_ASSET.chainId })
+    const assets = wdkAssetRegistry.getAsset([{ address: TEST_NEW_ASSET.address, chainId: TEST_NEW_ASSET.chainId }])
 
     expect(result).toBe(initialLength + 1)
     expect(assets).toEqual([TEST_NEW_ASSET])
@@ -90,7 +89,7 @@ describe('wallet-base-asset-registry', () => {
 
   test('should replace an existing asset when force is true', () => {
     const result = wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET, true)
-    const [asset] = wdkAssetRegistry.getAssetByAddress(TEST_ADDRESS, { chainId: TEST_CHAINID })
+    const [asset] = wdkAssetRegistry.getAsset([{ address: TEST_ADDRESS, chainId: TEST_CHAINID }])
 
     expect(result).toBeGreaterThanOrEqual(0)
     expect(asset).toEqual(TEST_REPLACED_ASSET)
@@ -105,7 +104,7 @@ describe('wallet-base-asset-registry', () => {
     const result = wdkAssetRegistry.registerAssets(assetsToRegister)
 
     expect(result).toHaveLength(2)
-    expect(wdkAssetRegistry.getAssetByAddress(assetsToRegister[0].address, { chainId: assetsToRegister[0].chainId })).toEqual([assetsToRegister[0]])
-    expect(wdkAssetRegistry.getAssetByAddress(assetsToRegister[1].address, { chainId: assetsToRegister[1].chainId })).toEqual([assetsToRegister[1]])
+    expect(wdkAssetRegistry.getAsset([assetsToRegister[0]])).toEqual([assetsToRegister[0]])
+    expect(wdkAssetRegistry.getAsset([assetsToRegister[1]])).toEqual([assetsToRegister[1]])
   })
 })

@@ -13,7 +13,7 @@
 // limitations under the License.
 'use strict'
 
-/** @typedef {import('./src/wdk-base-asset-registry.js').BaseAssetFilter} BaseAssetFilter */
+/** @typedef {import('./src/wdk-base-asset-registry.js').BaseAssetOptions} BaseAssetOptions */
 /** @typedef {import('./src/wdk-asset-schema.js').BaseAsset} BaseAsset */
 /** @typedef {import('./src/wdk-asset-schema.js').TokenAsset} TokenAsset */
 

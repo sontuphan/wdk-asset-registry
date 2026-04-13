@@ -16,11 +16,17 @@
 
 import { NotImplementedError } from '@tetherto/wdk-wallet'
 
+import { deepEqual } from 'fast-equals'
+
 /** @typedef {import("./wdk-asset-schema.js").BaseAsset} BaseAsset */
 
 /**
- * @typedef {object} BaseAssetFilter
- * @property {number} [chainId] - Optional chain ID used to filter matching assets.
+ * @template {object} TSchema
+ * @typedef {Partial<TSchema>[]} BaseAssetFilter
+ */
+
+/**
+ * @typedef {object} BaseAssetOptions
  * @property {boolean} [caseSensitive] - Defaults to `false`. When true, matches symbols and addresses without lowercasing.
  */
 
@@ -53,16 +59,16 @@ export class WdkBaseAssetRegistry {
   /**
    * Creates a new asset registry.
    *
-   * @param {T[][]} assets - One or more asset lists to preload into the registry.
+   * @param {T[][]} preload - One or more asset lists to preload into the registry.
    */
-  constructor (...assets) {
+  constructor (...preload) {
     /**
      * @private
-     * @type {T[][]}
+     * @type {T[]}
      */
     this._assets = []
 
-    for (const entry of assets) {
+    for (const entry of preload) {
       this.registerAssets(entry)
     }
   }
@@ -141,20 +147,42 @@ export class WdkBaseAssetRegistry {
    * Fetch assets by contract address.
    *
    * @public
-   * @param {string} address - The asset address.
-   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @param {BaseAssetFilter<T>} filter - todo
+   * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
    * @returns {T[]} A list of matching assets.
    */
-  getAssetByAddress (address, filter = {}) {
-    const { chainId, caseSensitive = false } = filter
+  getAsset (filter, opts = {}) {
+    const { caseSensitive = false } = opts
 
-    const data = this._assets.filter(asset => {
-      if (caseSensitive) return asset.address === address
-      return asset.address.toLowerCase() === address.toLowerCase()
-    })
+    const results = []
+    const caching = []
 
-    if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
+    for (const condition of filter) {
+      for (let i = 0; i < this._assets.length; i++) {
+        let match = true
+        const asset = this._assets[i]
 
-    return data
+        for (const key of Object.keys(condition)) {
+          const conditionValue = !caseSensitive && typeof condition[key] === 'string'
+            ? condition[key].toLowerCase()
+            : condition[key]
+          const assetValue = !caseSensitive && typeof asset[key] === 'string'
+            ? asset[key].toLowerCase()
+            : asset[key]
+
+          if (!deepEqual(conditionValue, assetValue)) {
+            match = false
+            break
+          }
+        }
+
+        if (match && !caching.includes(i)) {
+          results.push(asset)
+          caching.push(i)
+        }
+      }
+    }
+
+    return results
   }
 }

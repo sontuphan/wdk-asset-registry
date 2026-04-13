@@ -18,6 +18,7 @@ import { TokenAssetSchema } from './wdk-asset-schema.js'
 import { WdkBaseAssetRegistry } from './wdk-base-asset-registry.js'
 
 /** @typedef {import("./wdk-asset-schema.js").TokenAsset} TokenAsset */
+/** @typedef {import("./wdk-base-asset-registry.js").BaseAssetOptions} BaseAssetOptions */
 
 /**
  * @extends {WdkBaseAssetRegistry<TokenAsset>}
@@ -42,20 +43,11 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
    *
    * @public
    * @param {string} address - The token address.
-   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @param {BaseAssetOptions} [opts] - Optional lookup filters such as `caseSensitive`.
    * @returns {TokenAsset[]} A list of matching tokens.
    */
-  getTokenByAddress (address, filter = {}) {
-    const { chainId, caseSensitive = false } = filter
-
-    const data = this._assets.filter(asset => {
-      if (caseSensitive) return asset.address === address
-      return asset.address.toLowerCase() === address.toLowerCase()
-    })
-
-    if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
-
-    return data
+  getTokenByAddress (address, opts = {}) {
+    return this.getAsset([{ address }], opts)
   }
 
   /**
@@ -63,20 +55,11 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
    *
    * @public
    * @param {string} symbol - The token symbol (e.g. "USDT", "ETH").
-   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @param {BaseAssetOptions} [opts] - Optional lookup filters such as `caseSensitive`.
    * @returns {TokenAsset[]} A list of matching tokens.
    */
-  getTokenBySymbol (symbol, filter = {}) {
-    const { chainId, caseSensitive = false } = filter
-
-    const data = this._assets.filter(asset => {
-      if (caseSensitive) return asset.symbol === symbol
-      return asset.symbol.toLowerCase() === symbol.toLowerCase()
-    })
-
-    if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
-
-    return data
+  getTokenBySymbol (symbol, opts = {}) {
+    return this.getAsset([{ symbol }], opts)
   }
 
   /**
@@ -84,7 +67,7 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
    *
    * @public
    * @param {string} ticker - The token symbol (e.g. "USDT", "ETH").
-   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+   * @param {BaseAssetOptions} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
    * @returns {TokenAsset[]} A list of matching tokens.
    */
   getTokenByTicker (ticker, filter = {}) {

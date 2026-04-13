@@ -90,7 +90,7 @@ registry.registerAsset({
 
 | Section | Description | Methods |
 | --- | --- | --- |
-| [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter) |
+| [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetOptions](#BaseAssetOptions) |
 | [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with address and chain ID | [Constructor](#constructor), [Methods](#methods) |
 | [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with symbol and ticker lookups | [Methods](#methods-1) |
 
@@ -119,10 +119,10 @@ type TokenAsset = BaseAsset & {
 };
 ```
 
-#### BaseAssetFilter
+#### BaseAssetOptions
 
 ```typescript
-type BaseAssetFilter = {
+type BaseAssetOptions = {
   chainId?: number;
   caseSensitive?: boolean;
 };
@@ -218,7 +218,7 @@ Get asset metadata by address.
 **Parameters:**
 
 - `address` (string): Asset address to look up
-- `filter` (`BaseAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
+- `filter` (`BaseAssetOptions`, optional): Lookup filters such as `chainId` and `caseSensitive`
 
 **Returns:** `T[]`
 
@@ -248,7 +248,7 @@ Get token metadata by symbol.
 **Parameters:**
 
 - `symbol` (string): Token symbol to look up, such as `usdt` or `usdt0`
-- `filter` (`BaseAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
+- `filter` (`BaseAssetOptions`, optional): Lookup filters such as `chainId` and `caseSensitive`
 
 **Returns:** `TokenAsset[]`
 
@@ -273,7 +273,7 @@ Alias of `getTokenBySymbol`.
 **Parameters:**
 
 - `ticker` (string): Token symbol to look up
-- `filter` (`BaseAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
+- `filter` (`BaseAssetOptions`, optional): Lookup filters such as `chainId` and `caseSensitive`
 
 **Returns:** `TokenAsset[]`
 
@@ -284,7 +284,7 @@ Get token metadata by contract address.
 **Parameters:**
 
 - `address` (string): Token address to look up
-- `filter` (`BaseAssetFilter`, optional): Lookup filters such as `chainId` and `caseSensitive`
+- `filter` (`BaseAssetOptions`, optional): Lookup filters such as `chainId` and `caseSensitive`
 
 **Returns:** `TokenAsset[]`
 

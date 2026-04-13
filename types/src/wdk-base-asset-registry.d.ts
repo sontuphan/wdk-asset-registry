@@ -1,7 +1,10 @@
 /** @typedef {import("./wdk-asset-schema.js").BaseAsset} BaseAsset */
 /**
- * @typedef {object} BaseAssetFilter
- * @property {number} [chainId] - Optional chain ID used to filter matching assets.
+ * @template {object} TSchema
+ * @typedef {Partial<TSchema>[]} BaseAssetFilter
+ */
+/**
+ * @typedef {object} BaseAssetOptions
  * @property {boolean} [caseSensitive] - Defaults to `false`. When true, matches symbols and addresses without lowercasing.
  */
 /**
@@ -33,12 +36,12 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
     /**
      * Creates a new asset registry.
      *
-     * @param {T[][]} assets - One or more asset lists to preload into the registry.
+     * @param {T[][]} preload - One or more asset lists to preload into the registry.
      */
-    constructor(...assets: T[][]);
+    constructor(...preload: T[][]);
     /**
      * @private
-     * @type {T[][]}
+     * @type {T[]}
      */
     private _assets;
     /**
@@ -81,18 +84,15 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
      * Fetch assets by contract address.
      *
      * @public
-     * @param {string} address - The asset address.
-     * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
+     * @param {BaseAssetFilter<T>} filter - todo
+     * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
      * @returns {T[]} A list of matching assets.
      */
-    public getAssetByAddress(address: string, filter?: BaseAssetFilter): T[];
+    public getAsset(filter: BaseAssetFilter<T>, opts?: BaseAssetOptions): T[];
 }
 export type BaseAsset = import("./wdk-asset-schema.js").BaseAsset;
-export type BaseAssetFilter = {
-    /**
-     * - Optional chain ID used to filter matching assets.
-     */
-    chainId?: number | undefined;
+export type BaseAssetFilter<TSchema extends object> = Partial<TSchema>[];
+export type BaseAssetOptions = {
     /**
      * - Defaults to `false`. When true, matches symbols and addresses without lowercasing.
      */
