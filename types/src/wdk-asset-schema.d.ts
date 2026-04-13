@@ -1,6 +1,9 @@
 /**
  * @typedef {z.infer<typeof BaseAssetSchema>} BaseAsset - Type representing a validated base asset object.
  */
+/**
+ * @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset - Type representing a validated token asset object.
+ */
 export const BaseAssetSchema: z.ZodObject<{
     address: z.ZodString;
     chainId: z.ZodNumber;
@@ -9,9 +12,6 @@ export const BaseAssetJsonSchema: z.core.ZodStandardJSONSchemaPayload<z.ZodObjec
     address: z.ZodString;
     chainId: z.ZodNumber;
 }, z.core.$strip>>;
-/**
- * @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset - Type representing a validated WDK asset object.
- */
 export const TokenAssetSchema: z.ZodObject<{
     address: z.ZodString;
     chainId: z.ZodNumber;
@@ -45,7 +45,7 @@ export const TokenAssetJsonSchema: z.core.ZodStandardJSONSchemaPayload<z.ZodObje
  */
 export type BaseAsset = z.infer<typeof BaseAssetSchema>;
 /**
- * - Type representing a validated WDK asset object.
+ * - Type representing a validated token asset object.
  */
 export type TokenAsset = z.infer<typeof TokenAssetSchema>;
 import { z } from 'zod';

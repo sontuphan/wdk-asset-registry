@@ -16,10 +16,9 @@
 
 import { NotImplementedError } from '@tetherto/wdk-wallet'
 
-import { TokenAssetSchema } from './wallet-asset-schema.js'
+import { TokenAssetSchema } from './wdk-asset-schema.js'
 
-/** @typedef {import("./wallet-asset-schema.js").BaseAsset} BaseAsset */
-/** @typedef {import("./wallet-asset-schema.js").TokenAsset} TokenAsset */
+/** @typedef {import("./wdk-asset-schema.js").BaseAsset} BaseAsset */
 
 /**
  * @typedef {object} BaseAssetFilter
@@ -159,78 +158,5 @@ export class WdkBaseAssetRegistry {
     if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
 
     return data
-  }
-}
-
-/**
- * @extends {WdkBaseAssetRegistry<TokenAsset>}
- */
-export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
-  _assertAsset (/** @type {TokenAsset} */ asset) {
-    return TokenAssetSchema.parse(asset)
-  }
-
-  /**
-   * Fetch all tokens.
-   *
-   * @public
-   * @returns {TokenAsset[]} A list of all registered tokens.
-   */
-  getAllTokens () {
-    return this.getAllAssets()
-  }
-
-  /**
-   * Fetch tokens by contract address.
-   *
-   * @public
-   * @param {string} address - The token address.
-   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-   * @returns {TokenAsset[]} A list of matching tokens.
-   */
-  getTokenByAddress (address, filter = {}) {
-    const { chainId, caseSensitive = false } = filter
-
-    const data = this._assets.filter(asset => {
-      if (caseSensitive) return asset.address === address
-      return asset.address.toLowerCase() === address.toLowerCase()
-    })
-
-    if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
-
-    return data
-  }
-
-  /**
-   * Fetch tokens by symbol.
-   *
-   * @public
-   * @param {string} symbol - The token symbol (e.g. "USDT", "ETH").
-   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-   * @returns {TokenAsset[]} A list of matching tokens.
-   */
-  getTokenBySymbol (symbol, filter = {}) {
-    const { chainId, caseSensitive = false } = filter
-
-    const data = this._assets.filter(asset => {
-      if (caseSensitive) return asset.symbol === symbol
-      return asset.symbol.toLowerCase() === symbol.toLowerCase()
-    })
-
-    if (typeof chainId === 'number') return data.filter(token => token.chainId === chainId)
-
-    return data
-  }
-
-  /**
-   * Alias of {@link getTokenBySymbol}.
-   *
-   * @public
-   * @param {string} ticker - The token symbol (e.g. "USDT", "ETH").
-   * @param {BaseAssetFilter} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-   * @returns {TokenAsset[]} A list of matching tokens.
-   */
-  getTokenByTicker (ticker, filter = {}) {
-    return this.getTokenBySymbol(ticker, filter)
   }
 }
