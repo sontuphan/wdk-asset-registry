@@ -1,5 +1,7 @@
-export * from "./src/wallet-asset-schema.js";
-export * from "./src/wallet-asset.js";
-export { WdkBaseAssetRegistry as default } from "./src/wallet-asset.js";
-export type BaseAssetFilter = import("./src/wallet-asset.js").BaseAssetFilter;
-export type TokenAsset = import("./src/wallet-asset-schema.js").TokenAsset;
+export * from "./src/wdk-asset-schema.js";
+export * from "./src/wdk-base-asset-registry.js";
+export * from "./src/wdk-token-asset-registry.js";
+export { WdkBaseAssetRegistry as default } from "./src/wdk-base-asset-registry.js";
+export type BaseAssetOptions = import("./src/wdk-base-asset-registry.js").BaseAssetOptions;
+export type BaseAsset = import("./src/wdk-asset-schema.js").BaseAsset;
+export type TokenAsset = import("./src/wdk-asset-schema.js").TokenAsset;

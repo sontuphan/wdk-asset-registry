@@ -16,9 +16,8 @@
 
 import { z } from 'zod'
 
-/**
- * @typedef {z.infer<typeof BaseAssetSchema>} BaseAsset - Type representing a validated base asset object.
- */
+/** @typedef {z.infer<typeof BaseAssetSchema>} BaseAsset */
+/** @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset */
 
 export const BaseAssetSchema = z.object({
   address: z.string(),
@@ -26,10 +25,6 @@ export const BaseAssetSchema = z.object({
 })
 
 export const BaseAssetJsonSchema = BaseAssetSchema.toJSONSchema()
-
-/**
- * @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset - Type representing a validated WDK asset object.
- */
 
 export const TokenAssetSchema = BaseAssetSchema.extend({
   symbol: z.string(),

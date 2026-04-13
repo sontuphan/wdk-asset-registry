@@ -1,6 +1,6 @@
 import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'fs'
 
-/** @typedef {import('../types').WdkAssetList} WdkAssetList */
+/** @typedef {import('../types').TokenAsset} TokenAsset */
 
 const INPUT = 'assets'
 const OUTPUT = 'dist'
@@ -12,7 +12,7 @@ mkdirSync(OUTPUT, { recursive: true })
 /**
  * Load all predefined assets
  *
- * @returns {WdkAssetList} The list of assets
+ * @returns {TokenAsset} The list of assets
  */
 function loadAllAssets () {
   const files = readdirSync(INPUT)
