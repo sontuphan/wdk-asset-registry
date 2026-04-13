@@ -147,7 +147,7 @@ export class WdkBaseAssetRegistry {
    * Fetch assets by contract address.
    *
    * @public
-   * @param {BaseAssetFilter<T>} filter - todo
+   * @param {BaseAssetFilter<T>} filter - One or more partial asset match conditions. Each condition matches assets that contain the provided key-value pairs.
    * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
    * @returns {T[]} A list of matching assets.
    */

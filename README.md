@@ -16,7 +16,7 @@ For detailed documentation about the complete WDK ecosystem, visit [docs.wallet.
 - **Token Asset Registry**: Use token-specific lookups such as symbol, ticker, and address
 - **Bundled Asset Lists**: Import registry-ready assets from `@tetherto/wdk-asset-registry/assets/*`
 - **Standardized Schemas**: Validate base assets and token assets with Zod
-- **Fast Lookup**: Retrieve assets by address, with symbol and ticker lookup for token registries
+- **Flexible Lookup**: Query base assets with partial match filters
 - **Lightweight**: No RPC or blockchain interaction required
 - **In-Memory Registry**: Supports both lookup and local registration of assets
 
@@ -66,8 +66,52 @@ console.log(usdt)
 ### Filter by Chain ID
 
 ```javascript
-const ethereumUsdt = registry.getTokenBySymbol('usdt', { chainId: 1 })
+const ethereumUsdt = registry.getAsset([
+  {
+    symbol: 'USDT',
+    chainId: 1
+  }
+])
 console.log(ethereumUsdt)
+```
+
+### Query Base Assets with Partial Filters
+
+```javascript
+import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
+
+class CustomAssetRegistry extends WdkBaseAssetRegistry {
+  _assertAsset (asset) {
+    return BaseAssetSchema.parse(asset)
+  }
+}
+
+const registry = new CustomAssetRegistry(commonTokens)
+
+const ethereumUsdt = registry.getAsset([
+  {
+    address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    chainId: 1
+  }
+])
+```
+
+### Query Base Assets with Multiple Filters
+
+```javascript
+const selectedAssets = registry.getAsset([
+  {
+    symbol: 'USDT',
+    chainId: 1
+  },
+  {
+    symbol: 'XAUt',
+    chainId: 1
+  }
+])
+
+// Returns assets matching either condition above
+console.log(selectedAssets)
 ```
 
 ### Register a Custom Asset
@@ -90,7 +134,7 @@ registry.registerAsset({
 
 | Section | Description | Methods |
 | --- | --- | --- |
-| [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetOptions](#BaseAssetOptions) |
+| [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter), [BaseAssetOptions](#baseassetoptions) |
 | [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with address and chain ID | [Constructor](#constructor), [Methods](#methods) |
 | [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with symbol and ticker lookups | [Methods](#methods-1) |
 
@@ -123,10 +167,17 @@ type TokenAsset = BaseAsset & {
 
 ```typescript
 type BaseAssetOptions = {
-  chainId?: number;
   caseSensitive?: boolean;
 };
 ```
+
+#### BaseAssetFilter
+
+```typescript
+type BaseAssetFilter<T> = Partial<T>[];
+```
+
+Each array item is a partial match condition. Properties inside a single object are matched together, and multiple objects are evaluated as a union of conditions.
 
 ### WdkBaseAssetRegistry
 
@@ -181,7 +232,7 @@ class CustomAssetRegistry extends WdkBaseAssetRegistry<CustomAsset> {
 | `registerAsset(asset, [force])` | Register a single asset | `number` |
 | `registerAssets(assets, [force])` | Register multiple assets | `number[]` |
 | `getAllAssets()` | Get all registered assets | `T[]` |
-| `getAssetByAddress(address, [filter])` | Get assets by address | `T[]` |
+| `getAsset(filter, [opts])` | Get assets using one or more partial match conditions | `T[]` |
 
 #### registerAsset
 
@@ -211,16 +262,28 @@ Get all registered assets.
 
 **Returns:** `T[]`
 
-#### getAssetByAddress
+#### getAsset
 
-Get asset metadata by address.
+Get asset metadata using one or more partial match conditions.
 
 **Parameters:**
 
-- `address` (string): Asset address to look up
-- `filter` (`BaseAssetOptions`, optional): Lookup filters such as `chainId` and `caseSensitive`
+- `filter` (`BaseAssetFilter<T>`): One or more partial asset match conditions
+- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
 
 **Returns:** `T[]`
+
+**Example:**
+
+```javascript
+const assets = registry.getAsset([
+  {
+    address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    chainId: 1
+  }
+])
+console.log(assets)
+```
 
 ### WdkTokenAssetRegistry
 
