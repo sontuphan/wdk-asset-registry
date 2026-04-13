@@ -14,8 +14,8 @@
 'use strict'
 
 /** @typedef {import('./src/wdk-base-asset-registry.js').BaseAssetFilter} BaseAssetFilter */
-/** @typedef {import('./src/wdk-base-asset-schema.js').BaseAsset} BaseAsset */
-/** @typedef {import('./src/wdk-token-asset-schema.js').TokenAsset} TokenAsset */
+/** @typedef {import('./src/wdk-asset-schema.js').BaseAsset} BaseAsset */
+/** @typedef {import('./src/wdk-asset-schema.js').TokenAsset} TokenAsset */
 
 export * from './src/wdk-asset-schema.js'
 export * from './src/wdk-base-asset-registry.js'
