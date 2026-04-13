@@ -34,7 +34,7 @@ const TEST_EXTRA_ASSET = {
   logoURI: 'https://example.com/extra.png'
 }
 
-describe('wallet-asset', () => {
+describe('wallet-token-asset-registry', () => {
   let wdkAssetRegistry
 
   beforeEach(() => {

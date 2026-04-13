@@ -16,8 +16,6 @@
 
 import { NotImplementedError } from '@tetherto/wdk-wallet'
 
-import { TokenAssetSchema } from './wdk-asset-schema.js'
-
 /** @typedef {import("./wdk-asset-schema.js").BaseAsset} BaseAsset */
 
 /**
@@ -54,7 +52,7 @@ import { TokenAssetSchema } from './wdk-asset-schema.js'
 export class WdkBaseAssetRegistry {
   /**
    * Creates a new asset registry.
-   * 
+   *
    * @param {T[][]} assets - One or more asset lists to preload into the registry.
    */
   constructor (...assets) {
