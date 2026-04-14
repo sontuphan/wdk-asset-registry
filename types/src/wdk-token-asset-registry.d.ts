@@ -56,14 +56,23 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
      */
     public getAllTokens(): TokenAsset[];
     /**
-     * todo
+     * Fetch a token by its asset identifier.
      *
      * @public
-     * @param {string} address - todo
-     * @param {BaseAssetOptions} [opts] - todo
-     * @returns {TokenAsset} todo
+     * @param {string} id - The asset identifier.
+     * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
+     * @returns {TokenAsset | undefined} The matching token, or `undefined` if no token matches the id.
      */
-    public getTokenByAddress(id: any, opts?: BaseAssetOptions): TokenAsset;
+    public getTokenById(id: string, opts?: BaseAssetOptions): TokenAsset | undefined;
+    /**
+     * Fetch tokens by contract address.
+     *
+     * @public
+     * @param {string} address - The token address.
+     * @param {BaseAssetOptions} [opts] - Optional lookup filters such as `caseSensitive`.
+     * @returns {TokenAsset[]} A list of matching tokens.
+     */
+    public getTokenByAddress(address: string, opts?: BaseAssetOptions): TokenAsset[];
     /**
      * Fetch tokens by symbol.
      *

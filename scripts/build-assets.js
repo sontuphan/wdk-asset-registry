@@ -23,7 +23,7 @@ function loadAllAssets () {
     const raw = readFileSync(source, 'utf-8')
     const data = JSON.parse(raw)
     for (const asset of data) {
-      result.push({ id: `${asset.chainId}\/${asset.address}`, ...asset })
+      result.push({ id: `${asset.chainId}/${asset.address}`, ...asset })
     }
   }
 

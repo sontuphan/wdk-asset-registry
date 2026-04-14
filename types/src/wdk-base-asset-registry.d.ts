@@ -17,8 +17,8 @@
  * import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
  *
  * type CustomAsset = {
- *   address: string
- *   chainId: number
+ *   id: string
+ *   chainId: string
  *   label: string
  * }
  *
@@ -58,7 +58,7 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
      *
      * @public
      * @param {T} asset - Asset definition to insert or replace.
-     * @param {boolean} [force] - When `true`, replaces an existing asset with the same address and chain ID.
+     * @param {boolean} [force] - When `true`, replaces an existing asset with the same id.
      * @returns {number} The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled.
      * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
      */
@@ -68,7 +68,7 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
      *
      * @public
      * @param {T[]} assets - Asset definitions to insert or replace.
-     * @param {boolean} [force] - When `true`, replaces existing assets with the same address and chain ID.
+     * @param {boolean} [force] - When `true`, replaces existing assets with the same id.
      * @returns {number[]} The result of each `registerAsset` call in input order.
      * @throws {Error} Thrown when any asset already exists and `force` is not enabled.
      */
@@ -81,14 +81,15 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
      */
     public getAllAssets(): T[];
     /**
-     * Fetch an asset by the ID.
+     * Fetch an asset by the identifier.
      *
-     * @param {string} id - The asset ID.
-     * @returns {T | undefined} The asset or undefined if the id doesn't match any asset.
+     * @param {string} id - The asset identifier.
+     * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
+     * @returns {T | undefined} The matching asset, or `undefined` if no asset matches the id.
      */
-    getAssetById(id: string): T | undefined;
+    getAssetById(id: string, opts?: BaseAssetOptions): T | undefined;
     /**
-     * Fetch assets by contract address.
+     * Fetch assets by one or more partial match conditions.
      *
      * @public
      * @param {BaseAssetFilter<T>} filter - One or more partial asset match conditions. Each condition matches assets that contain the provided key-value pairs.

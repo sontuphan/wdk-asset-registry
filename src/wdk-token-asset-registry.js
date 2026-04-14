@@ -46,7 +46,7 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
    * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
    * @returns {TokenAsset | undefined} The matching token, or `undefined` if no token matches the id.
    */
-  getTokenByAddress (id, opts = {}) {
+  getTokenById (id, opts = {}) {
     return this.getAssetById(id, opts)
   }
 
