@@ -16,7 +16,7 @@ export const TokenAssetSchema: z.ZodObject<{
     name: z.ZodString;
     decimals: z.ZodNumber;
     isNative: z.ZodBoolean;
-    logoURI: z.ZodURL;
+    logoURI: z.ZodOptional<z.ZodURL>;
     tags: z.ZodOptional<z.ZodArray<z.ZodUnion<readonly [z.ZodString, z.ZodObject<{
         name: z.ZodString;
         description: z.ZodString;
@@ -31,7 +31,7 @@ export const TokenAssetJsonSchema: z.core.ZodStandardJSONSchemaPayload<z.ZodObje
     name: z.ZodString;
     decimals: z.ZodNumber;
     isNative: z.ZodBoolean;
-    logoURI: z.ZodURL;
+    logoURI: z.ZodOptional<z.ZodURL>;
     tags: z.ZodOptional<z.ZodArray<z.ZodUnion<readonly [z.ZodString, z.ZodObject<{
         name: z.ZodString;
         description: z.ZodString;

@@ -17,6 +17,7 @@ For detailed documentation about the complete WDK ecosystem, visit [docs.wallet.
 - **Bundled Asset Lists**: Import registry-ready assets from `@tetherto/wdk-asset-registry/assets/*`
 - **Standardized Schemas**: Validate base assets and token assets with Zod
 - **Flexible Lookup**: Query base assets with partial match filters
+- **Porting Helpers**: Normalize third-party token-list entries into `TokenAsset`
 - **Lightweight**: No RPC or blockchain interaction required
 - **In-Memory Registry**: Supports both lookup and local registration of assets
 
@@ -131,6 +132,18 @@ registry.registerAsset({
 })
 ```
 
+### Normalize Third-Party Token Lists
+
+```javascript
+import { fromUniswapTokenList } from '@tetherto/wdk-asset-registry'
+
+const normalizedTokens = fromUniswapTokenList(
+  source.tokens
+)
+```
+
+The helper accepts the `tokens` array directly and converts each entry into a validated `TokenAsset`. It assumes Uniswap-style numeric EVM chain ids and maps them to `eip155:*`.
+
 ## 📚 API Reference
 
 ### Table of Contents
@@ -140,6 +153,7 @@ registry.registerAsset({
 | [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter), [BaseAssetOptions](#baseassetoptions) |
 | [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with ids and chain IDs | [Constructor](#constructor), [Methods](#methods) |
 | [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with symbol and ticker lookups | [Methods](#methods-1) |
+| [Token Asset Utils](#token-asset-utils) | Helpers for porting third-party token lists | [Methods](#methods-2) |
 
 ### Types
 
@@ -161,7 +175,7 @@ type TokenAsset = BaseAsset & {
   name: string;
   decimals: number;
   isNative: boolean;
-  logoURI: string;
+  logoURI?: string;
   tags?: (string | { name: string; description: string })[] | undefined;
   extensions?: Record<string, unknown> | undefined;
 };
@@ -274,6 +288,7 @@ Get a single asset by identifier.
 **Parameters:**
 
 - `id` (string): Asset identifier to look up
+
 **Returns:** `T | undefined`
 
 **Example:**
@@ -352,6 +367,7 @@ Get a single token by asset identifier.
 **Parameters:**
 
 - `id` (string): Token asset identifier to look up
+
 **Returns:** `TokenAsset | undefined`
 
 **Example:**
@@ -408,6 +424,35 @@ const assets = registry.getTokenByAddress(
   '0xdAC17F958D2ee523a2206206994597C13D831ec7'
 )
 console.log(assets)
+```
+
+### Token Asset Utils
+
+Helpers for normalizing third-party token-list entries into `TokenAsset`.
+
+#### Methods
+
+| Method | Description | Returns |
+| --- | --- | --- |
+| `fromUniswapToken(token)` | Normalize one token-list entry into a `TokenAsset` | `TokenAsset` |
+| `fromUniswapTokenList(tokens)` | Normalize a token array into `TokenAsset[]` | `TokenAsset[]` |
+
+#### fromUniswapTokenList
+
+Convert a token-list `tokens` array into normalized `TokenAsset[]`.
+
+**Parameters:**
+
+- `tokens` (`UniswapTokenInfo[]`): Source token entries
+
+**Returns:** `TokenAsset[]`
+
+**Example:**
+
+```javascript
+const normalizedTokens = fromUniswapTokenList(
+  source.tokens
+)
 ```
 
 ### JSON Schemas

@@ -11,7 +11,7 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
     name: string;
     decimals: number;
     isNative: boolean;
-    logoURI: string;
+    logoURI?: string | undefined;
     tags?: (string | {
         name: string;
         description: string;
@@ -26,7 +26,7 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
         name: string;
         decimals: number;
         isNative: boolean;
-        logoURI: string;
+        logoURI?: string | undefined;
         tags?: (string | {
             name: string;
             description: string;
@@ -41,7 +41,7 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
         name: string;
         decimals: number;
         isNative: boolean;
-        logoURI: string;
+        logoURI?: string | undefined;
         tags?: (string | {
             name: string;
             description: string;

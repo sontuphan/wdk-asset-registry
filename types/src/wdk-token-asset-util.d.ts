@@ -1,0 +1,62 @@
+/** @typedef {import("./wdk-asset-schema.js").TokenAsset} TokenAsset */
+/**
+ * @typedef {object} UniswapTokenInfo
+ * @property {number} chainId - The source EVM chain id from the token list.
+ * @property {string} address - The token contract address.
+ * @property {string} symbol - The token symbol.
+ * @property {string} name - The token name.
+ * @property {number} decimals - The token decimals.
+ * @property {string} [logoURI] - Optional token logo uri.
+ * @property {string[]} [tags] - Optional token tag names.
+ * @property {Record<string, unknown>} [extensions] - Optional token-specific extensions.
+ */
+/**
+ * Convert a Uniswap-style token entry into a `TokenAsset`.
+ *
+ * @param {UniswapTokenInfo} token - Source token entry.
+ * @returns {TokenAsset} The normalized token asset.
+ */
+export function fromUniswapToken(token: UniswapTokenInfo): TokenAsset;
+/**
+ * Convert a Uniswap Token Lists token array into `TokenAsset[]`.
+ * See https://tokenlists.org/.
+ *
+ * @param {UniswapTokenInfo[]} tokens - Source token entries.
+ * @returns {TokenAsset[]} The normalized token assets.
+ */
+export function fromUniswapTokenList(tokens: UniswapTokenInfo[]): TokenAsset[];
+export type TokenAsset = import("./wdk-asset-schema.js").TokenAsset;
+export type UniswapTokenInfo = {
+    /**
+     * - The source EVM chain id from the token list.
+     */
+    chainId: number;
+    /**
+     * - The token contract address.
+     */
+    address: string;
+    /**
+     * - The token symbol.
+     */
+    symbol: string;
+    /**
+     * - The token name.
+     */
+    name: string;
+    /**
+     * - The token decimals.
+     */
+    decimals: number;
+    /**
+     * - Optional token logo uri.
+     */
+    logoURI?: string | undefined;
+    /**
+     * - Optional token tag names.
+     */
+    tags?: string[] | undefined;
+    /**
+     * - Optional token-specific extensions.
+     */
+    extensions?: Record<string, unknown> | undefined;
+};

@@ -40,6 +40,15 @@ describe('wallet-asset-schema', () => {
     expect(asset.chainId).toBe('eip155:1')
   })
 
+  test('should validate a valid asset without a logo uri', () => {
+    const asset = TokenAssetSchema.parse({
+      ...TEST_ASSET,
+      logoURI: undefined
+    })
+
+    expect(asset.logoURI).toBeUndefined()
+  })
+
   test('should reject an asset with invalid logo uri', () => {
     const invalidAsset = {
       ...TEST_ASSET,

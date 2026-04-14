@@ -38,7 +38,7 @@ export const TokenAssetSchema = BaseAssetSchema.extend({
       return pattern.test(url)
     },
     { message: 'URL must be a valid image url.' }
-  ),
+  ).optional(),
   tags: z
     .array(
       z.union([

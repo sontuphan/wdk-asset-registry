@@ -1,0 +1,65 @@
+// Copyright 2024 Tether Operations Limited
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+'use strict'
+
+import { TokenAssetSchema } from './wdk-asset-schema.js'
+
+/** @typedef {import("./wdk-asset-schema.js").TokenAsset} TokenAsset */
+
+/**
+ * @typedef {object} UniswapTokenInfo
+ * @property {number} chainId - The source EVM chain id from the token list.
+ * @property {string} address - The token contract address.
+ * @property {string} symbol - The token symbol.
+ * @property {string} name - The token name.
+ * @property {number} decimals - The token decimals.
+ * @property {string} [logoURI] - Optional token logo uri.
+ * @property {string[]} [tags] - Optional token tag names.
+ * @property {Record<string, unknown>} [extensions] - Optional token-specific extensions.
+ */
+
+/**
+ * Convert a Uniswap-style token entry into a `TokenAsset`.
+ *
+ * @param {UniswapTokenInfo} token - Source token entry.
+ * @returns {TokenAsset} The normalized token asset.
+ */
+export function fromUniswapToken (token) {
+  const chainId = `eip155:${token.chainId}`
+
+  return TokenAssetSchema.parse({
+    id: `${chainId}/${token.address}`,
+    address: token.address,
+    symbol: token.symbol,
+    name: token.name,
+    decimals: token.decimals,
+    chainId,
+    isNative: false,
+    logoURI: token.logoURI,
+    tags: token.tags,
+    extensions: token.extensions
+  })
+}
+
+/**
+ * Convert a Uniswap Token Lists token array into `TokenAsset[]`.
+ * See https://tokenlists.org/.
+ *
+ * @param {UniswapTokenInfo[]} tokens - Source token entries.
+ * @returns {TokenAsset[]} The normalized token assets.
+ */
+export function fromUniswapTokenList (tokens) {
+  return tokens.map(token => fromUniswapToken(token))
+}
