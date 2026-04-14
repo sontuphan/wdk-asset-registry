@@ -41,7 +41,7 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
     constructor(...preload: T[][]);
     /**
      * @private
-     * @type {T[]}
+     * @type {Map<string, T>}
      */
     private _assets;
     /**
@@ -59,20 +59,20 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
      * @public
      * @param {T} asset - Asset definition to insert or replace.
      * @param {boolean} [force] - When `true`, replaces an existing asset with the same id.
-     * @returns {number} The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled.
+     * @returns {void}
      * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
      */
-    public registerAsset(asset: T, force?: boolean): number;
+    public registerAsset(asset: T, force?: boolean): void;
     /**
      * Register multiple assets in the registry.
      *
      * @public
      * @param {T[]} assets - Asset definitions to insert or replace.
      * @param {boolean} [force] - When `true`, replaces existing assets with the same id.
-     * @returns {number[]} The result of each `registerAsset` call in input order.
+     * @returns {void}
      * @throws {Error} Thrown when any asset already exists and `force` is not enabled.
      */
-    public registerAssets(assets: T[], force?: boolean): number[];
+    public registerAssets(assets: T[], force?: boolean): void;
     /**
      * Fetch all assets.
      *
@@ -84,10 +84,9 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
      * Fetch an asset by the identifier.
      *
      * @param {string} id - The asset identifier.
-     * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
      * @returns {T | undefined} The matching asset, or `undefined` if no asset matches the id.
      */
-    getAssetById(id: string, opts?: BaseAssetOptions): T | undefined;
+    getAssetById(id: string): T | undefined;
     /**
      * Fetch assets by one or more partial match conditions.
      *

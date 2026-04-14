@@ -153,10 +153,10 @@ describe('wallet-token-asset-registry', () => {
   test('should register a new asset', () => {
     const initialLength = wdkAssetRegistry.getAllTokens().length
 
-    const result = wdkAssetRegistry.registerAsset(TEST_NEW_ASSET)
+    wdkAssetRegistry.registerAsset(TEST_NEW_ASSET)
     const asset = wdkAssetRegistry.getTokenById(TEST_NEW_ASSET.id)
 
-    expect(result).toBe(initialLength + 1)
+    expect(wdkAssetRegistry.getAllTokens()).toHaveLength(initialLength + 1)
     expect(asset).toEqual(TEST_NEW_ASSET)
   })
 
@@ -167,10 +167,9 @@ describe('wallet-token-asset-registry', () => {
   })
 
   test('should replace an existing asset when force is true', () => {
-    const result = wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET, true)
+    wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET, true)
     const asset = wdkAssetRegistry.getTokenById(TEST_ID)
 
-    expect(result).toBeGreaterThanOrEqual(0)
     expect(asset.name).toBe(TEST_REPLACED_ASSET.name)
     expect(asset.logoURI).toBe(TEST_REPLACED_ASSET.logoURI)
   })
@@ -187,9 +186,8 @@ describe('wallet-token-asset-registry', () => {
       }
     ]
 
-    const result = wdkAssetRegistry.registerAssets(assetsToRegister)
+    wdkAssetRegistry.registerAssets(assetsToRegister)
 
-    expect(result).toHaveLength(2)
     expect(wdkAssetRegistry.getTokenById(assetsToRegister[0].id)).toEqual(assetsToRegister[0])
     expect(wdkAssetRegistry.getTokenById(assetsToRegister[1].id)).toEqual(assetsToRegister[1])
   })
@@ -209,9 +207,8 @@ describe('wallet-token-asset-registry', () => {
       }
     ]
 
-    const result = wdkAssetRegistry.registerAssets(assetsToReplace, true)
+    wdkAssetRegistry.registerAssets(assetsToReplace, true)
 
-    expect(result).toHaveLength(2)
     expect(wdkAssetRegistry.getTokenById(TEST_ID).name).toBe(TEST_REPLACED_ASSET.name)
     expect(wdkAssetRegistry.getTokenById(assetsToReplace[1].id).name).toBe(assetsToReplace[1].name)
   })

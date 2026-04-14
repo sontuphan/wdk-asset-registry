@@ -64,9 +64,9 @@ export class WdkBaseAssetRegistry {
   constructor (...preload) {
     /**
      * @private
-     * @type {T[]}
+     * @type {Map<string, T>}
      */
-    this._assets = []
+    this._assets = new Map()
 
     for (const entry of preload) {
       this.registerAssets(entry)
@@ -91,26 +91,19 @@ export class WdkBaseAssetRegistry {
    * @public
    * @param {T} asset - Asset definition to insert or replace.
    * @param {boolean} [force] - When `true`, replaces an existing asset with the same id.
-   * @returns {number} The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled.
+   * @returns {void}
    * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
    */
   registerAsset (asset, force = false) {
     const normalizedAsset = this._assertAsset(asset)
 
-    const index = this._assets.findIndex(({ id }) => {
-      return id.toLowerCase() === normalizedAsset.id.toLowerCase()
-    })
+    const existing = this._assets.get(normalizedAsset.id)
 
-    if (index < 0) {
-      return this._assets.push(asset)
+    if (existing && !force) {
+      throw new Error('Asset already exists. Set force to `true` to replace it.')
     }
 
-    if (force) {
-      this._assets[index] = asset
-      return index
-    }
-
-    throw new Error('Asset already exists. Set force to `true` to replace it.')
+    this._assets.set(normalizedAsset.id, normalizedAsset)
   }
 
   /**
@@ -119,18 +112,13 @@ export class WdkBaseAssetRegistry {
    * @public
    * @param {T[]} assets - Asset definitions to insert or replace.
    * @param {boolean} [force] - When `true`, replaces existing assets with the same id.
-   * @returns {number[]} The result of each `registerAsset` call in input order.
+   * @returns {void}
    * @throws {Error} Thrown when any asset already exists and `force` is not enabled.
    */
   registerAssets (assets, force = false) {
-    const indexes = []
-
     for (const asset of assets) {
-      const index = this.registerAsset(asset, force)
-      indexes.push(index)
+      this.registerAsset(asset, force)
     }
-
-    return indexes
   }
 
   /**
@@ -140,28 +128,17 @@ export class WdkBaseAssetRegistry {
    * @returns {T[]} A list of all registered assets.
    */
   getAllAssets () {
-    return this._assets
+    return Array.from(this._assets.values())
   }
 
   /**
    * Fetch an asset by the identifier.
    *
    * @param {string} id - The asset identifier.
-   * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
    * @returns {T | undefined} The matching asset, or `undefined` if no asset matches the id.
    */
-  getAssetById (id, opts = {}) {
-    const { caseSensitive = false } = opts
-
-    for (const asset of this._assets) {
-      if (caseSensitive) {
-        if (asset.id === id) return asset
-      } else {
-        if (asset.id.toLowerCase() === id.toLowerCase()) return asset
-      }
-    }
-
-    return undefined
+  getAssetById (id) {
+    return this._assets.get(id)
   }
 
   /**
@@ -175,13 +152,14 @@ export class WdkBaseAssetRegistry {
   getAsset (filter, opts = {}) {
     const { caseSensitive = false } = opts
 
+    const assets = this.getAllAssets()
     const results = []
     const caching = []
 
     for (const condition of filter) {
-      for (let i = 0; i < this._assets.length; i++) {
+      for (let i = 0; i < assets.length; i++) {
         let match = true
-        const asset = this._assets[i]
+        const asset = assets[i]
 
         for (const key of Object.keys(condition)) {
           const conditionValue = !caseSensitive && typeof condition[key] === 'string'

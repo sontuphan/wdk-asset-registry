@@ -58,10 +58,10 @@ describe('wallet-base-asset-registry', () => {
   })
 
   test('should support case sensitive id lookup', () => {
-    expect(wdkAssetRegistry.getAssetById(TEST_ID, { caseSensitive: true })).toEqual(
+    expect(wdkAssetRegistry.getAssetById(TEST_ID)).toEqual(
       expect.objectContaining({ id: TEST_ID })
     )
-    expect(wdkAssetRegistry.getAssetById(TEST_ID.toLowerCase(), { caseSensitive: true })).toBeUndefined()
+    expect(wdkAssetRegistry.getAssetById(TEST_ID.toLowerCase())).toBeUndefined()
   })
 
   test('should get assets with multiple filter conditions', () => {
@@ -74,10 +74,10 @@ describe('wallet-base-asset-registry', () => {
   test('should register a new asset', () => {
     const initialLength = wdkAssetRegistry.getAllAssets().length
 
-    const result = wdkAssetRegistry.registerAsset(TEST_NEW_ASSET)
+    wdkAssetRegistry.registerAsset(TEST_NEW_ASSET)
     const asset = wdkAssetRegistry.getAssetById(TEST_NEW_ASSET.id)
 
-    expect(result).toBe(initialLength + 1)
+    expect(wdkAssetRegistry.getAllAssets()).toHaveLength(initialLength + 1)
     expect(asset).toEqual(TEST_NEW_ASSET)
   })
 
@@ -88,10 +88,9 @@ describe('wallet-base-asset-registry', () => {
   })
 
   test('should replace an existing asset when force is true', () => {
-    const result = wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET, true)
+    wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET, true)
     const asset = wdkAssetRegistry.getAssetById(TEST_ID)
 
-    expect(result).toBeGreaterThanOrEqual(0)
     expect(asset).toEqual(TEST_REPLACED_ASSET)
   })
 
@@ -101,9 +100,8 @@ describe('wallet-base-asset-registry', () => {
       TEST_EXTRA_ASSET
     ]
 
-    const result = wdkAssetRegistry.registerAssets(assetsToRegister)
+    wdkAssetRegistry.registerAssets(assetsToRegister)
 
-    expect(result).toHaveLength(2)
     expect(wdkAssetRegistry.getAssetById(assetsToRegister[0].id)).toEqual(assetsToRegister[0])
     expect(wdkAssetRegistry.getAssetById(assetsToRegister[1].id)).toEqual(assetsToRegister[1])
   })

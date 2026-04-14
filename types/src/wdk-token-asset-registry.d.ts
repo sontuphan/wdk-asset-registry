@@ -60,10 +60,9 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
      *
      * @public
      * @param {string} id - The asset identifier.
-     * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
      * @returns {TokenAsset | undefined} The matching token, or `undefined` if no token matches the id.
      */
-    public getTokenById(id: string, opts?: BaseAssetOptions): TokenAsset | undefined;
+    public getTokenById(id: string): TokenAsset | undefined;
     /**
      * Fetch tokens by contract address.
      *

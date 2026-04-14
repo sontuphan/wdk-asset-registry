@@ -233,10 +233,10 @@ class CustomAssetRegistry extends WdkBaseAssetRegistry<CustomAsset> {
 
 | Method | Description | Returns |
 | --- | --- | --- |
-| `registerAsset(asset, [force])` | Register a single asset | `number` |
-| `registerAssets(assets, [force])` | Register multiple assets | `number[]` |
+| `registerAsset(asset, [force])` | Register a single asset | `void` |
+| `registerAssets(assets, [force])` | Register multiple assets | `void` |
 | `getAllAssets()` | Get all registered assets | `T[]` |
-| `getAssetById(id, [opts])` | Get one asset by identifier | `T \| undefined` |
+| `getAssetById(id)` | Get one asset by identifier | `T \| undefined` |
 | `getAsset(filter, [opts])` | Get assets using one or more partial match conditions | `T[]` |
 
 #### registerAsset
@@ -248,7 +248,7 @@ Register a single asset in the registry.
 - `asset` (`T`): Asset definition to insert or replace
 - `force` (boolean, optional): When `true`, replaces an existing asset with the same id
 
-**Returns:** `number` - The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled
+**Returns:** `void`
 
 #### registerAssets
 
@@ -259,7 +259,7 @@ Register multiple assets in the registry.
 - `assets` (`T[]`): Asset definitions to insert or replace
 - `force` (boolean, optional): When `true`, replaces existing assets with the same id
 
-**Returns:** `number[]` - The result of each `registerAsset` call in input order
+**Returns:** `void`
 
 #### getAllAssets
 
@@ -274,8 +274,6 @@ Get a single asset by identifier.
 **Parameters:**
 
 - `id` (string): Asset identifier to look up
-- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
-
 **Returns:** `T | undefined`
 
 **Example:**
@@ -317,7 +315,7 @@ Token-specific registry built on top of `WdkBaseAssetRegistry<TokenAsset>`.
 | Method | Description | Returns |
 | --- | --- | --- |
 | `getAllTokens()` | Get all registered tokens | `TokenAsset[]` |
-| `getTokenById(id, [opts])` | Get one token by id | `TokenAsset \| undefined` |
+| `getTokenById(id)` | Get one token by id | `TokenAsset \| undefined` |
 | `getTokenByAddress(address, [opts])` | Get tokens by address | `TokenAsset[]` |
 | `getTokenBySymbol(symbol, [opts])` | Get tokens by symbol | `TokenAsset[]` |
 | `getTokenByTicker(ticker, [opts])` | Alias of `getTokenBySymbol` | `TokenAsset[]` |
@@ -354,8 +352,6 @@ Get a single token by asset identifier.
 **Parameters:**
 
 - `id` (string): Token asset identifier to look up
-- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
-
 **Returns:** `TokenAsset | undefined`
 
 **Example:**
