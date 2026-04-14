@@ -5,7 +5,7 @@
  */
 export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
     address: string;
-    chainId: number;
+    chainId: string | number;
     symbol: string;
     name: string;
     decimals: number;
@@ -19,7 +19,7 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
 }> {
     constructor(...preload: {
         address: string;
-        chainId: number;
+        chainId: string | number;
         symbol: string;
         name: string;
         decimals: number;
@@ -33,7 +33,7 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
     }[][]);
     _assertAsset(asset: any): {
         address: string;
-        chainId: number;
+        chainId: string | number;
         symbol: string;
         name: string;
         decimals: number;

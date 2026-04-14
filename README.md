@@ -145,7 +145,7 @@ registry.registerAsset({
 ```typescript
 type BaseAsset = {
   address: string;
-  chainId: number;
+  chainId: number | string;
 };
 ```
 
@@ -210,7 +210,7 @@ import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-regis
 
 type CustomAsset = {
   address: string
-  chainId: number
+  chainId: number | string
   label: string
 }
 
