@@ -66,14 +66,14 @@ console.log(usdt)
 ### Get Assets by ID
 
 ```javascript
-const usdt = registry.getTokenById('1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
+const usdt = registry.getTokenById('eip155:1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
 console.log(usdt)
 ```
 
 ### Filter by Chain ID
 
 ```javascript
-const ethereumUsdt = registry.getTokenByChain('1')
+const ethereumUsdt = registry.getTokenByChain('eip155:1')
 console.log(ethereumUsdt)
 ```
 
@@ -92,8 +92,8 @@ const registry = new CustomAssetRegistry(commonTokens)
 
 const ethereumUsdt = registry.getAsset([
   {
-    id: '1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
-    chainId: '1'
+    id: 'eip155:1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    chainId: 'eip155:1'
   }
 ])
 ```
@@ -104,11 +104,11 @@ const ethereumUsdt = registry.getAsset([
 const selectedAssets = registry.getAsset([
   {
     symbol: 'USDT',
-    chainId: '1'
+    chainId: 'eip155:1'
   },
   {
     symbol: 'XAUt',
-    chainId: '1'
+    chainId: 'eip155:1'
   }
 ])
 
@@ -120,12 +120,12 @@ console.log(selectedAssets)
 
 ```javascript
 registry.registerAsset({
-  id: '1/0x1111111111111111111111111111111111111111',
+  id: 'eip155:1/0x1111111111111111111111111111111111111111',
   address: '0x1111111111111111111111111111111111111111',
   symbol: 'TEST',
   name: 'Test Token',
   decimals: 18,
-  chainId: '1',
+  chainId: 'eip155:1',
   isNative: false,
   logoURI: 'https://example.com/test.png'
 })
@@ -281,7 +281,7 @@ Get a single asset by identifier.
 **Example:**
 
 ```javascript
-const asset = registry.getAssetById('1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
+const asset = registry.getAssetById('eip155:1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
 console.log(asset)
 ```
 
@@ -301,8 +301,8 @@ Get asset metadata using one or more partial match conditions.
 ```javascript
 const assets = registry.getAsset([
   {
-    id: '1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
-    chainId: '1'
+    id: 'eip155:1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    chainId: 'eip155:1'
   }
 ])
 console.log(assets)
@@ -361,7 +361,7 @@ Get a single token by asset identifier.
 **Example:**
 
 ```javascript
-const asset = registry.getTokenById('1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
+const asset = registry.getTokenById('eip155:1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
 console.log(asset)
 ```
 
@@ -379,7 +379,7 @@ Get token metadata by chain identifier.
 **Example:**
 
 ```javascript
-const ethereumUsdt = registry.getTokenByChain('1')
+const ethereumUsdt = registry.getTokenByChain('eip155:1')
 console.log(ethereumUsdt)
 ```
 

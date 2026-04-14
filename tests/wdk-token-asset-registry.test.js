@@ -4,16 +4,16 @@ import { WdkTokenAssetRegistry } from '@tetherto/wdk-asset-registry'
 import commonTokens from '@tetherto/wdk-asset-registry/assets/common-tokens'
 
 const TEST_SYMBOL = 'usdt'
-const TEST_CHAINID = '1'
+const TEST_CHAINID = 'eip155:1'
 const TEST_ADDRESS = '0xdAC17F958D2ee523a2206206994597C13D831ec7'
 const TEST_ID = `${TEST_CHAINID}/${TEST_ADDRESS}`
 const TEST_NEW_ASSET = {
-  id: '1/0x1111111111111111111111111111111111111111',
+  id: 'eip155:1/0x1111111111111111111111111111111111111111',
   address: '0x1111111111111111111111111111111111111111',
   symbol: 'TEST',
   name: 'Test Token',
   decimals: 18,
-  chainId: '1',
+  chainId: 'eip155:1',
   isNative: false,
   logoURI: 'https://example.com/test.png'
 }
@@ -23,17 +23,17 @@ const TEST_REPLACED_ASSET = {
   symbol: 'USDT',
   name: 'Tether USD Updated',
   decimals: 6,
-  chainId: '1',
+  chainId: 'eip155:1',
   isNative: false,
   logoURI: 'https://example.com/usdt-updated.png'
 }
 const TEST_EXTRA_ASSET = {
-  id: '10/0x3333333333333333333333333333333333333333',
+  id: 'eip155:10/0x3333333333333333333333333333333333333333',
   address: '0x3333333333333333333333333333333333333333',
   symbol: 'EXTRA',
   name: 'Extra Token',
   decimals: 18,
-  chainId: '10',
+  chainId: 'eip155:10',
   isNative: false,
   logoURI: 'https://example.com/extra.png'
 }
@@ -180,7 +180,7 @@ describe('wallet-token-asset-registry', () => {
       TEST_NEW_ASSET,
       {
         ...TEST_NEW_ASSET,
-        id: '1/0x2222222222222222222222222222222222222222',
+        id: 'eip155:1/0x2222222222222222222222222222222222222222',
         address: '0x2222222222222222222222222222222222222222',
         symbol: 'TEST2',
         name: 'Test Token 2'
@@ -198,12 +198,12 @@ describe('wallet-token-asset-registry', () => {
     const assetsToReplace = [
       TEST_REPLACED_ASSET,
       {
-        id: '42161/0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
+        id: 'eip155:42161/0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
         address: '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
         symbol: 'USDT',
         name: 'Tether USD Arbitrum Updated',
         decimals: 6,
-        chainId: '42161',
+        chainId: 'eip155:42161',
         isNative: false,
         logoURI: 'https://example.com/usdt-arb-updated.png'
       }
