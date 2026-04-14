@@ -7,11 +7,26 @@
     "chainId": 1,
     "isNative": false,
     "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/5176.png",
-    "tags": ["stablecoin", "rwa", "erc20"],
+    "tags": ["rwa", "erc20"],
     "extensions": {
       "coinmarketcap": "https://coinmarketcap.com/currencies/tether-gold",
       "coingecko": "https://www.coingecko.com/en/coins/tether-gold",
       "etherscan": "https://etherscan.io/token/0x68749665ff8d2d112fa859aa293f07a622782f38"
+    }
+  },
+  {
+    "address": "0x21cAef8A43163Eea865baeE23b9C2E327696A3bf",
+    "symbol": "XAUt",
+    "name": "Tether Gold",
+    "decimals": 6,
+    "chainId": 56,
+    "isNative": false,
+    "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/5176.png",
+    "tags": ["rwa"],
+    "extensions": {
+      "coinmarketcap": "https://coinmarketcap.com/currencies/tether-gold",
+      "coingecko": "https://www.coingecko.com/en/coins/tether-gold",
+      "bscscan": "https://bscscan.com/token/0x21cAef8A43163Eea865baeE23b9C2E327696A3bf"
     }
   }
 ]

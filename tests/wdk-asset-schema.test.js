@@ -30,6 +30,15 @@ describe('wallet-asset-schema', () => {
     expect(asset).toEqual(TEST_ASSET)
   })
 
+  test('should validate a valid asset with a string chain id', () => {
+    const asset = TokenAssetSchema.parse({
+      ...TEST_ASSET,
+      chainId: '1'
+    })
+
+    expect(asset.chainId).toBe('1')
+  })
+
   test('should reject an asset with invalid logo uri', () => {
     const invalidAsset = {
       ...TEST_ASSET,
