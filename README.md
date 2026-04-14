@@ -117,7 +117,7 @@ const selectedAssets = registry.getAsset([
 console.log(selectedAssets)
 ```
 
-### Register a Custom Asset
+### Register a Custom Token
 
 ```javascript
 registry.registerAsset({
@@ -152,7 +152,7 @@ The helper accepts the `tokens` array directly and converts each entry into a va
 | --- | --- | --- |
 | [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter), [BaseAssetOptions](#baseassetoptions) |
 | [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with ids and chain IDs | [Constructor](#constructor), [Methods](#methods) |
-| [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with symbol and ticker lookups | [Methods](#methods-1) |
+| [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with id, symbol, ticker, address, and chain lookups | [Methods](#methods-1) |
 | [Token Asset Utils](#token-asset-utils) | Helpers for porting third-party token lists | [Methods](#methods-2) |
 
 ### Types
