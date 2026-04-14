@@ -108,7 +108,7 @@ const selectedAssets = registry.getAsset([
   },
   {
     symbol: 'XAUt',
-    chainId: 'eip155:1'
+    chainId: '1'
   }
 ])
 
@@ -120,7 +120,7 @@ console.log(selectedAssets)
 
 ```javascript
 registry.registerAsset({
-  id: 'eip155:1/0x1111111111111111111111111111111111111111',
+  id: '1/0x1111111111111111111111111111111111111111',
   address: '0x1111111111111111111111111111111111111111',
   symbol: 'TEST',
   name: 'Test Token',
