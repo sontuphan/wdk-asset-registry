@@ -6,16 +6,16 @@ import commonTokens from '@tetherto/wdk-asset-registry/assets/common-tokens'
 const TEST_CHAINID = '1'
 const TEST_ID = '1/0xdAC17F958D2ee523a2206206994597C13D831ec7'
 const TEST_NEW_ASSET = {
-  id: 'eip155:11155111/custom',
-  chainId: 'eip155:11155111'
+  id: '11155111/custom',
+  chainId: '11155111'
 }
 const TEST_REPLACED_ASSET = {
   id: TEST_ID,
   chainId: TEST_CHAINID
 }
 const TEST_EXTRA_ASSET = {
-  id: 'eip155:10/custom',
-  chainId: 'eip155:10'
+  id: '10/custom',
+  chainId: '10'
 }
 
 class TestBaseAssetRegistry extends WdkBaseAssetRegistry {
