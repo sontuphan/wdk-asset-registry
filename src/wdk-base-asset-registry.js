@@ -144,6 +144,27 @@ export class WdkBaseAssetRegistry {
   }
 
   /**
+   * Fetch an asset by the identifier.
+   *
+   * @param {string} id - The asset identifier.
+   * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
+   * @returns {T | undefined} The matching asset, or `undefined` if no asset matches the id.
+   */
+  getAssetById (id, opts = {}) {
+    const { caseSensitive = false } = opts
+
+    for (const asset of this._assets) {
+      if (caseSensitive) {
+        if (asset.id === id) return asset
+      } else {
+        if (asset.id.toLowerCase() === id.toLowerCase()) return asset
+      }
+    }
+
+    return undefined
+  }
+
+  /**
    * Fetch assets by contract address.
    *
    * @public

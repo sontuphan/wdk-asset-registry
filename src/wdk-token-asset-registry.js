@@ -39,6 +39,18 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
   }
 
   /**
+   * Fetch a token by its asset identifier.
+   *
+   * @public
+   * @param {string} id - The asset identifier.
+   * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
+   * @returns {TokenAsset | undefined} The matching token, or `undefined` if no token matches the id.
+   */
+  getTokenByAddress (id, opts = {}) {
+    return this.getAssetById(id, opts)
+  }
+
+  /**
    * Fetch tokens by contract address.
    *
    * @public
@@ -72,5 +84,16 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
    */
   getTokenByTicker (ticker, filter = {}) {
     return this.getTokenBySymbol(ticker, filter)
+  }
+
+  /**
+   * todo
+   *
+   * @param {string} chainId
+   * @param {BaseAssetOptions} opts
+   * @returns {TokenAsset[]}
+   */
+  getTokenByChain (chainId, opts = {}) {
+    return this.getAsset([{ chainId }], opts)
   }
 }

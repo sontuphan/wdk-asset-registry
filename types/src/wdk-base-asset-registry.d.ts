@@ -81,6 +81,13 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
      */
     public getAllAssets(): T[];
     /**
+     * Fetch an asset by the ID.
+     *
+     * @param {string} id - The asset ID.
+     * @returns {T | undefined} The asset or undefined if the id doesn't match any asset.
+     */
+    getAssetById(id: string): T | undefined;
+    /**
      * Fetch assets by contract address.
      *
      * @public

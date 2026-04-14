@@ -1,16 +1,17 @@
 /** @typedef {z.infer<typeof BaseAssetSchema>} BaseAsset */
 /** @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset */
 export const BaseAssetSchema: z.ZodObject<{
-    address: z.ZodString;
-    chainId: z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>;
+    id: z.ZodString;
+    chainId: z.ZodString;
 }, z.core.$strip>;
 export const BaseAssetJsonSchema: z.core.ZodStandardJSONSchemaPayload<z.ZodObject<{
-    address: z.ZodString;
-    chainId: z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>;
+    id: z.ZodString;
+    chainId: z.ZodString;
 }, z.core.$strip>>;
 export const TokenAssetSchema: z.ZodObject<{
+    id: z.ZodString;
+    chainId: z.ZodString;
     address: z.ZodString;
-    chainId: z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>;
     symbol: z.ZodString;
     name: z.ZodString;
     decimals: z.ZodNumber;
@@ -23,8 +24,9 @@ export const TokenAssetSchema: z.ZodObject<{
     extensions: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
 }, z.core.$strip>;
 export const TokenAssetJsonSchema: z.core.ZodStandardJSONSchemaPayload<z.ZodObject<{
+    id: z.ZodString;
+    chainId: z.ZodString;
     address: z.ZodString;
-    chainId: z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>;
     symbol: z.ZodString;
     name: z.ZodString;
     decimals: z.ZodNumber;
