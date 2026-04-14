@@ -2,7 +2,7 @@
 
 **Note**: This package is currently in beta. Please test thoroughly in development environments before using in production.
 
-A lightweight registry for accessing predefined blockchain assets across multiple chains. This package provides a generic base asset registry plus a token-specific registry for retrieving metadata such as symbol, decimals, contract address, and native-asset status.
+A lightweight registry for accessing predefined blockchain assets across multiple chains. This package provides a generic base asset registry plus a token-specific registry for retrieving metadata such as symbol, decimals, asset identifiers, contract addresses, and native-asset status.
 
 ## 🔍 About WDK
 
@@ -13,7 +13,7 @@ For detailed documentation about the complete WDK ecosystem, visit [docs.wallet.
 ## 🌟 Features
 
 - **Generic Asset Registry**: Build registries for reusable asset collections
-- **Token Asset Registry**: Use token-specific lookups such as symbol, ticker, and address
+- **Token Asset Registry**: Use token-specific lookups such as id, symbol, ticker, address, and chain
 - **Bundled Asset Lists**: Import registry-ready assets from `@tetherto/wdk-asset-registry/assets/*`
 - **Standardized Schemas**: Validate base assets and token assets with Zod
 - **Flexible Lookup**: Query base assets with partial match filters
@@ -63,15 +63,17 @@ const usdt = registry.getTokenByAddress(
 console.log(usdt)
 ```
 
+### Get Assets by ID
+
+```javascript
+const usdt = registry.getTokenById('1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
+console.log(usdt)
+```
+
 ### Filter by Chain ID
 
 ```javascript
-const ethereumUsdt = registry.getAsset([
-  {
-    symbol: 'USDT',
-    chainId: 1
-  }
-])
+const ethereumUsdt = registry.getTokenByChain('1')
 console.log(ethereumUsdt)
 ```
 
@@ -90,8 +92,8 @@ const registry = new CustomAssetRegistry(commonTokens)
 
 const ethereumUsdt = registry.getAsset([
   {
-    address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-    chainId: 1
+    id: '1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    chainId: '1'
   }
 ])
 ```
@@ -102,11 +104,11 @@ const ethereumUsdt = registry.getAsset([
 const selectedAssets = registry.getAsset([
   {
     symbol: 'USDT',
-    chainId: 1
+    chainId: '1'
   },
   {
     symbol: 'XAUt',
-    chainId: 1
+    chainId: 'eip155:1'
   }
 ])
 
@@ -118,11 +120,12 @@ console.log(selectedAssets)
 
 ```javascript
 registry.registerAsset({
+  id: 'eip155:1/0x1111111111111111111111111111111111111111',
   address: '0x1111111111111111111111111111111111111111',
   symbol: 'TEST',
   name: 'Test Token',
   decimals: 18,
-  chainId: 1,
+  chainId: '1',
   isNative: false,
   logoURI: 'https://example.com/test.png'
 })
@@ -135,7 +138,7 @@ registry.registerAsset({
 | Section | Description | Methods |
 | --- | --- | --- |
 | [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter), [BaseAssetOptions](#baseassetoptions) |
-| [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with address and chain ID | [Constructor](#constructor), [Methods](#methods) |
+| [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with ids and chain IDs | [Constructor](#constructor), [Methods](#methods) |
 | [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with symbol and ticker lookups | [Methods](#methods-1) |
 
 ### Types
@@ -144,8 +147,8 @@ registry.registerAsset({
 
 ```typescript
 type BaseAsset = {
-  address: string;
-  chainId: number | string;
+  id: string;
+  chainId: string;
 };
 ```
 
@@ -153,6 +156,7 @@ type BaseAsset = {
 
 ```typescript
 type TokenAsset = BaseAsset & {
+  address: string;
   symbol: string;
   name: string;
   decimals: number;
@@ -209,8 +213,8 @@ import { z } from 'zod'
 import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
 
 type CustomAsset = {
-  address: string
-  chainId: number | string
+  id: string
+  chainId: string
   label: string
 }
 
@@ -232,6 +236,7 @@ class CustomAssetRegistry extends WdkBaseAssetRegistry<CustomAsset> {
 | `registerAsset(asset, [force])` | Register a single asset | `number` |
 | `registerAssets(assets, [force])` | Register multiple assets | `number[]` |
 | `getAllAssets()` | Get all registered assets | `T[]` |
+| `getAssetById(id, [opts])` | Get one asset by identifier | `T \| undefined` |
 | `getAsset(filter, [opts])` | Get assets using one or more partial match conditions | `T[]` |
 
 #### registerAsset
@@ -241,7 +246,7 @@ Register a single asset in the registry.
 **Parameters:**
 
 - `asset` (`T`): Asset definition to insert or replace
-- `force` (boolean, optional): When `true`, replaces an existing asset with the same address and chain ID
+- `force` (boolean, optional): When `true`, replaces an existing asset with the same id
 
 **Returns:** `number` - The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled
 
@@ -252,7 +257,7 @@ Register multiple assets in the registry.
 **Parameters:**
 
 - `assets` (`T[]`): Asset definitions to insert or replace
-- `force` (boolean, optional): When `true`, replaces existing assets with the same address and chain ID
+- `force` (boolean, optional): When `true`, replaces existing assets with the same id
 
 **Returns:** `number[]` - The result of each `registerAsset` call in input order
 
@@ -261,6 +266,24 @@ Register multiple assets in the registry.
 Get all registered assets.
 
 **Returns:** `T[]`
+
+#### getAssetById
+
+Get a single asset by identifier.
+
+**Parameters:**
+
+- `id` (string): Asset identifier to look up
+- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
+
+**Returns:** `T | undefined`
+
+**Example:**
+
+```javascript
+const asset = registry.getAssetById('1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
+console.log(asset)
+```
 
 #### getAsset
 
@@ -278,8 +301,8 @@ Get asset metadata using one or more partial match conditions.
 ```javascript
 const assets = registry.getAsset([
   {
-    address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-    chainId: 1
+    id: '1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    chainId: '1'
   }
 ])
 console.log(assets)
@@ -294,9 +317,11 @@ Token-specific registry built on top of `WdkBaseAssetRegistry<TokenAsset>`.
 | Method | Description | Returns |
 | --- | --- | --- |
 | `getAllTokens()` | Get all registered tokens | `TokenAsset[]` |
-| `getTokenByAddress(address, [filter])` | Get tokens by address | `TokenAsset[]` |
-| `getTokenBySymbol(symbol, [filter])` | Get tokens by symbol | `TokenAsset[]` |
-| `getTokenByTicker(ticker, [filter])` | Alias of `getTokenBySymbol` | `TokenAsset[]` |
+| `getTokenById(id, [opts])` | Get one token by id | `TokenAsset \| undefined` |
+| `getTokenByAddress(address, [opts])` | Get tokens by address | `TokenAsset[]` |
+| `getTokenBySymbol(symbol, [opts])` | Get tokens by symbol | `TokenAsset[]` |
+| `getTokenByTicker(ticker, [opts])` | Alias of `getTokenBySymbol` | `TokenAsset[]` |
+| `getTokenByChain(chainId, [opts])` | Get tokens by chain id | `TokenAsset[]` |
 
 #### getAllTokens
 
@@ -311,7 +336,7 @@ Get token metadata by symbol.
 **Parameters:**
 
 - `symbol` (string): Token symbol to look up, such as `usdt` or `usdt0`
-- `filter` (`BaseAssetOptions`, optional): Lookup filters such as `chainId` and `caseSensitive`
+- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
 
 **Returns:** `TokenAsset[]`
 
@@ -322,10 +347,39 @@ const assets = registry.getTokenBySymbol('usdt')
 console.log(assets)
 ```
 
-You can also filter by chain:
+#### getTokenById
+
+Get a single token by asset identifier.
+
+**Parameters:**
+
+- `id` (string): Token asset identifier to look up
+- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
+
+**Returns:** `TokenAsset | undefined`
+
+**Example:**
 
 ```javascript
-const ethereumUsdt = registry.getTokenBySymbol('usdt', { chainId: 1 })
+const asset = registry.getTokenById('1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
+console.log(asset)
+```
+
+#### getTokenByChain
+
+Get token metadata by chain identifier.
+
+**Parameters:**
+
+- `chainId` (string): Chain identifier to look up
+- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
+
+**Returns:** `TokenAsset[]`
+
+**Example:**
+
+```javascript
+const ethereumUsdt = registry.getTokenByChain('1')
 console.log(ethereumUsdt)
 ```
 
@@ -336,7 +390,7 @@ Alias of `getTokenBySymbol`.
 **Parameters:**
 
 - `ticker` (string): Token symbol to look up
-- `filter` (`BaseAssetOptions`, optional): Lookup filters such as `chainId` and `caseSensitive`
+- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
 
 **Returns:** `TokenAsset[]`
 
@@ -347,7 +401,7 @@ Get token metadata by contract address.
 **Parameters:**
 
 - `address` (string): Token address to look up
-- `filter` (`BaseAssetOptions`, optional): Lookup filters such as `chainId` and `caseSensitive`
+- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
 
 **Returns:** `TokenAsset[]`
 
@@ -358,16 +412,6 @@ const assets = registry.getTokenByAddress(
   '0xdAC17F958D2ee523a2206206994597C13D831ec7'
 )
 console.log(assets)
-```
-
-You can also filter by chain:
-
-```javascript
-const ethereumUsdt = registry.getTokenByAddress(
-  '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-  { chainId: 1 }
-)
-console.log(ethereumUsdt)
 ```
 
 ### JSON Schemas

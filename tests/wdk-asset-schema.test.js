@@ -4,11 +4,12 @@ import { TokenAssetJsonSchema, TokenAssetSchema } from '@tetherto/wdk-asset-regi
 import commonTokens from '@tetherto/wdk-asset-registry/assets/common-tokens'
 
 const TEST_ASSET = {
+  id: '1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
   address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
   symbol: 'USDT',
   name: 'Tether USD',
   decimals: 6,
-  chainId: 1,
+  chainId: '1',
   isNative: false,
   logoURI: 'https://example.com/usdt.png',
   tags: [
@@ -33,10 +34,10 @@ describe('wallet-asset-schema', () => {
   test('should validate a valid asset with a string chain id', () => {
     const asset = TokenAssetSchema.parse({
       ...TEST_ASSET,
-      chainId: '1'
+      chainId: 'eip155:1'
     })
 
-    expect(asset.chainId).toBe('1')
+    expect(asset.chainId).toBe('eip155:1')
   })
 
   test('should reject an asset with invalid logo uri', () => {

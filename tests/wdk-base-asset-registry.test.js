@@ -3,19 +3,19 @@ import { afterEach, beforeEach, describe, expect, test } from '@jest/globals'
 import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
 import commonTokens from '@tetherto/wdk-asset-registry/assets/common-tokens'
 
-const TEST_CHAINID = 1
-const TEST_ADDRESS = '0xdAC17F958D2ee523a2206206994597C13D831ec7'
+const TEST_CHAINID = '1'
+const TEST_ID = '1/0xdAC17F958D2ee523a2206206994597C13D831ec7'
 const TEST_NEW_ASSET = {
-  address: '0x1111111111111111111111111111111111111111',
-  chainId: 11155111
+  id: 'eip155:11155111/custom',
+  chainId: 'eip155:11155111'
 }
 const TEST_REPLACED_ASSET = {
-  address: TEST_ADDRESS,
+  id: TEST_ID,
   chainId: TEST_CHAINID
 }
 const TEST_EXTRA_ASSET = {
-  address: '0x3333333333333333333333333333333333333333',
-  chainId: 10
+  id: 'eip155:10/custom',
+  chainId: 'eip155:10'
 }
 
 class TestBaseAssetRegistry extends WdkBaseAssetRegistry {
@@ -51,34 +51,34 @@ describe('wallet-base-asset-registry', () => {
     expect(registry.getAllAssets()).toHaveLength(commonTokens.length + 1)
   })
 
-  test('should get assets by address', () => {
-    const assets = wdkAssetRegistry.getAsset([{ address: TEST_ADDRESS }])
+  test('should get assets by id', () => {
+    const asset = wdkAssetRegistry.getAssetById(TEST_ID)
 
-    expect(Array.isArray(assets)).toBe(true)
-    expect(assets.length).toBeGreaterThan(0)
-    expect(assets).toContainEqual(expect.objectContaining({ address: TEST_ADDRESS }))
+    expect(asset).toEqual(expect.objectContaining({ id: TEST_ID }))
   })
 
-  test('should support case sensitive address lookup', () => {
-    expect(wdkAssetRegistry.getAsset([{ address: TEST_ADDRESS }], { caseSensitive: true }).length).toBeGreaterThan(0)
-    expect(wdkAssetRegistry.getAsset([{ address: TEST_ADDRESS.toLowerCase() }], { caseSensitive: true })).toEqual([])
+  test('should support case sensitive id lookup', () => {
+    expect(wdkAssetRegistry.getAssetById(TEST_ID, { caseSensitive: true })).toEqual(
+      expect.objectContaining({ id: TEST_ID })
+    )
+    expect(wdkAssetRegistry.getAssetById(TEST_ID.toLowerCase(), { caseSensitive: true })).toBeUndefined()
   })
 
   test('should get assets with multiple filter conditions', () => {
-    const assets = wdkAssetRegistry.getAsset([{ address: TEST_ADDRESS, chainId: TEST_CHAINID }])
+    const assets = wdkAssetRegistry.getAsset([{ id: TEST_ID, chainId: TEST_CHAINID }])
 
     expect(Array.isArray(assets)).toBe(true)
-    expect(assets).toEqual([expect.objectContaining({ address: TEST_ADDRESS, chainId: TEST_CHAINID })])
+    expect(assets).toEqual([expect.objectContaining({ id: TEST_ID, chainId: TEST_CHAINID })])
   })
 
   test('should register a new asset', () => {
     const initialLength = wdkAssetRegistry.getAllAssets().length
 
     const result = wdkAssetRegistry.registerAsset(TEST_NEW_ASSET)
-    const assets = wdkAssetRegistry.getAsset([{ address: TEST_NEW_ASSET.address, chainId: TEST_NEW_ASSET.chainId }])
+    const asset = wdkAssetRegistry.getAssetById(TEST_NEW_ASSET.id)
 
     expect(result).toBe(initialLength + 1)
-    expect(assets).toEqual([TEST_NEW_ASSET])
+    expect(asset).toEqual(TEST_NEW_ASSET)
   })
 
   test('should throw when registering a duplicate asset without force', () => {
@@ -89,7 +89,7 @@ describe('wallet-base-asset-registry', () => {
 
   test('should replace an existing asset when force is true', () => {
     const result = wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET, true)
-    const [asset] = wdkAssetRegistry.getAsset([{ address: TEST_ADDRESS, chainId: TEST_CHAINID }])
+    const asset = wdkAssetRegistry.getAssetById(TEST_ID)
 
     expect(result).toBeGreaterThanOrEqual(0)
     expect(asset).toEqual(TEST_REPLACED_ASSET)
@@ -104,7 +104,7 @@ describe('wallet-base-asset-registry', () => {
     const result = wdkAssetRegistry.registerAssets(assetsToRegister)
 
     expect(result).toHaveLength(2)
-    expect(wdkAssetRegistry.getAsset([assetsToRegister[0]])).toEqual([assetsToRegister[0]])
-    expect(wdkAssetRegistry.getAsset([assetsToRegister[1]])).toEqual([assetsToRegister[1]])
+    expect(wdkAssetRegistry.getAssetById(assetsToRegister[0].id)).toEqual(assetsToRegister[0])
+    expect(wdkAssetRegistry.getAssetById(assetsToRegister[1].id)).toEqual(assetsToRegister[1])
   })
 })

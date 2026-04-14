@@ -4,8 +4,9 @@
  * @extends {WdkBaseAssetRegistry<TokenAsset>}
  */
 export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
+    id: string;
+    chainId: string;
     address: string;
-    chainId: string | number;
     symbol: string;
     name: string;
     decimals: number;
@@ -18,8 +19,9 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
     extensions?: Record<string, unknown> | undefined;
 }> {
     constructor(...preload: {
+        id: string;
+        chainId: string;
         address: string;
-        chainId: string | number;
         symbol: string;
         name: string;
         decimals: number;
@@ -32,8 +34,9 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
         extensions?: Record<string, unknown> | undefined;
     }[][]);
     _assertAsset(asset: any): {
+        id: string;
+        chainId: string;
         address: string;
-        chainId: string | number;
         symbol: string;
         name: string;
         decimals: number;
@@ -52,6 +55,15 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
      * @returns {TokenAsset[]} A list of all registered tokens.
      */
     public getAllTokens(): TokenAsset[];
+    /**
+     * Fetch a token by its asset identifier.
+     *
+     * @public
+     * @param {string} id - The asset identifier.
+     * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
+     * @returns {TokenAsset | undefined} The matching token, or `undefined` if no token matches the id.
+     */
+    public getTokenById(id: string, opts?: BaseAssetOptions): TokenAsset | undefined;
     /**
      * Fetch tokens by contract address.
      *
@@ -79,6 +91,14 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
      * @returns {TokenAsset[]} A list of matching tokens.
      */
     public getTokenByTicker(ticker: string, filter?: BaseAssetOptions): TokenAsset[];
+    /**
+     * todo
+     *
+     * @param {string} chainId
+     * @param {BaseAssetOptions} opts
+     * @returns {TokenAsset[]}
+     */
+    getTokenByChain(chainId: string, opts?: BaseAssetOptions): TokenAsset[];
 }
 export type TokenAsset = import("./wdk-asset-schema.js").TokenAsset;
 export type BaseAssetOptions = import("./wdk-base-asset-registry.js").BaseAssetOptions;

@@ -40,8 +40,8 @@ import { deepEqual } from 'fast-equals'
  * import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
  *
  * type CustomAsset = {
- *   address: string
- *   chainId: number
+ *   id: string
+ *   chainId: string
  *   label: string
  * }
  *
@@ -90,15 +90,15 @@ export class WdkBaseAssetRegistry {
    *
    * @public
    * @param {T} asset - Asset definition to insert or replace.
-   * @param {boolean} [force] - When `true`, replaces an existing asset with the same address and chain ID.
+   * @param {boolean} [force] - When `true`, replaces an existing asset with the same id.
    * @returns {number} The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled.
    * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
    */
   registerAsset (asset, force = false) {
     const normalizedAsset = this._assertAsset(asset)
 
-    const index = this._assets.findIndex(({ address, chainId }) => {
-      return address.toLowerCase() === normalizedAsset.address.toLowerCase() && chainId === normalizedAsset.chainId
+    const index = this._assets.findIndex(({ id }) => {
+      return id.toLowerCase() === normalizedAsset.id.toLowerCase()
     })
 
     if (index < 0) {
@@ -118,7 +118,7 @@ export class WdkBaseAssetRegistry {
    *
    * @public
    * @param {T[]} assets - Asset definitions to insert or replace.
-   * @param {boolean} [force] - When `true`, replaces existing assets with the same address and chain ID.
+   * @param {boolean} [force] - When `true`, replaces existing assets with the same id.
    * @returns {number[]} The result of each `registerAsset` call in input order.
    * @throws {Error} Thrown when any asset already exists and `force` is not enabled.
    */
@@ -144,7 +144,28 @@ export class WdkBaseAssetRegistry {
   }
 
   /**
-   * Fetch assets by contract address.
+   * Fetch an asset by the identifier.
+   *
+   * @param {string} id - The asset identifier.
+   * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
+   * @returns {T | undefined} The matching asset, or `undefined` if no asset matches the id.
+   */
+  getAssetById (id, opts = {}) {
+    const { caseSensitive = false } = opts
+
+    for (const asset of this._assets) {
+      if (caseSensitive) {
+        if (asset.id === id) return asset
+      } else {
+        if (asset.id.toLowerCase() === id.toLowerCase()) return asset
+      }
+    }
+
+    return undefined
+  }
+
+  /**
+   * Fetch assets by one or more partial match conditions.
    *
    * @public
    * @param {BaseAssetFilter<T>} filter - One or more partial asset match conditions. Each condition matches assets that contain the provided key-value pairs.

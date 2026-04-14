@@ -20,16 +20,14 @@ import { z } from 'zod'
 /** @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset */
 
 export const BaseAssetSchema = z.object({
-  address: z.string(),
-  chainId: z.union([
-    z.number().int().positive(),
-    z.string()
-  ])
+  id: z.string(),
+  chainId: z.string()
 })
 
 export const BaseAssetJsonSchema = BaseAssetSchema.toJSONSchema()
 
 export const TokenAssetSchema = BaseAssetSchema.extend({
+  address: z.string(),
   symbol: z.string(),
   name: z.string(),
   decimals: z.number().int().gte(0).lte(255),

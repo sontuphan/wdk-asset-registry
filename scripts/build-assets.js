@@ -17,12 +17,14 @@ mkdirSync(OUTPUT, { recursive: true })
 function loadAllAssets () {
   const files = readdirSync(INPUT)
 
-  let result = []
+  const result = []
   for (const file of files) {
     const source = `${INPUT}/${file}`
     const raw = readFileSync(source, 'utf-8')
     const data = JSON.parse(raw)
-    result = result.concat(data)
+    for (const asset of data) {
+      result.push({ id: `${asset.chainId}/${asset.address}`, ...asset })
+    }
   }
 
   return result
