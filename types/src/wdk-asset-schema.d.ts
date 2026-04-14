@@ -2,15 +2,15 @@
 /** @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset */
 export const BaseAssetSchema: z.ZodObject<{
     address: z.ZodString;
-    chainId: z.ZodNumber;
+    chainId: z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>;
 }, z.core.$strip>;
 export const BaseAssetJsonSchema: z.core.ZodStandardJSONSchemaPayload<z.ZodObject<{
     address: z.ZodString;
-    chainId: z.ZodNumber;
+    chainId: z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>;
 }, z.core.$strip>>;
 export const TokenAssetSchema: z.ZodObject<{
     address: z.ZodString;
-    chainId: z.ZodNumber;
+    chainId: z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>;
     symbol: z.ZodString;
     name: z.ZodString;
     decimals: z.ZodNumber;
@@ -24,7 +24,7 @@ export const TokenAssetSchema: z.ZodObject<{
 }, z.core.$strip>;
 export const TokenAssetJsonSchema: z.core.ZodStandardJSONSchemaPayload<z.ZodObject<{
     address: z.ZodString;
-    chainId: z.ZodNumber;
+    chainId: z.ZodUnion<readonly [z.ZodNumber, z.ZodString]>;
     symbol: z.ZodString;
     name: z.ZodString;
     decimals: z.ZodNumber;
