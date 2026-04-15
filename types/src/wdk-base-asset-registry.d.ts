@@ -56,30 +56,27 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
     /**
      * Register a single asset in the registry.
      *
-     * @public
      * @param {T} asset - Asset definition to insert or replace.
      * @param {boolean} [force] - When `true`, replaces an existing asset with the same id.
      * @returns {void}
      * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
      */
-    public registerAsset(asset: T, force?: boolean): void;
+    registerAsset(asset: T, force?: boolean): void;
     /**
      * Register multiple assets in the registry.
      *
-     * @public
      * @param {T[]} assets - Asset definitions to insert or replace.
      * @param {boolean} [force] - When `true`, replaces existing assets with the same id.
      * @returns {void}
      * @throws {Error} Thrown when any asset already exists and `force` is not enabled.
      */
-    public registerAssets(assets: T[], force?: boolean): void;
+    registerAssets(assets: T[], force?: boolean): void;
     /**
      * Fetch all assets.
      *
-     * @public
      * @returns {T[]} A list of all registered assets.
      */
-    public getAllAssets(): T[];
+    getAllAssets(): T[];
     /**
      * Fetch an asset by the identifier.
      *
@@ -90,12 +87,11 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
     /**
      * Fetch assets by one or more partial match conditions.
      *
-     * @public
      * @param {BaseAssetFilter<T>} filter - One or more partial asset match conditions. Each condition matches assets that contain the provided key-value pairs.
      * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
      * @returns {T[]} A list of matching assets.
      */
-    public getAsset(filter: BaseAssetFilter<T>, opts?: BaseAssetOptions): T[];
+    getAsset(filter: BaseAssetFilter<T>, opts?: BaseAssetOptions): T[];
 }
 export type BaseAsset = import("./wdk-asset-schema.js").BaseAsset;
 export type BaseAssetFilter<TSchema extends object> = Partial<TSchema>[];

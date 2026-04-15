@@ -51,51 +51,46 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
     /**
      * Fetch all tokens.
      *
-     * @public
      * @returns {TokenAsset[]} A list of all registered tokens.
      */
-    public getAllTokens(): TokenAsset[];
+    getAllTokens(): TokenAsset[];
     /**
      * Fetch a token by its asset identifier.
      *
-     * @public
      * @param {string} id - The asset identifier.
      * @returns {TokenAsset | undefined} The matching token, or `undefined` if no token matches the id.
      */
-    public getTokenById(id: string): TokenAsset | undefined;
+    getTokenById(id: string): TokenAsset | undefined;
     /**
      * Fetch tokens by contract address.
      *
-     * @public
      * @param {string} address - The token address.
      * @param {BaseAssetOptions} [opts] - Optional lookup filters such as `caseSensitive`.
      * @returns {TokenAsset[]} A list of matching tokens.
      */
-    public getTokenByAddress(address: string, opts?: BaseAssetOptions): TokenAsset[];
+    getTokenByAddress(address: string, opts?: BaseAssetOptions): TokenAsset[];
     /**
      * Fetch tokens by symbol.
      *
-     * @public
      * @param {string} symbol - The token symbol (e.g. "USDT", "ETH").
      * @param {BaseAssetOptions} [opts] - Optional lookup filters such as `caseSensitive`.
      * @returns {TokenAsset[]} A list of matching tokens.
      */
-    public getTokenBySymbol(symbol: string, opts?: BaseAssetOptions): TokenAsset[];
+    getTokenBySymbol(symbol: string, opts?: BaseAssetOptions): TokenAsset[];
     /**
      * Alias of {@link getTokenBySymbol}.
      *
-     * @public
      * @param {string} ticker - The token symbol (e.g. "USDT", "ETH").
      * @param {BaseAssetOptions} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
      * @returns {TokenAsset[]} A list of matching tokens.
      */
-    public getTokenByTicker(ticker: string, filter?: BaseAssetOptions): TokenAsset[];
+    getTokenByTicker(ticker: string, filter?: BaseAssetOptions): TokenAsset[];
     /**
-     * todo
+     * Fetch tokens by chain id.
      *
-     * @param {string} chainId
-     * @param {BaseAssetOptions} opts
-     * @returns {TokenAsset[]}
+     * @param {string} chainId - The chain identifier (e.g. "eip155:1").
+     * @param {BaseAssetOptions} [opts] - Optional lookup filters such as `caseSensitive`.
+     * @returns {TokenAsset[]} A list of matching tokens.
      */
     getTokenByChain(chainId: string, opts?: BaseAssetOptions): TokenAsset[];
 }

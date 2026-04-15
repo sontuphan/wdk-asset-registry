@@ -88,7 +88,6 @@ export class WdkBaseAssetRegistry {
   /**
    * Register a single asset in the registry.
    *
-   * @public
    * @param {T} asset - Asset definition to insert or replace.
    * @param {boolean} [force] - When `true`, replaces an existing asset with the same id.
    * @returns {void}
@@ -109,7 +108,6 @@ export class WdkBaseAssetRegistry {
   /**
    * Register multiple assets in the registry.
    *
-   * @public
    * @param {T[]} assets - Asset definitions to insert or replace.
    * @param {boolean} [force] - When `true`, replaces existing assets with the same id.
    * @returns {void}
@@ -124,7 +122,6 @@ export class WdkBaseAssetRegistry {
   /**
    * Fetch all assets.
    *
-   * @public
    * @returns {T[]} A list of all registered assets.
    */
   getAllAssets () {
@@ -144,7 +141,6 @@ export class WdkBaseAssetRegistry {
   /**
    * Fetch assets by one or more partial match conditions.
    *
-   * @public
    * @param {BaseAssetFilter<T>} filter - One or more partial asset match conditions. Each condition matches assets that contain the provided key-value pairs.
    * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
    * @returns {T[]} A list of matching assets.

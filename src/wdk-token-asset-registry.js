@@ -31,7 +31,6 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
   /**
    * Fetch all tokens.
    *
-   * @public
    * @returns {TokenAsset[]} A list of all registered tokens.
    */
   getAllTokens () {
@@ -41,7 +40,6 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
   /**
    * Fetch a token by its asset identifier.
    *
-   * @public
    * @param {string} id - The asset identifier.
    * @returns {TokenAsset | undefined} The matching token, or `undefined` if no token matches the id.
    */
@@ -52,7 +50,6 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
   /**
    * Fetch tokens by contract address.
    *
-   * @public
    * @param {string} address - The token address.
    * @param {BaseAssetOptions} [opts] - Optional lookup filters such as `caseSensitive`.
    * @returns {TokenAsset[]} A list of matching tokens.
@@ -64,7 +61,6 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
   /**
    * Fetch tokens by symbol.
    *
-   * @public
    * @param {string} symbol - The token symbol (e.g. "USDT", "ETH").
    * @param {BaseAssetOptions} [opts] - Optional lookup filters such as `caseSensitive`.
    * @returns {TokenAsset[]} A list of matching tokens.
@@ -76,7 +72,6 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
   /**
    * Alias of {@link getTokenBySymbol}.
    *
-   * @public
    * @param {string} ticker - The token symbol (e.g. "USDT", "ETH").
    * @param {BaseAssetOptions} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
    * @returns {TokenAsset[]} A list of matching tokens.
@@ -86,11 +81,11 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
   }
 
   /**
-   * todo
+   * Fetch tokens by chain id.
    *
-   * @param {string} chainId
-   * @param {BaseAssetOptions} opts
-   * @returns {TokenAsset[]}
+   * @param {string} chainId - The chain identifier (e.g. "eip155:1").
+   * @param {BaseAssetOptions} [opts] - Optional lookup filters such as `caseSensitive`.
+   * @returns {TokenAsset[]} A list of matching tokens.
    */
   getTokenByChain (chainId, opts = {}) {
     return this.getAsset([{ chainId }], opts)
