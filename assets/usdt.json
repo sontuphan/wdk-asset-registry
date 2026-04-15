@@ -79,7 +79,7 @@
     "symbol": "USDT",
     "name": "Tether",
     "decimals": 6,
-    "chainId": "eip155:728126428",
+    "chainId": "tron:mainnet",
     "isNative": false,
     "logoURI": "https://tether.to/images/logoCircle.svg",
     "tags": ["stablecoin"],
@@ -87,21 +87,6 @@
       "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
       "coingecko": "https://www.coingecko.com/en/coins/tether",
       "tronscan": "https://tronscan.org/token20/TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
-    }
-  },
-  {
-    "address": "ce091c998b83c78bb71a632313ba3760f1763d9cfcffae02258ffa9865a37bd2",
-    "symbol": "USDT",
-    "name": "Tether",
-    "decimals": 6,
-    "chainId": "liquid:6f0279e9ed041c3d710a9f57d0c0292841646074b771482db066a34b22f2560e",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "blockstream": "https://blockstream.info/liquid/asset/ce091c998b83c78bb71a632313ba3760f1763d9cfcffae02258ffa9865a37bd2"
     }
   },
   {
@@ -169,7 +154,7 @@
     "symbol": "USDT",
     "name": "Tether",
     "decimals": 6,
-    "chainId": "ton:-239",
+    "chainId": "tvm:-239",
     "isNative": false,
     "logoURI": "https://tether.to/images/logoCircle.svg",
     "tags": ["stablecoin"],
@@ -180,26 +165,11 @@
     }
   },
   {
-    "address": "312769",
-    "symbol": "USDT",
-    "name": "Tether",
-    "decimals": 6,
-    "chainId": "eip155:1300",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "allo": "https://allo.info/asset/312769"
-    }
-  },
-  {
     "address": "0x357b0b74bc833e95a115ad22604854d6b0fca151cecd94111770e5d6ffc9dc2b",
     "symbol": "USDT",
     "name": "Tether",
     "decimals": 6,
-    "chainId": "aptos:mainnet",
+    "chainId": "aptos:1",
     "isNative": false,
     "logoURI": "https://tether.to/images/logoCircle.svg",
     "tags": ["stablecoin"],
