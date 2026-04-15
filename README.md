@@ -17,6 +17,7 @@ For detailed documentation about the complete WDK ecosystem, visit [docs.wallet.
 - **Bundled Asset Lists**: Import registry-ready assets from `@tetherto/wdk-asset-registry/assets/*`
 - **Standardized Schemas**: Validate base assets and token assets with Zod
 - **Flexible Lookup**: Query base assets with partial match filters
+- **Porting Helpers**: Normalize third-party token-list entries into `TokenAsset`
 - **Lightweight**: No RPC or blockchain interaction required
 - **In-Memory Registry**: Supports both lookup and local registration of assets
 
@@ -66,14 +67,14 @@ console.log(usdt)
 ### Get Assets by ID
 
 ```javascript
-const usdt = registry.getTokenById('1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
+const usdt = registry.getTokenById('eip155:1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
 console.log(usdt)
 ```
 
 ### Filter by Chain ID
 
 ```javascript
-const ethereumUsdt = registry.getTokenByChain('1')
+const ethereumUsdt = registry.getTokenByChain('eip155:1')
 console.log(ethereumUsdt)
 ```
 
@@ -92,8 +93,8 @@ const registry = new CustomAssetRegistry(commonTokens)
 
 const ethereumUsdt = registry.getAsset([
   {
-    id: '1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
-    chainId: '1'
+    id: 'eip155:1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    chainId: 'eip155:1'
   }
 ])
 ```
@@ -104,11 +105,11 @@ const ethereumUsdt = registry.getAsset([
 const selectedAssets = registry.getAsset([
   {
     symbol: 'USDT',
-    chainId: '1'
+    chainId: 'eip155:1'
   },
   {
     symbol: 'XAUt',
-    chainId: '1'
+    chainId: 'eip155:1'
   }
 ])
 
@@ -116,20 +117,32 @@ const selectedAssets = registry.getAsset([
 console.log(selectedAssets)
 ```
 
-### Register a Custom Asset
+### Register a Custom Token
 
 ```javascript
 registry.registerAsset({
-  id: '1/0x1111111111111111111111111111111111111111',
+  id: 'eip155:1/0x1111111111111111111111111111111111111111',
   address: '0x1111111111111111111111111111111111111111',
   symbol: 'TEST',
   name: 'Test Token',
   decimals: 18,
-  chainId: '1',
+  chainId: 'eip155:1',
   isNative: false,
   logoURI: 'https://example.com/test.png'
 })
 ```
+
+### Normalize Third-Party Token Lists
+
+```javascript
+import { fromUniswapTokenList } from '@tetherto/wdk-asset-registry'
+
+const normalizedTokens = fromUniswapTokenList(
+  source.tokens
+)
+```
+
+The helper accepts the `tokens` array directly and converts each entry into a validated `TokenAsset`. It assumes Uniswap-style numeric EVM chain ids and maps them to `eip155:*`.
 
 ## 📚 API Reference
 
@@ -139,7 +152,8 @@ registry.registerAsset({
 | --- | --- | --- |
 | [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter), [BaseAssetOptions](#baseassetoptions) |
 | [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with ids and chain IDs | [Constructor](#constructor), [Methods](#methods) |
-| [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with symbol and ticker lookups | [Methods](#methods-1) |
+| [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with id, symbol, ticker, address, and chain lookups | [Methods](#methods-1) |
+| [Token Asset Utils](#token-asset-utils) | Helpers for porting third-party token lists | [Methods](#methods-2) |
 
 ### Types
 
@@ -161,7 +175,7 @@ type TokenAsset = BaseAsset & {
   name: string;
   decimals: number;
   isNative: boolean;
-  logoURI: string;
+  logoURI?: string;
   tags?: (string | { name: string; description: string })[] | undefined;
   extensions?: Record<string, unknown> | undefined;
 };
@@ -233,10 +247,10 @@ class CustomAssetRegistry extends WdkBaseAssetRegistry<CustomAsset> {
 
 | Method | Description | Returns |
 | --- | --- | --- |
-| `registerAsset(asset, [force])` | Register a single asset | `number` |
-| `registerAssets(assets, [force])` | Register multiple assets | `number[]` |
+| `registerAsset(asset, [force])` | Register a single asset | `void` |
+| `registerAssets(assets, [force])` | Register multiple assets | `void` |
 | `getAllAssets()` | Get all registered assets | `T[]` |
-| `getAssetById(id, [opts])` | Get one asset by identifier | `T \| undefined` |
+| `getAssetById(id)` | Get one asset by identifier | `T \| undefined` |
 | `getAsset(filter, [opts])` | Get assets using one or more partial match conditions | `T[]` |
 
 #### registerAsset
@@ -248,7 +262,7 @@ Register a single asset in the registry.
 - `asset` (`T`): Asset definition to insert or replace
 - `force` (boolean, optional): When `true`, replaces an existing asset with the same id
 
-**Returns:** `number` - The inserted asset count from `Array#push`, or the replaced asset index when `force` is enabled
+**Returns:** `void`
 
 #### registerAssets
 
@@ -259,7 +273,7 @@ Register multiple assets in the registry.
 - `assets` (`T[]`): Asset definitions to insert or replace
 - `force` (boolean, optional): When `true`, replaces existing assets with the same id
 
-**Returns:** `number[]` - The result of each `registerAsset` call in input order
+**Returns:** `void`
 
 #### getAllAssets
 
@@ -274,14 +288,13 @@ Get a single asset by identifier.
 **Parameters:**
 
 - `id` (string): Asset identifier to look up
-- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
 
 **Returns:** `T | undefined`
 
 **Example:**
 
 ```javascript
-const asset = registry.getAssetById('1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
+const asset = registry.getAssetById('eip155:1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
 console.log(asset)
 ```
 
@@ -301,8 +314,8 @@ Get asset metadata using one or more partial match conditions.
 ```javascript
 const assets = registry.getAsset([
   {
-    id: '1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
-    chainId: '1'
+    id: 'eip155:1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    chainId: 'eip155:1'
   }
 ])
 console.log(assets)
@@ -317,7 +330,7 @@ Token-specific registry built on top of `WdkBaseAssetRegistry<TokenAsset>`.
 | Method | Description | Returns |
 | --- | --- | --- |
 | `getAllTokens()` | Get all registered tokens | `TokenAsset[]` |
-| `getTokenById(id, [opts])` | Get one token by id | `TokenAsset \| undefined` |
+| `getTokenById(id)` | Get one token by id | `TokenAsset \| undefined` |
 | `getTokenByAddress(address, [opts])` | Get tokens by address | `TokenAsset[]` |
 | `getTokenBySymbol(symbol, [opts])` | Get tokens by symbol | `TokenAsset[]` |
 | `getTokenByTicker(ticker, [opts])` | Alias of `getTokenBySymbol` | `TokenAsset[]` |
@@ -354,14 +367,13 @@ Get a single token by asset identifier.
 **Parameters:**
 
 - `id` (string): Token asset identifier to look up
-- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
 
 **Returns:** `TokenAsset | undefined`
 
 **Example:**
 
 ```javascript
-const asset = registry.getTokenById('1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
+const asset = registry.getTokenById('eip155:1/0xdAC17F958D2ee523a2206206994597C13D831ec7')
 console.log(asset)
 ```
 
@@ -379,7 +391,7 @@ Get token metadata by chain identifier.
 **Example:**
 
 ```javascript
-const ethereumUsdt = registry.getTokenByChain('1')
+const ethereumUsdt = registry.getTokenByChain('eip155:1')
 console.log(ethereumUsdt)
 ```
 
@@ -412,6 +424,35 @@ const assets = registry.getTokenByAddress(
   '0xdAC17F958D2ee523a2206206994597C13D831ec7'
 )
 console.log(assets)
+```
+
+### Token Asset Utils
+
+Helpers for normalizing third-party token-list entries into `TokenAsset`.
+
+#### Methods
+
+| Method | Description | Returns |
+| --- | --- | --- |
+| `fromUniswapToken(token)` | Normalize one token-list entry into a `TokenAsset` | `TokenAsset` |
+| `fromUniswapTokenList(tokens)` | Normalize a token array into `TokenAsset[]` | `TokenAsset[]` |
+
+#### fromUniswapTokenList
+
+Convert a token-list `tokens` array into normalized `TokenAsset[]`.
+
+**Parameters:**
+
+- `tokens` (`UniswapTokenInfo[]`): Source token entries
+
+**Returns:** `TokenAsset[]`
+
+**Example:**
+
+```javascript
+const normalizedTokens = fromUniswapTokenList(
+  source.tokens
+)
 ```
 
 ### JSON Schemas
