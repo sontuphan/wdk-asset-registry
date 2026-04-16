@@ -1,0 +1,1 @@
+# wdk-asset-registry
