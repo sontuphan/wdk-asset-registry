@@ -150,30 +150,29 @@ export class WdkBaseAssetRegistry {
 
     const assets = this.getAllAssets()
     const results = []
-    const caching = []
 
-    for (const condition of filter) {
-      for (let i = 0; i < assets.length; i++) {
-        let match = true
-        const asset = assets[i]
+    const normalizedFilter = filter.map(condition => {
+      return Object.entries(condition).map(([key, value]) => {
+        const normalizedValue = !caseSensitive && typeof value === 'string'
+          ? value.toLowerCase()
+          : value
+        return [key, normalizedValue]
+      })
+    })
 
-        for (const key of Object.keys(condition)) {
-          const conditionValue = !caseSensitive && typeof condition[key] === 'string'
-            ? condition[key].toLowerCase()
-            : condition[key]
+    for (const asset of assets) {
+      for (const condition of normalizedFilter) {
+        const match = condition.every(([key, conditionValue]) => {
           const assetValue = !caseSensitive && typeof asset[key] === 'string'
             ? asset[key].toLowerCase()
             : asset[key]
 
-          if (!deepEqual(conditionValue, assetValue)) {
-            match = false
-            break
-          }
-        }
+          return deepEqual(conditionValue, assetValue)
+        })
 
-        if (match && !caching.includes(i)) {
+        if (match) {
           results.push(asset)
-          caching.push(i)
+          break
         }
       }
     }
