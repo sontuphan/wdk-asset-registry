@@ -127,8 +127,7 @@ registry.registerAsset({
   name: 'Test Token',
   decimals: 18,
   chainId: 'eip155:1',
-  isNative: false,
-  logoURI: 'https://example.com/test.png'
+  isNative: false
 })
 ```
 
@@ -175,9 +174,6 @@ type TokenAsset = BaseAsset & {
   name: string;
   decimals: number;
   isNative: boolean;
-  logoURI?: string;
-  tags?: (string | { name: string; description: string })[] | undefined;
-  extensions?: Record<string, unknown> | undefined;
 };
 ```
 

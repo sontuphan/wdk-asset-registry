@@ -57,20 +57,8 @@ describe('wallet-token-asset-util', () => {
       name: UNISWAP_TOKEN.name,
       decimals: UNISWAP_TOKEN.decimals,
       chainId: 'eip155:1',
-      isNative: false,
-      logoURI: UNISWAP_TOKEN.logoURI,
-      tags: UNISWAP_TOKEN.tags,
-      extensions: UNISWAP_TOKEN.extensions
+      isNative: false
     })
-  })
-
-  test('should allow a token entry without a logo uri', () => {
-    const asset = fromUniswapToken({
-      ...UNISWAP_TOKEN,
-      logoURI: undefined
-    })
-
-    expect(asset.logoURI).toBeUndefined()
   })
 
   test('should port a cmc-style tokens array', () => {
@@ -80,13 +68,11 @@ describe('wallet-token-asset-util', () => {
     expect(assets[0]).toEqual(expect.objectContaining({
       id: 'eip155:1/0x514910771af9ca656af840dff83e8264ecf986ca',
       chainId: 'eip155:1',
-      logoURI: undefined,
       symbol: 'LINK'
     }))
     expect(assets[1]).toEqual(expect.objectContaining({
       id: 'eip155:1/0x04fa0d235c4abf4bcf4787af4cf447de572ef828',
       chainId: 'eip155:1',
-      logoURI: undefined,
       symbol: 'UMA'
     }))
   })

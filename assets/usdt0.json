@@ -5,14 +5,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:9745",
-    "isNative": false,
-    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
-    "tags": ["stablecoin", "bridged_token"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
-      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
-      "plasmascan": "https://plasmascan.to/token/0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb"
-    }
+    "isNative": false
   },
   {
     "address": "0x01bff41798a0bcf287b996046ca68b395dbc1071",
@@ -20,14 +13,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:10",
-    "isNative": false,
-    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
-    "tags": ["stablecoin", "bridged_token"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
-      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
-      "etherscan": "https://optimistic.etherscan.io/token/0x01bff41798a0bcf287b996046ca68b395dbc1071"
-    }
+    "isNative": false
   },
   {
     "address": "0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb",
@@ -35,14 +21,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:999",
-    "isNative": false,
-    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
-    "tags": ["stablecoin", "bridged_token"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
-      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
-      "hyperevmscan": "https://hyperevmscan.io/token/0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb"
-    }
+    "isNative": false
   },
   {
     "address": "0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb",
@@ -50,14 +29,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:80094",
-    "isNative": false,
-    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
-    "tags": ["stablecoin", "bridged_token"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
-      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
-      "berascan": "https://berascan.com/token/0x779ded0c9e1022225f8e0630b35a9b54be713736"
-    }
+    "isNative": false
   },
   {
     "address": "0xe7cd86e13ac4309349f30b3435a9d337750fc82d",
@@ -65,14 +37,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:143",
-    "isNative": false,
-    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
-    "tags": ["stablecoin", "bridged_token"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
-      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
-      "socialscan": "https://monad.socialscan.io/token/0xe7cd86e13ac4309349f30b3435a9d337750fc82d"
-    }
+    "isNative": false
   },
   {
     "address": "0x0200C29006150606B650577BBE7B6248F58470c1",
@@ -80,14 +45,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:57073",
-    "isNative": false,
-    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
-    "tags": ["stablecoin", "bridged_token"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
-      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
-      "inkonchain-explorer": "https://explorer.inkonchain.com/token/0x0200C29006150606B650577BBE7B6248F58470c1"
-    }
+    "isNative": false
   },
   {
     "address": "0x9151434b16b9763660705744891fa906f660ecc5",
@@ -95,14 +53,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:1329",
-    "isNative": false,
-    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
-    "tags": ["stablecoin", "bridged_token"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
-      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
-      "seiscan": "https://seiscan.io/token/0x9151434b16b9763660705744891fa906f660ecc5"
-    }
+    "isNative": false
   },
   {
     "address": "0x779ded0c9e1022225f8e0630b35a9b54be713736",
@@ -110,14 +61,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:5000",
-    "isNative": false,
-    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
-    "tags": ["stablecoin", "bridged_token"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
-      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
-      "mantlescan": "https://mantlescan.xyz/token/0x779ded0c9e1022225f8e0630b35a9b54be713736"
-    }
+    "isNative": false
   },
   {
     "address": "0x9151434b16b9763660705744891fA906F660EcC5",
@@ -125,14 +69,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:130",
-    "isNative": false,
-    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
-    "tags": ["stablecoin", "bridged_token"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
-      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
-      "uniscan": "https://uniscan.xyz/token/0x9151434b16b9763660705744891fA906F660EcC5"
-    }
+    "isNative": false
   },
   {
     "address": "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
@@ -140,13 +77,6 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:137",
-    "isNative": false,
-    "logoURI": "https://docs.usdt0.to/downloads/usdt0/AssetSymbol_USDT0_Primary.png",
-    "tags": ["stablecoin", "bridged_token"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/usdt0",
-      "coingecko": "https://www.coingecko.com/en/coins/usdt0",
-      "polygonscan": "https://polygonscan.com/token/0xc2132d05d31c914a87c6611c10748aeb04b58e8f"
-    }
+    "isNative": false
   }
 ]

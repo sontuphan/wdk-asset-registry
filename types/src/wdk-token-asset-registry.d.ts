@@ -11,12 +11,6 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
     name: string;
     decimals: number;
     isNative: boolean;
-    logoURI?: string | undefined;
-    tags?: (string | {
-        name: string;
-        description: string;
-    })[] | undefined;
-    extensions?: Record<string, unknown> | undefined;
 }> {
     constructor(...preload: {
         id: string;
@@ -26,12 +20,6 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
         name: string;
         decimals: number;
         isNative: boolean;
-        logoURI?: string | undefined;
-        tags?: (string | {
-            name: string;
-            description: string;
-        })[] | undefined;
-        extensions?: Record<string, unknown> | undefined;
     }[][]);
     _assertAsset(asset: any): {
         id: string;
@@ -41,12 +29,6 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
         name: string;
         decimals: number;
         isNative: boolean;
-        logoURI?: string | undefined;
-        tags?: (string | {
-            name: string;
-            description: string;
-        })[] | undefined;
-        extensions?: Record<string, unknown> | undefined;
     };
     /**
      * Fetch all tokens.

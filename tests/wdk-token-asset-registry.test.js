@@ -14,8 +14,7 @@ const TEST_NEW_ASSET = {
   name: 'Test Token',
   decimals: 18,
   chainId: 'eip155:1',
-  isNative: false,
-  logoURI: 'https://example.com/test.png'
+  isNative: false
 }
 const TEST_REPLACED_ASSET = {
   id: TEST_ID,
@@ -24,8 +23,7 @@ const TEST_REPLACED_ASSET = {
   name: 'Tether USD Updated',
   decimals: 6,
   chainId: 'eip155:1',
-  isNative: false,
-  logoURI: 'https://example.com/usdt-updated.png'
+  isNative: false
 }
 const TEST_EXTRA_ASSET = {
   id: 'eip155:10/0x3333333333333333333333333333333333333333',
@@ -34,8 +32,7 @@ const TEST_EXTRA_ASSET = {
   name: 'Extra Token',
   decimals: 18,
   chainId: 'eip155:10',
-  isNative: false,
-  logoURI: 'https://example.com/extra.png'
+  isNative: false
 }
 
 describe('wallet-token-asset-registry', () => {
@@ -171,7 +168,6 @@ describe('wallet-token-asset-registry', () => {
     const asset = wdkAssetRegistry.getTokenById(TEST_ID)
 
     expect(asset.name).toBe(TEST_REPLACED_ASSET.name)
-    expect(asset.logoURI).toBe(TEST_REPLACED_ASSET.logoURI)
   })
 
   test('should register multiple assets', () => {
@@ -202,8 +198,7 @@ describe('wallet-token-asset-registry', () => {
         name: 'Tether USD Arbitrum Updated',
         decimals: 6,
         chainId: 'eip155:42161',
-        isNative: false,
-        logoURI: 'https://example.com/usdt-arb-updated.png'
+        isNative: false
       }
     ]
 

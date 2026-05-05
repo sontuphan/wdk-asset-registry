@@ -6,8 +6,8 @@
  * @property {string} symbol - The token symbol.
  * @property {string} name - The token name.
  * @property {number} decimals - The token decimals.
- * @property {string} [logoURI] - Optional token logo uri.
- * @property {string[]} [tags] - Optional token tag names.
+ * @property {string} [logoURI] - Optional token logo uri from the source list.
+ * @property {string[]} [tags] - Optional token tag names from the source list.
  * @property {Record<string, unknown>} [extensions] - Optional token-specific extensions.
  */
 /**
@@ -48,11 +48,11 @@ export type UniswapTokenInfo = {
      */
     decimals: number;
     /**
-     * - Optional token logo uri.
+     * - Optional token logo uri from the source list.
      */
     logoURI?: string | undefined;
     /**
-     * - Optional token tag names.
+     * - Optional token tag names from the source list.
      */
     tags?: string[] | undefined;
     /**

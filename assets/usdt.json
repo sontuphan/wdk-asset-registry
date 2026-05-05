@@ -5,14 +5,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:1",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin", "erc20"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "etherscan": "https://etherscan.io/token/0xdAC17F958D2ee523a2206206994597C13D831ec7"
-    }
+    "isNative": false
   },
   {
     "address": "0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7",
@@ -20,14 +13,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:43114",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "snowtrace": "https://snowtrace.io/token/0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7"
-    }
+    "isNative": false
   },
   {
     "address": "0x919C1c267BC06a7039e03fcc2eF738525769109c",
@@ -35,14 +21,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:2222",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "kavascan": "https://kavascan.com/token/0x919C1c267BC06a7039e03fcc2eF738525769109c"
-    }
+    "isNative": false
   },
   {
     "address": "0x48065fbBE25f71C9282ddf5e1cD6D6A887483D5e",
@@ -50,14 +29,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:42220",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "celoscan": "https://celoscan.io/token/0x48065fbBE25f71C9282ddf5e1cD6D6A887483D5e"
-    }
+    "isNative": false
   },
   {
     "address": "0xd077a400968890eacc75cdc901f0356c943e4fdb",
@@ -65,14 +37,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "eip155:8217",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "kaiascan": "https://kaiascan.io/token/0xd077a400968890eacc75cdc901f0356c943e4fdb"
-    }
+    "isNative": false
   },
   {
     "address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
@@ -80,14 +45,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "tron:mainnet",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "tronscan": "https://tronscan.org/token20/TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
-    }
+    "isNative": false
   },
   {
     "address": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
@@ -95,14 +53,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "solana-explorer": "https://explorer.solana.com/address/Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
-    }
+    "isNative": false
   },
   {
     "address": "1984",
@@ -110,14 +61,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "polkadot:91b171bb158e2d3848fa23a9f1c25182:15rRgsWxz4H5LTnNGcCFsszfXD8oeAFd8QRsR6MbQE2f6XFF",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "statescan": "https://statemint.statescan.io/#/assets/1984"
-    }
+    "isNative": false
   },
   {
     "address": "KT1XnTn74bUtxHfDtBmm2bGZAQfhPbvKWR8o",
@@ -125,14 +69,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "tezos:NetXdQprcVkpaWU",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "better-call": "https://better-call.dev/mainnet/KT1XnTn74bUtxHfDtBmm2bGZAQfhPbvKWR8o"
-    }
+    "isNative": false
   },
   {
     "address": "usdt.tether-token.near",
@@ -140,14 +77,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "near:mainnet",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "nearblocks": "https://nearblocks.io/token/usdt.tether-token.near"
-    }
+    "isNative": false
   },
   {
     "address": "EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs",
@@ -155,14 +85,7 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "tvm:-239",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "tonviewer": "https://tonviewer.com/EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs"
-    }
+    "isNative": false
   },
   {
     "address": "0x357b0b74bc833e95a115ad22604854d6b0fca151cecd94111770e5d6ffc9dc2b",
@@ -170,13 +93,6 @@
     "name": "Tether",
     "decimals": 6,
     "chainId": "aptos:1",
-    "isNative": false,
-    "logoURI": "https://tether.to/images/logoCircle.svg",
-    "tags": ["stablecoin"],
-    "extensions": {
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether",
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "aptoslabs-explorer": "https://explorer.aptoslabs.com/fungible_asset/0x357b0b74bc833e95a115ad22604854d6b0fca151cecd94111770e5d6ffc9dc2b"
-    }
+    "isNative": false
   }
 ]

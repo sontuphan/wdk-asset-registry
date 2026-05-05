@@ -10,18 +10,7 @@ const TEST_ASSET = {
   name: 'Tether USD',
   decimals: 6,
   chainId: 'eip155:1',
-  isNative: false,
-  logoURI: 'https://example.com/usdt.png',
-  tags: [
-    'stablecoin',
-    {
-      name: 'bridge',
-      description: 'Bridged asset'
-    }
-  ],
-  extensions: {
-    coingeckoId: 'tether'
-  }
+  isNative: false
 }
 
 describe('wallet-asset-schema', () => {
@@ -38,24 +27,6 @@ describe('wallet-asset-schema', () => {
     })
 
     expect(asset.chainId).toBe('eip155:1')
-  })
-
-  test('should validate a valid asset without a logo uri', () => {
-    const asset = TokenAssetSchema.parse({
-      ...TEST_ASSET,
-      logoURI: undefined
-    })
-
-    expect(asset.logoURI).toBeUndefined()
-  })
-
-  test('should reject an asset with invalid logo uri', () => {
-    const invalidAsset = {
-      ...TEST_ASSET,
-      logoURI: 'https://example.com/usdt'
-    }
-
-    expect(() => TokenAssetSchema.parse(invalidAsset)).toThrow('URL must be a valid image url.')
   })
 
   test('should export a JSON schema for a single asset', () => {

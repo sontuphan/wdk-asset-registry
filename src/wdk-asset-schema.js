@@ -31,26 +31,7 @@ export const TokenAssetSchema = BaseAssetSchema.extend({
   symbol: z.string(),
   name: z.string(),
   decimals: z.number().int().gte(0).lte(255),
-  isNative: z.boolean(),
-  logoURI: z.url({ protocol: /^https?$/ }).refine(
-    (url) => {
-      const pattern = /\.(jpg|jpeg|png|gif|webp|svg|bmp|ico)(\?.*)?$/i
-      return pattern.test(url)
-    },
-    { message: 'URL must be a valid image url.' }
-  ).optional(),
-  tags: z
-    .array(
-      z.union([
-        z.string(),
-        z.object({
-          name: z.string(),
-          description: z.string()
-        })
-      ])
-    )
-    .optional(),
-  extensions: z.record(z.string(), z.unknown()).optional()
+  isNative: z.boolean()
 })
 
 export const TokenAssetJsonSchema = TokenAssetSchema.toJSONSchema()
