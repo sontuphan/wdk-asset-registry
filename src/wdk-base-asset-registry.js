@@ -124,7 +124,7 @@ export class WdkBaseAssetRegistry {
    *
    * @returns {T[]} A list of all registered assets.
    */
-  getAllAssets () {
+  getAssets () {
     return Array.from(this._assets.values())
   }
 
