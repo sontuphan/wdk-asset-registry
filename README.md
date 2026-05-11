@@ -13,7 +13,7 @@ For detailed documentation about the complete WDK ecosystem, visit [docs.wallet.
 ## 🌟 Features
 
 - **Generic Asset Registry**: Build registries for reusable asset collections
-- **Token Asset Registry**: Use token-specific lookups such as id, symbol, ticker, address, and chain
+- **Token Asset Registry**: Use token-specific lookups such as id, symbol, address, and chain
 - **Bundled Asset Lists**: Import registry-ready assets from `@tetherto/wdk-asset-registry/assets/*`
 - **Standardized Schemas**: Validate base assets and token assets with Zod
 - **Flexible Lookup**: Query base assets with partial match filters
@@ -151,7 +151,7 @@ The helper accepts the `tokens` array directly and converts each entry into a va
 | --- | --- | --- |
 | [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter), [BaseAssetOptions](#baseassetoptions) |
 | [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with ids and chain IDs | [Constructor](#constructor), [Methods](#methods) |
-| [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with id, symbol, ticker, address, and chain lookups | [Methods](#methods-1) |
+| [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with id, symbol, address, and chain lookups | [Methods](#methods-1) |
 | [Token Asset Utils](#token-asset-utils) | Helpers for working with token assets | [Uniswap Utilities](#uniswap-utilities) |
 
 ### Types
@@ -329,7 +329,6 @@ Token-specific registry built on top of `WdkBaseAssetRegistry<TokenAsset>`.
 | `getTokenById(id)` | Get one token by id | `TokenAsset \| null` |
 | `getTokenByAddress(address, [opts])` | Get tokens by address | `TokenAsset[]` |
 | `getTokenBySymbol(symbol, [opts])` | Get tokens by symbol | `TokenAsset[]` |
-| `getTokenByTicker(ticker, [opts])` | Alias of `getTokenBySymbol` | `TokenAsset[]` |
 | `getTokenByChain(chainId, [opts])` | Get tokens by chain id | `TokenAsset[]` |
 
 #### getTokens
@@ -390,17 +389,6 @@ Get token metadata by chain identifier.
 const ethereumUsdt = registry.getTokenByChain('eip155:1')
 console.log(ethereumUsdt)
 ```
-
-#### getTokenByTicker
-
-Alias of `getTokenBySymbol`.
-
-**Parameters:**
-
-- `ticker` (string): Token symbol to look up
-- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
-
-**Returns:** `TokenAsset[]`
 
 #### getTokenByAddress
 

@@ -60,14 +60,6 @@ export default class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
      */
     getTokenBySymbol(symbol: string, opts?: BaseAssetOptions): TokenAsset[];
     /**
-     * Alias of {@link getTokenBySymbol}.
-     *
-     * @param {string} ticker - The token symbol (e.g. "USDT", "ETH").
-     * @param {BaseAssetOptions} [filter] - Optional lookup filters such as `chainId` and `caseSensitive`.
-     * @returns {TokenAsset[]} A list of matching tokens.
-     */
-    getTokenByTicker(ticker: string, filter?: BaseAssetOptions): TokenAsset[];
-    /**
      * Fetch tokens by chain id.
      *
      * @param {string | number} chainId - The chain identifier (e.g. "eip155:1").

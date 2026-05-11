@@ -84,35 +84,6 @@ describe('wallet-token-asset-registry', () => {
     expect(wdkAssetRegistry.getTokenBySymbol(TEST_SYMBOL, { caseSensitive: true })).toEqual([])
   })
 
-  test('should get tokens by ticker', () => {
-    const assets = wdkAssetRegistry.getTokenByTicker(TEST_SYMBOL)
-
-    expect(Array.isArray(assets)).toBe(true)
-
-    const [asset] = assets
-
-    expect(asset.symbol.toLowerCase()).toBe(TEST_SYMBOL)
-    expect(assets).toContainEqual(expect.objectContaining({ address: TEST_ADDRESS, chainId: TEST_CHAINID }))
-  })
-
-  test('should get tokens by ticker as an alias of symbol lookup', () => {
-    const assets = wdkAssetRegistry.getTokenByTicker('USDT', { caseSensitive: true })
-
-    expect(Array.isArray(assets)).toBe(true)
-    expect(assets.length).toBeGreaterThan(0)
-
-    for (const asset of assets) {
-      expect(asset.symbol).toBe('USDT')
-    }
-  })
-
-  test('should return the same result for ticker and symbol lookup', () => {
-    const byTicker = wdkAssetRegistry.getTokenByTicker(TEST_SYMBOL)
-    const bySymbol = wdkAssetRegistry.getTokenBySymbol(TEST_SYMBOL)
-
-    expect(byTicker).toEqual(bySymbol)
-  })
-
   test('should get a token by id', () => {
     const asset = wdkAssetRegistry.getTokenById(TEST_ID)
 
