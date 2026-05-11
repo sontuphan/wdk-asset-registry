@@ -78,13 +78,13 @@ export default class WdkBaseAssetRegistry {
   /**
    * Assert a single asset.
    *
-   * @private
+   * @protected
    * @param {T} asset - Asset definition to validate.
-   * @returns {T} The normalized asset after the sucessful validation.
+   * @returns {void}
    * @throws {Error} Throw an error if the provided asset is invalid.
    */
   _assertAsset (asset) {
-    throw new NotImplementedError('_validateAsset(asset)')
+    BaseAssetSchema.parse(asset)
   }
 
   /**
