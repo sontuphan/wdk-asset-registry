@@ -152,7 +152,7 @@ The helper accepts the `tokens` array directly and converts each entry into a va
 | [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter), [BaseAssetOptions](#baseassetoptions) |
 | [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with ids and chain IDs | [Constructor](#constructor), [Methods](#methods) |
 | [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with id, symbol, ticker, address, and chain lookups | [Methods](#methods-1) |
-| [Token Asset Utils](#token-asset-utils) | Helpers for porting third-party token lists | [Methods](#methods-2) |
+| [Token Asset Utils](#token-asset-utils) | Helpers for working with token assets | [Uniswap Utilities](#uniswap-utilities) |
 
 ### Types
 
@@ -424,18 +424,32 @@ console.log(assets)
 
 ### Token Asset Utils
 
-Helpers for normalizing third-party token-list entries into `TokenAsset`.
+Helpers for working with token assets.
 
-#### Methods
+#### Uniswap Utilities
+
+Helpers for normalizing Uniswap Token Lists entries into `TokenAsset`.
+
+##### Methods
 
 | Method | Description | Returns |
 | --- | --- | --- |
 | `fromUniswapToken(token)` | Normalize one token-list entry into a `TokenAsset` | `TokenAsset` |
 | `fromUniswapTokenList(tokens)` | Normalize a token array into `TokenAsset[]` | `TokenAsset[]` |
 
-#### fromUniswapTokenList
+##### fromUniswapToken
 
-Convert a token-list `tokens` array into normalized `TokenAsset[]`.
+Convert one Uniswap-style token entry into a normalized `TokenAsset`.
+
+**Parameters:**
+
+- `token` (`UniswapTokenInfo`): Source token entry
+
+**Returns:** `TokenAsset`
+
+##### fromUniswapTokenList
+
+Convert a Uniswap Token Lists `tokens` array into normalized `TokenAsset[]`.
 
 **Parameters:**
 
