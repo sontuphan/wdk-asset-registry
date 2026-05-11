@@ -19,7 +19,8 @@
 export function fromUniswapToken(token: UniswapTokenInfo): TokenAsset;
 /**
  * Convert a Uniswap Token Lists token array into `TokenAsset[]`.
- * See https://tokenlists.org/.
+ *
+ * @see https://tokenlists.org/
  *
  * @param {UniswapTokenInfo[]} tokens - Source token entries.
  * @returns {TokenAsset[]} The normalized token assets.

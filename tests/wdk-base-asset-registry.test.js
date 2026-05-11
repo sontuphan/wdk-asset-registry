@@ -36,7 +36,7 @@ describe('wallet-base-asset-registry', () => {
   })
 
   test('should load all assets from the constructor', () => {
-    const assets = wdkAssetRegistry.getAllAssets()
+    const assets = wdkAssetRegistry.getAssets()
 
     expect(Array.isArray(assets)).toBe(true)
     expect(assets).toHaveLength(commonTokens.length)
@@ -48,7 +48,7 @@ describe('wallet-base-asset-registry', () => {
       [TEST_EXTRA_ASSET]
     )
 
-    expect(registry.getAllAssets()).toHaveLength(commonTokens.length + 1)
+    expect(registry.getAssets()).toHaveLength(commonTokens.length + 1)
   })
 
   test('should get assets by id', () => {
@@ -61,7 +61,7 @@ describe('wallet-base-asset-registry', () => {
     expect(wdkAssetRegistry.getAssetById(TEST_ID)).toEqual(
       expect.objectContaining({ id: TEST_ID })
     )
-    expect(wdkAssetRegistry.getAssetById(TEST_ID.toLowerCase())).toBeUndefined()
+    expect(wdkAssetRegistry.getAssetById(TEST_ID.toLowerCase())).toBeNull()
   })
 
   test('should get assets with multiple filter conditions', () => {
@@ -72,22 +72,22 @@ describe('wallet-base-asset-registry', () => {
   })
 
   test('should register a new asset', () => {
-    const initialLength = wdkAssetRegistry.getAllAssets().length
+    const initialLength = wdkAssetRegistry.getAssets().length
 
     wdkAssetRegistry.registerAsset(TEST_NEW_ASSET)
     const asset = wdkAssetRegistry.getAssetById(TEST_NEW_ASSET.id)
 
-    expect(wdkAssetRegistry.getAllAssets()).toHaveLength(initialLength + 1)
+    expect(wdkAssetRegistry.getAssets()).toHaveLength(initialLength + 1)
     expect(asset).toEqual(TEST_NEW_ASSET)
   })
 
-  test('should throw when registering a duplicate asset without force', () => {
+  test('should throw when registering a duplicate asset without upsert', () => {
     expect(() => wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET)).toThrow(
-      'Asset already exists. Set force to `true` to replace it.'
+      'Asset already exists. Set upsert to `true` to replace it.'
     )
   })
 
-  test('should replace an existing asset when force is true', () => {
+  test('should replace an existing asset when upsert is true', () => {
     wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET, true)
     const asset = wdkAssetRegistry.getAssetById(TEST_ID)
 

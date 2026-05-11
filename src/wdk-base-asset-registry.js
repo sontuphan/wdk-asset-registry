@@ -91,15 +91,15 @@ export class WdkBaseAssetRegistry {
    * @param {T} asset - Asset definition to insert or replace.
    * @param {boolean} [upsert] - When `true`, replaces an existing asset with the same id.
    * @returns {void}
-   * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
+   * @throws {Error} Thrown when the asset already exists and `upsert` is not enabled.
    */
-  registerAsset (asset, force = false) {
+  registerAsset (asset, upsert = false) {
     const normalizedAsset = this._assertAsset(asset)
 
     const existing = this._assets.get(normalizedAsset.id)
 
-    if (existing && !force) {
-      throw new Error('Asset already exists. Set force to `true` to replace it.')
+    if (existing && !upsert) {
+      throw new Error('Asset already exists. Set upsert to `true` to replace it.')
     }
 
     this._assets.set(normalizedAsset.id, normalizedAsset)
@@ -109,13 +109,13 @@ export class WdkBaseAssetRegistry {
    * Register multiple assets in the registry.
    *
    * @param {T[]} assets - Asset definitions to insert or replace.
-   * @param {boolean} [force] - When `true`, replaces existing assets with the same id.
+   * @param {boolean} [upsert] - When `true`, replaces existing assets with the same id.
    * @returns {void}
-   * @throws {Error} Thrown when any asset already exists and `force` is not enabled.
+   * @throws {Error} Thrown when any asset already exists and `upsert` is not enabled.
    */
-  registerAssets (assets, force = false) {
+  registerAssets (assets, upsert = false) {
     for (const asset of assets) {
-      this.registerAsset(asset, force)
+      this.registerAsset(asset, upsert)
     }
   }
 
@@ -135,7 +135,7 @@ export class WdkBaseAssetRegistry {
    * @returns {T | null} The matching asset, or `null` if no asset matches the id.
    */
   getAssetById (id) {
-    return this._assets.get(id)
+    return this._assets.get(id) ?? null
   }
 
   /**
@@ -148,7 +148,7 @@ export class WdkBaseAssetRegistry {
   getAsset (filter, opts = {}) {
     const { caseSensitive = false } = opts
 
-    const assets = this.getAllAssets()
+    const assets = this.getAssets()
     const results = []
 
     const normalizedFilter = filter.map(condition => {

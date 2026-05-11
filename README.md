@@ -161,7 +161,7 @@ The helper accepts the `tokens` array directly and converts each entry into a va
 ```typescript
 type BaseAsset = {
   id: string;
-  chainId: string;
+  chainId: string | number;
 };
 ```
 
@@ -243,10 +243,10 @@ class CustomAssetRegistry extends WdkBaseAssetRegistry<CustomAsset> {
 
 | Method | Description | Returns |
 | --- | --- | --- |
-| `registerAsset(asset, [force])` | Register a single asset | `void` |
-| `registerAssets(assets, [force])` | Register multiple assets | `void` |
-| `getAllAssets()` | Get all registered assets | `T[]` |
-| `getAssetById(id)` | Get one asset by identifier | `T \| undefined` |
+| `registerAsset(asset, [upsert])` | Register a single asset | `void` |
+| `registerAssets(assets, [upsert])` | Register multiple assets | `void` |
+| `getAssets()` | Get all registered assets | `T[]` |
+| `getAssetById(id)` | Get one asset by identifier | `T \| null` |
 | `getAsset(filter, [opts])` | Get assets using one or more partial match conditions | `T[]` |
 
 #### registerAsset
@@ -256,7 +256,7 @@ Register a single asset in the registry.
 **Parameters:**
 
 - `asset` (`T`): Asset definition to insert or replace
-- `force` (boolean, optional): When `true`, replaces an existing asset with the same id
+- `upsert` (boolean, optional): When `true`, replaces an existing asset with the same id
 
 **Returns:** `void`
 
@@ -267,11 +267,11 @@ Register multiple assets in the registry.
 **Parameters:**
 
 - `assets` (`T[]`): Asset definitions to insert or replace
-- `force` (boolean, optional): When `true`, replaces existing assets with the same id
+- `upsert` (boolean, optional): When `true`, replaces existing assets with the same id
 
 **Returns:** `void`
 
-#### getAllAssets
+#### getAssets
 
 Get all registered assets.
 
@@ -285,7 +285,7 @@ Get a single asset by identifier.
 
 - `id` (string): Asset identifier to look up
 
-**Returns:** `T | undefined`
+**Returns:** `T | null`
 
 **Example:**
 
@@ -325,14 +325,14 @@ Token-specific registry built on top of `WdkBaseAssetRegistry<TokenAsset>`.
 
 | Method | Description | Returns |
 | --- | --- | --- |
-| `getAllTokens()` | Get all registered tokens | `TokenAsset[]` |
-| `getTokenById(id)` | Get one token by id | `TokenAsset \| undefined` |
+| `getTokens()` | Get all registered tokens | `TokenAsset[]` |
+| `getTokenById(id)` | Get one token by id | `TokenAsset \| null` |
 | `getTokenByAddress(address, [opts])` | Get tokens by address | `TokenAsset[]` |
 | `getTokenBySymbol(symbol, [opts])` | Get tokens by symbol | `TokenAsset[]` |
 | `getTokenByTicker(ticker, [opts])` | Alias of `getTokenBySymbol` | `TokenAsset[]` |
 | `getTokenByChain(chainId, [opts])` | Get tokens by chain id | `TokenAsset[]` |
 
-#### getAllTokens
+#### getTokens
 
 Get all registered tokens.
 
@@ -364,7 +364,7 @@ Get a single token by asset identifier.
 
 - `id` (string): Token asset identifier to look up
 
-**Returns:** `TokenAsset | undefined`
+**Returns:** `TokenAsset | null`
 
 **Example:**
 
@@ -379,7 +379,7 @@ Get token metadata by chain identifier.
 
 **Parameters:**
 
-- `chainId` (string): Chain identifier to look up
+- `chainId` (string | number): Chain identifier to look up
 - `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
 
 **Returns:** `TokenAsset[]`

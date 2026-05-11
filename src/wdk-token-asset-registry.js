@@ -33,15 +33,15 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
    *
    * @returns {TokenAsset[]} A list of all registered tokens.
    */
-  getAllTokens () {
-    return this.getAllAssets()
+  getTokens () {
+    return this.getAssets()
   }
 
   /**
    * Fetch a token by its asset identifier.
    *
    * @param {string} id - The asset identifier.
-   * @returns {TokenAsset | undefined} The matching token, or `undefined` if no token matches the id.
+   * @returns {TokenAsset | null} The matching token, or `null` if no token matches the id.
    */
   getTokenById (id) {
     return this.getAssetById(id)
@@ -83,7 +83,7 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
   /**
    * Fetch tokens by chain id.
    *
-   * @param {string} chainId - The chain identifier (e.g. "eip155:1").
+   * @param {string | number} chainId - The chain identifier (e.g. "eip155:1").
    * @param {BaseAssetOptions} [opts] - Optional lookup filters such as `caseSensitive`.
    * @returns {TokenAsset[]} A list of matching tokens.
    */

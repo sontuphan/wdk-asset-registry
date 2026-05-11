@@ -47,7 +47,7 @@ describe('wallet-token-asset-registry', () => {
   })
 
   test('should load all common assets from the package export', () => {
-    const assets = wdkAssetRegistry.getAllTokens()
+    const assets = wdkAssetRegistry.getTokens()
 
     expect(Array.isArray(assets)).toBe(true)
     expect(assets.length).toBeGreaterThan(0)
@@ -59,7 +59,7 @@ describe('wallet-token-asset-registry', () => {
       [TEST_EXTRA_ASSET]
     )
 
-    const assets = registry.getAllTokens()
+    const assets = registry.getTokens()
     const [extraAsset] = registry.getTokenBySymbol(TEST_EXTRA_ASSET.symbol, {
       caseSensitive: false
     })
@@ -148,22 +148,22 @@ describe('wallet-token-asset-registry', () => {
   })
 
   test('should register a new asset', () => {
-    const initialLength = wdkAssetRegistry.getAllTokens().length
+    const initialLength = wdkAssetRegistry.getTokens().length
 
     wdkAssetRegistry.registerAsset(TEST_NEW_ASSET)
     const asset = wdkAssetRegistry.getTokenById(TEST_NEW_ASSET.id)
 
-    expect(wdkAssetRegistry.getAllTokens()).toHaveLength(initialLength + 1)
+    expect(wdkAssetRegistry.getTokens()).toHaveLength(initialLength + 1)
     expect(asset).toEqual(TEST_NEW_ASSET)
   })
 
-  test('should throw when registering a duplicate asset without force', () => {
+  test('should throw when registering a duplicate asset without upsert', () => {
     expect(() => wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET)).toThrow(
-      'Asset already exists. Set force to `true` to replace it.'
+      'Asset already exists. Set upsert to `true` to replace it.'
     )
   })
 
-  test('should replace an existing asset when force is true', () => {
+  test('should replace an existing asset when upsert is true', () => {
     wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET, true)
     const asset = wdkAssetRegistry.getTokenById(TEST_ID)
 
@@ -188,7 +188,7 @@ describe('wallet-token-asset-registry', () => {
     expect(wdkAssetRegistry.getTokenById(assetsToRegister[1].id)).toEqual(assetsToRegister[1])
   })
 
-  test('should replace multiple existing assets when force is true', () => {
+  test('should replace multiple existing assets when upsert is true', () => {
     const assetsToReplace = [
       TEST_REPLACED_ASSET,
       {

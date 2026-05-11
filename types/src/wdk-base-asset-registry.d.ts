@@ -57,33 +57,33 @@ export class WdkBaseAssetRegistry<T extends BaseAsset> {
      * Register a single asset in the registry.
      *
      * @param {T} asset - Asset definition to insert or replace.
-     * @param {boolean} [force] - When `true`, replaces an existing asset with the same id.
+     * @param {boolean} [upsert] - When `true`, replaces an existing asset with the same id.
      * @returns {void}
-     * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
+     * @throws {Error} Thrown when the asset already exists and `upsert` is not enabled.
      */
-    registerAsset(asset: T, force?: boolean): void;
+    registerAsset(asset: T, upsert?: boolean): void;
     /**
      * Register multiple assets in the registry.
      *
      * @param {T[]} assets - Asset definitions to insert or replace.
-     * @param {boolean} [force] - When `true`, replaces existing assets with the same id.
+     * @param {boolean} [upsert] - When `true`, replaces existing assets with the same id.
      * @returns {void}
-     * @throws {Error} Thrown when any asset already exists and `force` is not enabled.
+     * @throws {Error} Thrown when any asset already exists and `upsert` is not enabled.
      */
-    registerAssets(assets: T[], force?: boolean): void;
+    registerAssets(assets: T[], upsert?: boolean): void;
     /**
      * Fetch all assets.
      *
      * @returns {T[]} A list of all registered assets.
      */
-    getAllAssets(): T[];
+    getAssets(): T[];
     /**
      * Fetch an asset by the identifier.
      *
      * @param {string} id - The asset identifier.
-     * @returns {T | undefined} The matching asset, or `undefined` if no asset matches the id.
+     * @returns {T | null} The matching asset, or `null` if no asset matches the id.
      */
-    getAssetById(id: string): T | undefined;
+    getAssetById(id: string): T | null;
     /**
      * Fetch assets by one or more partial match conditions.
      *

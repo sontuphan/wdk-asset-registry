@@ -30,12 +30,8 @@ function loadAllAssets () {
   return result
 }
 
-/**
- * Load data
- */
+// Load data
 const assets = loadAllAssets()
 
-/**
- * Build the full list
- */
+// Build the full list
 writeFileSync(`${OUTPUT}/common-tokens.json`, JSON.stringify(assets, null, 2))
