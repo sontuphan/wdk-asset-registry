@@ -30,7 +30,7 @@ export const TokenAssetSchema = BaseAssetSchema.extend({
   address: z.string(),
   symbol: z.string(),
   name: z.string(),
-  decimals: z.number().int().gte(0).lte(255),
+  decimals: z.int().gte(0).lte(255),
   isNative: z.boolean()
 })
 
