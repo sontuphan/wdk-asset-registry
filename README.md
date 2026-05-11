@@ -81,7 +81,7 @@ console.log(ethereumUsdt)
 ### Query Base Assets with Partial Filters
 
 ```javascript
-import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
+import WdkBaseAssetRegistry, { BaseAssetSchema } from '@tetherto/wdk-asset-registry'
 
 class CustomAssetRegistry extends WdkBaseAssetRegistry {
   _assertAsset (asset) {
@@ -220,7 +220,7 @@ const registry = new WdkTokenAssetRegistry(commonTokens)
 
 ```typescript
 import { z } from 'zod'
-import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
+import WdkBaseAssetRegistry, { BaseAssetSchema } from '@tetherto/wdk-asset-registry'
 
 type CustomAsset = {
   id: string
@@ -300,7 +300,7 @@ Get asset metadata using one or more partial match conditions.
 
 **Parameters:**
 
-- `filter` (`BaseAssetFilter<T>`): One or more partial asset match conditions
+- `filter` (`BaseAssetFilter<T>`): One or more partial asset match conditions. Within a condition, provided key-value pairs are matched with AND.
 - `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
 
 **Returns:** `T[]`

@@ -37,7 +37,7 @@ import { deepEqual } from 'fast-equals'
  *
  * @example
  * import { z } from 'zod'
- * import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
+ * import WdkBaseAssetRegistry, { BaseAssetSchema } from '@tetherto/wdk-asset-registry'
  *
  * type CustomAsset = {
  *   id: string
@@ -63,6 +63,8 @@ export default class WdkBaseAssetRegistry {
    */
   constructor (...preload) {
     /**
+     * Registered assets keyed by asset id.
+     *
      * @private
      * @type {Map<string, T>}
      */
@@ -141,7 +143,7 @@ export default class WdkBaseAssetRegistry {
   /**
    * Fetch assets by one or more partial match conditions.
    *
-   * @param {BaseAssetFilter<T>} filter - One or more partial asset match conditions. Each condition matches assets that contain the provided key-value pairs.
+   * @param {BaseAssetFilter<T>} filter - One or more partial asset match conditions. Within a condition, provided key-value pairs are matched with AND.
    * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
    * @returns {T[]} A list of matching assets.
    */

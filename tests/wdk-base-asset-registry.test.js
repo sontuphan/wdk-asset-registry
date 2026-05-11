@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from '@jest/globals'
 
-import { BaseAssetSchema, WdkBaseAssetRegistry } from '@tetherto/wdk-asset-registry'
+import WdkBaseAssetRegistry, { BaseAssetSchema } from '@tetherto/wdk-asset-registry'
 import commonTokens from '@tetherto/wdk-asset-registry/assets/common-tokens'
 
 const TEST_CHAINID = 'eip155:1'

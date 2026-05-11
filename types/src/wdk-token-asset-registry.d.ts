@@ -78,4 +78,4 @@ export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
 }
 export type TokenAsset = import("./wdk-asset-schema.js").TokenAsset;
 export type BaseAssetOptions = import("./wdk-base-asset-registry.js").BaseAssetOptions;
-import { WdkBaseAssetRegistry } from './wdk-base-asset-registry.js';
+import WdkBaseAssetRegistry from './wdk-base-asset-registry.js';

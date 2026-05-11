@@ -9,29 +9,19 @@ const OUTPUT = 'dist'
 rmSync(OUTPUT, { recursive: true, force: true })
 mkdirSync(OUTPUT, { recursive: true })
 
-/**
- * Load all predefined assets
- *
- * @returns {TokenAsset} The list of assets
- */
-function loadAllAssets () {
-  const files = readdirSync(INPUT)
-
-  const result = []
-  for (const file of files) {
-    const source = `${INPUT}/${file}`
-    const raw = readFileSync(source, 'utf-8')
-    const data = JSON.parse(raw)
-    for (const asset of data) {
-      result.push({ id: `${asset.chainId}/${asset.address}`, ...asset })
-    }
-  }
-
-  return result
-}
 
 // Load data
-const assets = loadAllAssets()
+const assets = []
+const files = readdirSync(INPUT)
+
+for (const file of files) {
+  const source = `${INPUT}/${file}`
+  const raw = readFileSync(source, 'utf-8')
+  const data = JSON.parse(raw)
+  for (const asset of data) {
+    assets.push({ id: `${asset.chainId}/${asset.address}`, ...asset })
+  }
+}
 
 // Build the full list
 writeFileSync(`${OUTPUT}/common-tokens.json`, JSON.stringify(assets, null, 2))
