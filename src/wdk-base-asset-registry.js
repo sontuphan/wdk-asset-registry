@@ -24,7 +24,7 @@ import { BaseAssetSchema } from './schemas/index.js'
 
 /**
  * @template {object} TSchema
- * @typedef {Partial<TSchema>[]} BaseAssetFilter
+ * @typedef {Partial<TSchema>} BaseAssetFilter
  */
 
 /**
@@ -145,7 +145,7 @@ export default class WdkBaseAssetRegistry {
   /**
    * Fetch assets by one or more partial match conditions.
    *
-   * @param {BaseAssetFilter<T>} filter - One or more partial asset match conditions. Within a condition, provided key-value pairs are matched with AND.
+   * @param {BaseAssetFilter<T>[]} filter - One or more partial asset match conditions. Within a condition, provided key-value pairs are matched with AND.
    * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
    * @returns {T[]} A list of matching assets.
    */

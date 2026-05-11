@@ -80,14 +80,14 @@ export default class WdkBaseAssetRegistry<T extends BaseAsset> {
     /**
      * Fetch assets by one or more partial match conditions.
      *
-     * @param {BaseAssetFilter<T>} filter - One or more partial asset match conditions. Within a condition, provided key-value pairs are matched with AND.
+     * @param {BaseAssetFilter<T>[]} filter - One or more partial asset match conditions. Within a condition, provided key-value pairs are matched with AND.
      * @param {BaseAssetOptions} [opts] - Optional lookup options such as `caseSensitive`.
      * @returns {T[]} A list of matching assets.
      */
-    getAsset(filter: BaseAssetFilter<T>, opts?: BaseAssetOptions): T[];
+    getAsset(filter: BaseAssetFilter<T>[], opts?: BaseAssetOptions): T[];
 }
 export type BaseAsset = import("./schemas/base-asset.js").BaseAsset;
-export type BaseAssetFilter<TSchema extends object> = Partial<TSchema>[];
+export type BaseAssetFilter<TSchema extends object> = Partial<TSchema>;
 export type BaseAssetOptions = {
     /**
      * - Defaults to `false`. When true, matches symbols and addresses without lowercasing.

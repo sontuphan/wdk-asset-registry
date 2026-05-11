@@ -188,7 +188,7 @@ type BaseAssetOptions = {
 #### BaseAssetFilter
 
 ```typescript
-type BaseAssetFilter<T> = Partial<T>[];
+type BaseAssetFilter<T> = Partial<T>;
 ```
 
 Each array item is a partial match condition. Properties inside a single object are matched together, and multiple objects are evaluated as a union of conditions.
@@ -300,7 +300,7 @@ Get asset metadata using one or more partial match conditions.
 
 **Parameters:**
 
-- `filter` (`BaseAssetFilter<T>`): One or more partial asset match conditions. Within a condition, provided key-value pairs are matched with AND.
+- `filter` (`BaseAssetFilter<T>[]`): One or more partial asset match conditions. Within a condition, provided key-value pairs are matched with AND.
 - `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
 
 **Returns:** `T[]`
