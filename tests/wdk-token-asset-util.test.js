@@ -1,9 +1,6 @@
 import { describe, expect, test } from '@jest/globals'
 
-import {
-  fromUniswapToken,
-  fromUniswapTokenList
-} from '@tetherto/wdk-asset-registry'
+import { fromUniswapToken, fromUniswapTokenList } from '@tetherto/wdk-asset-registry'
 
 const UNISWAP_TOKEN = {
   chainId: 1,

@@ -1,9 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, } from '@jest/globals'
 
-import {
-  AssetRegistryError,
-  WdkTokenAssetRegistry
-} from '@tetherto/wdk-asset-registry'
+import { AssetRegistryError, WdkTokenAssetRegistry } from '@tetherto/wdk-asset-registry'
 import commonTokens from '@tetherto/wdk-asset-registry/assets/common-tokens'
 
 const TEST_SYMBOL = 'usdt'
