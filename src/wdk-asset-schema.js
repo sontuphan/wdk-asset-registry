@@ -21,7 +21,7 @@ import { z } from 'zod'
 
 export const BaseAssetSchema = z.object({
   id: z.string(),
-  chainId: z.string()
+  chainId: z.union([z.int(), z.string()])
 })
 
 export const BaseAssetJsonSchema = BaseAssetSchema.toJSONSchema()
