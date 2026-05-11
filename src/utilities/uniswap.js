@@ -14,9 +14,9 @@
 
 'use strict'
 
-import { TokenAssetSchema } from './wdk-asset-schema.js'
+import { TokenAssetSchema } from '../wdk-asset-schema.js'
 
-/** @typedef {import("./wdk-asset-schema.js").TokenAsset} TokenAsset */
+/** @typedef {import("../wdk-asset-schema.js").TokenAsset} TokenAsset */
 
 /**
  * @typedef {object} UniswapTokenInfo

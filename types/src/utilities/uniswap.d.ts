@@ -1,4 +1,4 @@
-/** @typedef {import("./wdk-asset-schema.js").TokenAsset} TokenAsset */
+/** @typedef {import("../wdk-asset-schema.js").TokenAsset} TokenAsset */
 /**
  * @typedef {object} UniswapTokenInfo
  * @property {number} chainId - The source EVM chain id from the token list.
@@ -26,7 +26,7 @@ export function fromUniswapToken(token: UniswapTokenInfo): TokenAsset;
  * @returns {TokenAsset[]} The normalized token assets.
  */
 export function fromUniswapTokenList(tokens: UniswapTokenInfo[]): TokenAsset[];
-export type TokenAsset = import("./wdk-asset-schema.js").TokenAsset;
+export type TokenAsset = import("../wdk-asset-schema.js").TokenAsset;
 export type UniswapTokenInfo = {
     /**
      * - The source EVM chain id from the token list.
