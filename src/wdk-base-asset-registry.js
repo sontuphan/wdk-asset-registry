@@ -89,7 +89,7 @@ export class WdkBaseAssetRegistry {
    * Register a single asset in the registry.
    *
    * @param {T} asset - Asset definition to insert or replace.
-   * @param {boolean} [force] - When `true`, replaces an existing asset with the same id.
+   * @param {boolean} [upsert] - When `true`, replaces an existing asset with the same id.
    * @returns {void}
    * @throws {Error} Thrown when the asset already exists and `force` is not enabled.
    */
