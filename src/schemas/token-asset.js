@@ -16,15 +16,9 @@
 
 import { z } from 'zod'
 
-/** @typedef {z.infer<typeof BaseAssetSchema>} BaseAsset */
+import { BaseAssetSchema } from './base-asset.js'
+
 /** @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset */
-
-export const BaseAssetSchema = z.object({
-  id: z.string(),
-  chainId: z.union([z.int(), z.string()])
-})
-
-export const BaseAssetJsonSchema = BaseAssetSchema.toJSONSchema()
 
 export const TokenAssetSchema = BaseAssetSchema.extend({
   address: z.string(),

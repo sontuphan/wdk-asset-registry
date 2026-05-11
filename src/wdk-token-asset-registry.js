@@ -14,10 +14,10 @@
 
 'use strict'
 
-import { TokenAssetSchema } from './wdk-asset-schema.js'
+import { TokenAssetSchema } from './schemas/token-asset.js'
 import WdkBaseAssetRegistry from './wdk-base-asset-registry.js'
 
-/** @typedef {import("./wdk-asset-schema.js").TokenAsset} TokenAsset */
+/** @typedef {import("./schemas/token-asset.js").TokenAsset} TokenAsset */
 /** @typedef {import("./wdk-base-asset-registry.js").BaseAssetOptions} BaseAssetOptions */
 
 /**

@@ -1,4 +1,4 @@
-/** @typedef {import("./wdk-asset-schema.js").TokenAsset} TokenAsset */
+/** @typedef {import("./schemas/token-asset.js").TokenAsset} TokenAsset */
 /** @typedef {import("./wdk-base-asset-registry.js").BaseAssetOptions} BaseAssetOptions */
 /**
  * @extends {WdkBaseAssetRegistry<TokenAsset>}
@@ -76,6 +76,6 @@ export default class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
      */
     getTokenByChain(chainId: string | number, opts?: BaseAssetOptions): TokenAsset[];
 }
-export type TokenAsset = import("./wdk-asset-schema.js").TokenAsset;
+export type TokenAsset = import("./schemas/token-asset.js").TokenAsset;
 export type BaseAssetOptions = import("./wdk-base-asset-registry.js").BaseAssetOptions;
 import WdkBaseAssetRegistry from './wdk-base-asset-registry.js';

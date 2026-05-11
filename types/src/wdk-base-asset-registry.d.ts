@@ -1,4 +1,4 @@
-/** @typedef {import("./wdk-asset-schema.js").BaseAsset} BaseAsset */
+/** @typedef {import("./schemas/base-asset.js").BaseAsset} BaseAsset */
 /**
  * @template {object} TSchema
  * @typedef {Partial<TSchema>[]} BaseAssetFilter
@@ -95,7 +95,7 @@ export default class WdkBaseAssetRegistry<T extends BaseAsset> {
      */
     getAsset(filter: BaseAssetFilter<T>, opts?: BaseAssetOptions): T[];
 }
-export type BaseAsset = import("./wdk-asset-schema.js").BaseAsset;
+export type BaseAsset = import("./schemas/base-asset.js").BaseAsset;
 export type BaseAssetFilter<TSchema extends object> = Partial<TSchema>[];
 export type BaseAssetOptions = {
     /**

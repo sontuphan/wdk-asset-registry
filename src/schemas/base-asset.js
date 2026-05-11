@@ -11,16 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 'use strict'
 
-/** @typedef {import('./src/wdk-base-asset-registry.js').BaseAssetOptions} BaseAssetOptions */
-/** @typedef {import('./src/schemas/base-asset.js').BaseAsset} BaseAsset */
-/** @typedef {import('./src/schemas/token-asset.js').TokenAsset} TokenAsset */
+import { z } from 'zod'
 
-export { default } from './src/wdk-base-asset-registry.js'
+/** @typedef {z.infer<typeof BaseAssetSchema>} BaseAsset */
 
-export * from './src/schemas/index.js'
+export const BaseAssetSchema = z.object({
+  id: z.string(),
+  chainId: z.union([z.int(), z.string()])
+})
 
-export { default as WdkTokenAssetRegistry } from './src/wdk-token-asset-registry.js'
-
-export * from './src/utilities/uniswap.js'
+export const BaseAssetJsonSchema = BaseAssetSchema.toJSONSchema()

@@ -18,7 +18,7 @@ import { NotImplementedError } from '@tetherto/wdk-wallet'
 
 import { deepEqual } from 'fast-equals'
 
-/** @typedef {import("./wdk-asset-schema.js").BaseAsset} BaseAsset */
+/** @typedef {import("./schemas/base-asset.js").BaseAsset} BaseAsset */
 
 /**
  * @template {object} TSchema
