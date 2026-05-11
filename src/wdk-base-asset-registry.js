@@ -55,7 +55,7 @@ import { deepEqual } from 'fast-equals'
  *   }
  * }
  */
-export class WdkBaseAssetRegistry {
+export default class WdkBaseAssetRegistry {
   /**
    * Creates a new asset registry.
    *
