@@ -18,6 +18,7 @@ import { z } from 'zod'
 
 import { deepEqual } from 'fast-equals'
 
+import { AssetRegistryError } from './utils/errors.js'
 import { BaseAssetSchema } from './schemas/index.js'
 
 /** @typedef {import("./schemas/base-asset.js").BaseAsset} BaseAsset */
@@ -95,7 +96,7 @@ export default class WdkBaseAssetRegistry {
    * @param {T} asset - Asset definition to insert or replace.
    * @param {boolean} [upsert] - When `true`, replaces an existing asset with the same id.
    * @returns {void}
-   * @throws {Error} Thrown when the asset already exists and `upsert` is not enabled.
+   * @throws {AssetRegistryError} Thrown when the asset already exists and `upsert` is not enabled.
    */
   registerAsset (asset, upsert = false) {
     const normalizedAsset = this._assertAsset(asset)
@@ -103,7 +104,7 @@ export default class WdkBaseAssetRegistry {
     const existing = this._assets.get(normalizedAsset.id)
 
     if (existing && !upsert) {
-      throw new Error('Asset already exists. Set upsert to `true` to replace it.')
+      throw new AssetRegistryError('Asset already exists. Set upsert to `true` to replace it.')
     }
 
     this._assets.set(normalizedAsset.id, normalizedAsset)
@@ -115,7 +116,7 @@ export default class WdkBaseAssetRegistry {
    * @param {T[]} assets - Asset definitions to insert or replace.
    * @param {boolean} [upsert] - When `true`, replaces existing assets with the same id.
    * @returns {void}
-   * @throws {Error} Thrown when any asset already exists and `upsert` is not enabled.
+   * @throws {AssetRegistryError} Thrown when any asset already exists and `upsert` is not enabled.
    */
   registerAssets (assets, upsert = false) {
     for (const asset of assets) {

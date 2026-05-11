@@ -11,18 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 'use strict'
 
-/** @typedef {import('./src/wdk-base-asset-registry.js').BaseAssetOptions} BaseAssetOptions */
-/** @typedef {import('./src/schemas/base-asset.js').BaseAsset} BaseAsset */
-/** @typedef {import('./src/schemas/token-asset.js').TokenAsset} TokenAsset */
-
-export { default } from './src/wdk-base-asset-registry.js'
-
-export * from './src/utils/errors.js'
-
-export * from './src/schemas/index.js'
-
-export { default as WdkTokenAssetRegistry } from './src/wdk-token-asset-registry.js'
-
-export * from './src/utils/uniswap.js'
+export class AssetRegistryError extends Error {
+  constructor (message) {
+    super(message)
+    this.name = 'AssetRegistryError'
+  }
+}

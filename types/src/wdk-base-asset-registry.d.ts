@@ -45,14 +45,14 @@ export default class WdkBaseAssetRegistry<T extends BaseAsset> {
      * @returns {T} The normalized asset after the successful validation.
      * @throws {Error} Throw an error if the provided asset is invalid.
      */
-    protected _assertAsset;
+    protected _assertAsset(asset: T): T;
     /**
      * Register a single asset in the registry.
      *
      * @param {T} asset - Asset definition to insert or replace.
      * @param {boolean} [upsert] - When `true`, replaces an existing asset with the same id.
      * @returns {void}
-     * @throws {Error} Thrown when the asset already exists and `upsert` is not enabled.
+     * @throws {AssetRegistryError} Thrown when the asset already exists and `upsert` is not enabled.
      */
     registerAsset(asset: T, upsert?: boolean): void;
     /**
@@ -61,7 +61,7 @@ export default class WdkBaseAssetRegistry<T extends BaseAsset> {
      * @param {T[]} assets - Asset definitions to insert or replace.
      * @param {boolean} [upsert] - When `true`, replaces existing assets with the same id.
      * @returns {void}
-     * @throws {Error} Thrown when any asset already exists and `upsert` is not enabled.
+     * @throws {AssetRegistryError} Thrown when any asset already exists and `upsert` is not enabled.
      */
     registerAssets(assets: T[], upsert?: boolean): void;
     /**

@@ -1,6 +1,9 @@
 import { afterEach, beforeEach, describe, expect, test, } from '@jest/globals'
 
-import { WdkTokenAssetRegistry } from '@tetherto/wdk-asset-registry'
+import {
+  AssetRegistryError,
+  WdkTokenAssetRegistry
+} from '@tetherto/wdk-asset-registry'
 import commonTokens from '@tetherto/wdk-asset-registry/assets/common-tokens'
 
 const TEST_SYMBOL = 'usdt'
@@ -129,6 +132,7 @@ describe('wallet-token-asset-registry', () => {
   })
 
   test('should throw when registering a duplicate asset without upsert', () => {
+    expect(() => wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET)).toThrow(AssetRegistryError)
     expect(() => wdkAssetRegistry.registerAsset(TEST_REPLACED_ASSET)).toThrow(
       'Asset already exists. Set upsert to `true` to replace it.'
     )
