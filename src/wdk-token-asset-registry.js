@@ -23,7 +23,7 @@ import WdkBaseAssetRegistry from './wdk-base-asset-registry.js'
 /**
  * @extends {WdkBaseAssetRegistry<TokenAsset>}
  */
-export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
+export default class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
   _assertAsset (asset) {
     return TokenAssetSchema.parse(asset)
   }

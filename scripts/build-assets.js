@@ -9,7 +9,6 @@ const OUTPUT = 'dist'
 rmSync(OUTPUT, { recursive: true, force: true })
 mkdirSync(OUTPUT, { recursive: true })
 
-
 // Load data
 const assets = []
 const files = readdirSync(INPUT)

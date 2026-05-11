@@ -21,6 +21,6 @@ export { default } from './src/wdk-base-asset-registry.js'
 
 export * from './src/wdk-asset-schema.js'
 
-export * from './src/wdk-token-asset-registry.js'
+export { default as WdkTokenAssetRegistry } from './src/wdk-token-asset-registry.js'
 
 export * from './src/wdk-token-asset-util.js'

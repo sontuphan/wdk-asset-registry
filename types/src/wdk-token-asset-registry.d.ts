@@ -3,7 +3,7 @@
 /**
  * @extends {WdkBaseAssetRegistry<TokenAsset>}
  */
-export class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
+export default class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
     id: string;
     chainId: string | number;
     address: string;

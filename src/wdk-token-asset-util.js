@@ -52,7 +52,7 @@ export function fromUniswapToken (token) {
 
 /**
  * Convert a Uniswap Token Lists token array into `TokenAsset[]`.
- * 
+ *
  * @see https://tokenlists.org/
  *
  * @param {UniswapTokenInfo[]} tokens - Source token entries.
