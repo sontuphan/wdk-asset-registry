@@ -132,7 +132,7 @@ export class WdkBaseAssetRegistry {
    * Fetch an asset by the identifier.
    *
    * @param {string} id - The asset identifier.
-   * @returns {T | undefined} The matching asset, or `undefined` if no asset matches the id.
+   * @returns {T | null} The matching asset, or `null` if no asset matches the id.
    */
   getAssetById (id) {
     return this._assets.get(id)
