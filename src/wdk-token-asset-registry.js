@@ -15,6 +15,7 @@
 'use strict'
 
 import { TokenAssetSchema } from './schemas/token-asset.js'
+
 import WdkBaseAssetRegistry from './wdk-base-asset-registry.js'
 
 /** @typedef {import("./schemas/token-asset.js").TokenAsset} TokenAsset */

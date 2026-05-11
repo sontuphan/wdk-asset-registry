@@ -40,12 +40,12 @@ export default class WdkBaseAssetRegistry<T extends BaseAsset> {
     /**
      * Assert a single asset.
      *
-     * @private
+     * @protected
      * @param {T} asset - Asset definition to validate.
-     * @returns {T} The normalized asset after the sucessful validation.
+     * @returns {T} The normalized asset after the successful validation.
      * @throws {Error} Throw an error if the provided asset is invalid.
      */
-    private _assertAsset;
+    protected _assertAsset;
     /**
      * Register a single asset in the registry.
      *

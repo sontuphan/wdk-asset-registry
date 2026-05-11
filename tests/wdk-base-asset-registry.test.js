@@ -17,6 +17,11 @@ const TEST_EXTRA_ASSET = {
   id: 'eip155:10/custom',
   chainId: 'eip155:10'
 }
+const TEST_EXTENDED_ASSET = {
+  id: 'eip155:1/extended',
+  chainId: TEST_CHAINID,
+  label: 'Extended Asset'
+}
 
 class TestBaseAssetRegistry extends WdkBaseAssetRegistry {
   _assertAsset (asset) {
@@ -69,6 +74,32 @@ describe('wallet-base-asset-registry', () => {
 
     expect(Array.isArray(assets)).toBe(true)
     expect(assets).toEqual([expect.objectContaining({ id: TEST_ID, chainId: TEST_CHAINID })])
+  })
+
+  test('should validate a base asset with the default assertion', () => {
+    const registry = new WdkBaseAssetRegistry()
+
+    expect(registry._assertAsset(TEST_NEW_ASSET)).toEqual(TEST_NEW_ASSET)
+  })
+
+  test('should preserve extra fields with the default assertion', () => {
+    const registry = new WdkBaseAssetRegistry()
+
+    expect(registry._assertAsset(TEST_EXTENDED_ASSET)).toEqual(TEST_EXTENDED_ASSET)
+  })
+
+  test('should throw for invalid assets with the default assertion', () => {
+    const registry = new WdkBaseAssetRegistry()
+
+    expect(() => registry._assertAsset({ id: 'missing-chain-id' })).toThrow()
+  })
+
+  test('should register a base asset with the default assertion', () => {
+    const registry = new WdkBaseAssetRegistry()
+
+    registry.registerAsset(TEST_EXTENDED_ASSET)
+
+    expect(registry.getAssetById(TEST_EXTENDED_ASSET.id)).toEqual(TEST_EXTENDED_ASSET)
   })
 
   test('should register a new asset', () => {

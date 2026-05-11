@@ -14,9 +14,11 @@
 
 'use strict'
 
-import { NotImplementedError } from '@tetherto/wdk-wallet'
+import { z } from 'zod'
 
 import { deepEqual } from 'fast-equals'
+
+import { BaseAssetSchema } from './schemas/index.js'
 
 /** @typedef {import("./schemas/base-asset.js").BaseAsset} BaseAsset */
 
@@ -80,11 +82,11 @@ export default class WdkBaseAssetRegistry {
    *
    * @protected
    * @param {T} asset - Asset definition to validate.
-   * @returns {void}
+   * @returns {T} The normalized asset after the successful validation.
    * @throws {Error} Throw an error if the provided asset is invalid.
    */
   _assertAsset (asset) {
-    BaseAssetSchema.parse(asset)
+    return z.looseObject(BaseAssetSchema.shape).parse(asset)
   }
 
   /**
