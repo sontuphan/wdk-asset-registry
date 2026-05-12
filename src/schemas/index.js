@@ -14,5 +14,10 @@
 
 'use strict'
 
+/** @typedef {import("./base-asset.js").BaseAsset} BaseAsset */
+
+/** @typedef {import("./token-asset.js").TokenAsset} TokenAsset */
+
 export * from './base-asset.js'
+
 export * from './token-asset.js'
