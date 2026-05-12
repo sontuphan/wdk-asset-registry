@@ -7,16 +7,25 @@ const OUTPUT = 'dist'
 rmSync(OUTPUT, { recursive: true, force: true })
 mkdirSync(OUTPUT, { recursive: true })
 
-// Load data
 const assets = []
-const files = readdirSync(INPUT)
+const files = readdirSync(INPUT).filter(file => file.endsWith('.json'))
 
 for (const file of files) {
   const source = `${INPUT}/${file}`
   const raw = readFileSync(source, 'utf-8')
   const data = JSON.parse(raw)
-  for (const asset of data) {
-    assets.push({ id: `${asset.chainId}/${asset.address}`, ...asset })
+  for (const [symbol, token] of Object.entries(data)) {
+    for (const [chainId, address] of Object.entries(token.address)) {
+      assets.push({
+        id: `${chainId}/${address}`,
+        address,
+        symbol,
+        name: token.name,
+        decimals: token.decimals,
+        chainId,
+        isNative: token.isNativeCoin
+      })
+    }
   }
 }
 
