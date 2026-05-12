@@ -1,3 +1,4 @@
+/** @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset */
 export const TokenAssetSchema: z.ZodObject<{
     id: z.ZodString;
     chainId: z.ZodUnion<readonly [z.ZodInt, z.ZodString]>;

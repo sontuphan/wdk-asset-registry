@@ -150,6 +150,7 @@ The helper accepts the `tokens` array directly and converts each entry into a va
 | Section | Description | Methods |
 | --- | --- | --- |
 | [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter), [BaseAssetOptions](#baseassetoptions) |
+| [Errors](#errors) | Error classes exported by the registry | [AssetRegistryError](#assetregistryerror) |
 | [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with ids and chain IDs | [Constructor](#constructor), [Methods](#methods) |
 | [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with id, symbol, address, and chain lookups | [Methods](#methods-1) |
 | [Token Asset Utils](#token-asset-utils) | Helpers for working with token assets | [Uniswap Utilities](#uniswap-utilities) |
@@ -192,6 +193,18 @@ type BaseAssetFilter<TSchema extends Object> = Partial<TSchema>;
 ```
 
 Each array item is a partial match condition. Properties inside a single object are matched together, and multiple objects are evaluated as a union of conditions.
+
+### Errors
+
+#### AssetRegistryError
+
+```javascript
+new AssetRegistryError(message)
+```
+
+**Parameters:**
+
+- `message` (`string`): Error message describing the registry failure
 
 ### WdkBaseAssetRegistry
 

@@ -14,12 +14,13 @@
 'use strict'
 
 /** @typedef {import('./src/wdk-base-asset-registry.js').BaseAssetOptions} BaseAssetOptions */
-/** @typedef {import('./src/schemas/base-asset.js').BaseAsset} BaseAsset */
-/** @typedef {import('./src/schemas/token-asset.js').TokenAsset} TokenAsset */
+
+/** @typedef {import('./src/schemas/index.js').BaseAsset} BaseAsset */
+/** @typedef {import('./src/schemas/index.js').TokenAsset} TokenAsset */
 
 export { default } from './src/wdk-base-asset-registry.js'
 
-export * from './src/utils/errors.js'
+export * from './src/errors.js'
 
 export * from './src/schemas/index.js'
 

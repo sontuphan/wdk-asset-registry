@@ -1,6 +1,35 @@
-export default class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<TokenAsset> {
-    constructor(...preload: TokenAsset[][]);
-    _assertAsset(asset: any): TokenAsset;
+/** @typedef {import("./schemas/token-asset.js").TokenAsset} TokenAsset */
+/** @typedef {import("./wdk-base-asset-registry.js").BaseAssetOptions} BaseAssetOptions */
+/**
+ * @extends {WdkBaseAssetRegistry<TokenAsset>}
+ */
+export default class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
+    id: string;
+    chainId: string | number;
+    address: string;
+    symbol: string;
+    name: string;
+    decimals: number;
+    isNative: boolean;
+}> {
+    constructor(...preload: {
+        id: string;
+        chainId: string | number;
+        address: string;
+        symbol: string;
+        name: string;
+        decimals: number;
+        isNative: boolean;
+    }[][]);
+    _assertAsset(asset: any): {
+        id: string;
+        chainId: string | number;
+        address: string;
+        symbol: string;
+        name: string;
+        decimals: number;
+        isNative: boolean;
+    };
     /**
      * Fetch all tokens.
      *

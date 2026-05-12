@@ -15,6 +15,11 @@
 'use strict'
 
 export class AssetRegistryError extends Error {
+  /**
+   * Create a new asset registry error.
+   *
+   * @param {string} message - The error message.
+   */
   constructor (message) {
     super(message)
     this.name = 'AssetRegistryError'

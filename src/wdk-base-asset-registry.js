@@ -18,7 +18,7 @@ import { z } from 'zod'
 
 import { deepEqual } from 'fast-equals'
 
-import { AssetRegistryError } from './utils/errors.js'
+import { AssetRegistryError } from './errors.js'
 import { BaseAssetSchema } from './schemas/index.js'
 
 /** @typedef {import("./schemas/base-asset.js").BaseAsset} BaseAsset */

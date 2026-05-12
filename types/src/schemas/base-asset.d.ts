@@ -1,3 +1,4 @@
+/** @typedef {z.infer<typeof BaseAssetSchema>} BaseAsset */
 export const BaseAssetSchema: z.ZodObject<{
     id: z.ZodString;
     chainId: z.ZodUnion<readonly [z.ZodInt, z.ZodString]>;

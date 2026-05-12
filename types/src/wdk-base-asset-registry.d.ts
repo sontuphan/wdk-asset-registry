@@ -1,3 +1,12 @@
+/** @typedef {import("./schemas/base-asset.js").BaseAsset} BaseAsset */
+/**
+ * @template {Object} TSchema
+ * @typedef {Partial<TSchema>} BaseAssetFilter
+ */
+/**
+ * @typedef {object} BaseAssetOptions
+ * @property {boolean} [caseSensitive] - Defaults to `false`. When true, matches symbols and addresses without lowercasing.
+ */
 /**
  * The base registry for asset-agnostic use cases.
  *
