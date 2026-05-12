@@ -188,7 +188,7 @@ type BaseAssetOptions = {
 #### BaseAssetFilter
 
 ```typescript
-type BaseAssetFilter<T> = Partial<T>;
+type BaseAssetFilter<TSchema extends Object> = Partial<TSchema>;
 ```
 
 Each array item is a partial match condition. Properties inside a single object are matched together, and multiple objects are evaluated as a union of conditions.

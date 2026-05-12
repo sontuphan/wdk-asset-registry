@@ -87,7 +87,7 @@ export default class WdkBaseAssetRegistry<T extends BaseAsset> {
     getAsset(filter: BaseAssetFilter<T>[], opts?: BaseAssetOptions): T[];
 }
 export type BaseAsset = import("./schemas/base-asset.js").BaseAsset;
-export type BaseAssetFilter<TSchema extends object> = Partial<TSchema>;
+export type BaseAssetFilter<TSchema extends Object> = Partial<TSchema>;
 export type BaseAssetOptions = {
     /**
      * - Defaults to `false`. When true, matches symbols and addresses without lowercasing.

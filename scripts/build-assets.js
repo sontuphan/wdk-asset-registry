@@ -1,7 +1,5 @@
 import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'fs'
 
-/** @typedef {import('../types').TokenAsset} TokenAsset */
-
 const INPUT = 'assets'
 const OUTPUT = 'dist'
 

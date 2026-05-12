@@ -24,7 +24,7 @@ import { BaseAssetSchema } from './schemas/index.js'
 /** @typedef {import("./schemas/base-asset.js").BaseAsset} BaseAsset */
 
 /**
- * @template {object} TSchema
+ * @template {Object} TSchema
  * @typedef {Partial<TSchema>} BaseAssetFilter
  */
 
