@@ -104,11 +104,11 @@ const ethereumUsdt = registry.getAsset([
 ```javascript
 const selectedAssets = registry.getAsset([
   {
-    symbol: 'USDT',
+    id: 'eip155:1/0xdAC17F958D2ee523a2206206994597C13D831ec7',
     chainId: 'eip155:1'
   },
   {
-    symbol: 'XAUt',
+    id: 'eip155:1/0x68749665ff8d2d112fa859aa293f07a622782f38',
     chainId: 'eip155:1'
   }
 ])
