@@ -46,7 +46,7 @@ describe('wallet-base-asset-registry', () => {
     test('should throw for invalid assets with the default assertion', () => {
       const registry = new WdkBaseAssetRegistry()
 
-      expect(() => registry._assertAsset({ id: 'missing-chain-id' })).toThrow()
+      expect(() => registry._assertAsset({ id: 'missing-chain-id' })).toThrow('Required')
     })
 
     test('should register a base asset with the default assertion', () => {
