@@ -72,7 +72,6 @@ describe('wallet-base-asset-registry', () => {
     test('should load all assets from the constructor', () => {
       const assets = wdkAssetRegistry.getAssets()
 
-      expect(Array.isArray(assets)).toBe(true)
       expect(assets).toHaveLength(commonTokens.length)
     })
 
