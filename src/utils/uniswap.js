@@ -19,7 +19,7 @@ import { TokenAssetSchema } from '../schemas/token-asset.js'
 /** @typedef {import("../schemas/token-asset.js").TokenAsset} TokenAsset */
 
 /**
- * @typedef {object} UniswapTokenInfo
+ * @typedef {Object} UniswapTokenInfo
  * @property {number} chainId - The source EVM chain id from the token list.
  * @property {string} address - The token contract address.
  * @property {string} symbol - The token symbol.
