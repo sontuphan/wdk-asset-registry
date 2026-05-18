@@ -29,7 +29,7 @@ import { BaseAssetSchema } from './schemas/index.js'
  */
 
 /**
- * @typedef {object} BaseAssetOptions
+ * @typedef {Object} BaseAssetOptions
  * @property {boolean} [caseSensitive] - Defaults to `false`. When true, matches symbols and addresses without lowercasing.
  */
 
