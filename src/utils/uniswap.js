@@ -58,6 +58,6 @@ export function fromUniswapToken (token) {
  * @param {UniswapTokenInfo[]} tokens - Source token entries.
  * @returns {TokenAsset[]} The normalized token assets.
  */
+export function fromUniswapTokenList (tokens) {
   return tokens.map(fromUniswapToken)
-  return tokens.map(token => fromUniswapToken(token))
 }

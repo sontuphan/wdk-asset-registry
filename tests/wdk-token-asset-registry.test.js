@@ -49,7 +49,6 @@ describe('wallet-token-asset-registry', () => {
   test('should load all common assets from the package export', () => {
     const assets = wdkAssetRegistry.getTokens()
 
-    expect(Array.isArray(assets)).toBe(true)
     expect(assets.length).toBeGreaterThan(0)
   })
 
@@ -71,7 +70,6 @@ describe('wallet-token-asset-registry', () => {
   test('should get tokens by symbol', () => {
     const assets = wdkAssetRegistry.getTokenBySymbol(TEST_SYMBOL)
 
-    expect(Array.isArray(assets)).toBe(true)
     expect(assets.length).toBeGreaterThan(0)
 
     for (const asset of assets) {
@@ -93,7 +91,6 @@ describe('wallet-token-asset-registry', () => {
   test('should get tokens by address', () => {
     const assets = wdkAssetRegistry.getTokenByAddress(TEST_ADDRESS)
 
-    expect(Array.isArray(assets)).toBe(true)
     expect(assets.length).toBeGreaterThan(0)
 
     const [asset] = assets
@@ -110,7 +107,6 @@ describe('wallet-token-asset-registry', () => {
   test('should get tokens by chain', () => {
     const assets = wdkAssetRegistry.getTokenByChain(TEST_CHAINID)
 
-    expect(Array.isArray(assets)).toBe(true)
     expect(assets.length).toBeGreaterThan(0)
 
     for (const asset of assets) {

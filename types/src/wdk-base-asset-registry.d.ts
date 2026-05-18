@@ -1,12 +1,3 @@
-/** @typedef {import("./schemas/base-asset.js").BaseAsset} BaseAsset */
-/**
- * @template {Object} TSchema
- * @typedef {Partial<TSchema>} BaseAssetFilter
- */
-/**
- * @typedef {object} BaseAssetOptions
- * @property {boolean} [caseSensitive] - Defaults to `false`. When true, matches symbols and addresses without lowercasing.
- */
 /**
  * The base registry for asset-agnostic use cases.
  *
@@ -52,7 +43,7 @@ export default class WdkBaseAssetRegistry<T extends BaseAsset> {
      * @protected
      * @param {T} asset - Asset definition to validate.
      * @returns {T} The normalized asset after the successful validation.
-     * @throws {Error} Throw an error if the provided asset is invalid.
+     * @throws {z.ZodError} Throws if the asset does not conform to `BaseAssetSchema`.
      */
     protected _assertAsset(asset: T): T;
     /**

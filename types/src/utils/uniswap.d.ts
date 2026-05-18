@@ -1,15 +1,3 @@
-/** @typedef {import("../schemas/token-asset.js").TokenAsset} TokenAsset */
-/**
- * @typedef {object} UniswapTokenInfo
- * @property {number} chainId - The source EVM chain id from the token list.
- * @property {string} address - The token contract address.
- * @property {string} symbol - The token symbol.
- * @property {string} name - The token name.
- * @property {number} decimals - The token decimals.
- * @property {string} [logoURI] - Optional token logo uri from the source list.
- * @property {string[]} [tags] - Optional token tag names from the source list.
- * @property {Record<string, unknown>} [extensions] - Optional token-specific extensions.
- */
 /**
  * Convert a Uniswap-style token entry into a `TokenAsset`.
  *

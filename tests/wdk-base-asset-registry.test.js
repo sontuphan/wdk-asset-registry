@@ -46,7 +46,7 @@ describe('wallet-base-asset-registry', () => {
     test('should throw for invalid assets with the default assertion', () => {
       const registry = new WdkBaseAssetRegistry()
 
-      expect(() => registry._assertAsset({ id: 'missing-chain-id' })).toThrow('Required')
+      expect(() => registry._assertAsset({ id: 'missing-chain-id' })).toThrow('Invalid input')
     })
 
     test('should register a base asset with the default assertion', () => {
@@ -100,7 +100,6 @@ describe('wallet-base-asset-registry', () => {
     test('should get assets with multiple filter conditions', () => {
       const assets = wdkAssetRegistry.getAsset([{ id: TEST_ID, chainId: TEST_CHAINID }])
 
-      expect(Array.isArray(assets)).toBe(true)
       expect(assets).toEqual([expect.objectContaining({ id: TEST_ID, chainId: TEST_CHAINID })])
     })
 

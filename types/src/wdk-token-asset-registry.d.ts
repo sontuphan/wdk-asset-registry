@@ -1,35 +1,17 @@
-/** @typedef {import("./schemas/token-asset.js").TokenAsset} TokenAsset */
-/** @typedef {import("./wdk-base-asset-registry.js").BaseAssetOptions} BaseAssetOptions */
 /**
  * @extends {WdkBaseAssetRegistry<TokenAsset>}
  */
-export default class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<{
-    id: string;
-    chainId: string | number;
-    address: string;
-    symbol: string;
-    name: string;
-    decimals: number;
-    isNative: boolean;
-}> {
-    constructor(...preload: {
-        id: string;
-        chainId: string | number;
-        address: string;
-        symbol: string;
-        name: string;
-        decimals: number;
-        isNative: boolean;
-    }[][]);
-    _assertAsset(asset: any): {
-        id: string;
-        chainId: string | number;
-        address: string;
-        symbol: string;
-        name: string;
-        decimals: number;
-        isNative: boolean;
-    };
+export default class WdkTokenAssetRegistry extends WdkBaseAssetRegistry<TokenAsset> {
+    constructor(...preload: TokenAsset[][]);
+    /**
+     * Validates and normalizes a token asset using `TokenAssetSchema`.
+     *
+     * @protected
+     * @param {TokenAsset} asset - Asset definition to validate.
+     * @returns {TokenAsset} The normalized token asset after successful schema validation.
+     * @throws {z.ZodError} Throws if the asset does not conform to `TokenAssetSchema`.
+     */
+    protected _assertAsset(asset: TokenAsset): TokenAsset;
     /**
      * Fetch all tokens.
      *
