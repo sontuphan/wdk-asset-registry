@@ -25,6 +25,14 @@ import WdkBaseAssetRegistry from './wdk-base-asset-registry.js'
  * @extends {WdkBaseAssetRegistry<TokenAsset>}
  */
 export default class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
+  /**
+   * Validates and normalizes a token asset using `TokenAssetSchema`.
+   *
+   * @protected
+   * @param {TokenAsset} asset - Asset definition to validate.
+   * @returns {TokenAsset} The normalized token asset after successful schema validation.
+   * @throws {z.ZodError} Throws if the asset does not conform to `TokenAssetSchema`.
+   */
   _assertAsset (asset) {
     return TokenAssetSchema.parse(asset)
   }
