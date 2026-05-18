@@ -210,6 +210,8 @@ new AssetRegistryError(message)
 
 Generic registry class for storing and looking up assets in memory.
 
+The default base registry validates the `BaseAssetSchema` shape (`id` and `chainId`) while preserving additional fields on registered assets. Override `_assertAsset` when a registry needs stricter validation or a richer schema.
+
 #### Constructor
 
 ```javascript
