@@ -84,7 +84,7 @@ export default class WdkBaseAssetRegistry {
    * @protected
    * @param {T} asset - Asset definition to validate.
    * @returns {T} The normalized asset after the successful validation.
-   * @throws {Error} Throw an error if the provided asset is invalid.
+ * @throws {z.ZodError} Throws if the asset does not conform to `BaseAssetSchema`.
    */
   _assertAsset (asset) {
     return z.looseObject(BaseAssetSchema.shape).parse(asset)
