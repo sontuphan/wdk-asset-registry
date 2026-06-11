@@ -15,6 +15,7 @@
   },
   "type": "module",
   "main": "index.js",
+  "types": "./types",
   "scripts": {
     "build:types": "tsc",
     "build:assets": "node scripts/build-assets.js",
