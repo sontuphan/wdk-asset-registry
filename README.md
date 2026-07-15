@@ -421,7 +421,7 @@ console.log(ethereumUsdt)
 
 Get token metadata by contract address.
 
-Unlike the other lookups, address matching is **case-sensitive by default** (`caseSensitive: true`), since token addresses are commonly checksummed. Pass `{ caseSensitive: false }` to match regardless of casing.
+Unlike the other lookups, address matching is **case-sensitive by default** (`caseSensitive: true`), since addresses on most chains are case-sensitive (e.g. Solana, Tron, TON). EVM addresses are the exception: casing never changes the address, so EVM callers can pass { caseSensitive: false }.
 
 **Parameters:**
 
