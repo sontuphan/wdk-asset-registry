@@ -149,7 +149,7 @@ The helper accepts the `tokens` array directly and converts each entry into a va
 
 | Section | Description | Methods |
 | --- | --- | --- |
-| [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter), [BaseAssetOptions](#baseassetoptions) |
+| [Types](#types) | Asset type definitions | [BaseAsset](#baseasset), [TokenAsset](#tokenasset), [BaseAssetFilter](#baseassetfilter), [BaseAssetOptions](#baseassetoptions), [TokenAddressLookupOptions](#tokenaddresslookupoptions) |
 | [Errors](#errors) | Error classes exported by the registry | [AssetRegistryError](#assetregistryerror) |
 | [WdkBaseAssetRegistry](#wdkbaseassetregistry) | Generic registry for assets with ids and chain IDs | [Constructor](#constructor), [Methods](#methods) |
 | [WdkTokenAssetRegistry](#wdktokenassetregistry) | Token-specific registry with id, symbol, address, and chain lookups | [Methods](#methods-1) |
@@ -185,6 +185,18 @@ type BaseAssetOptions = {
   caseSensitive?: boolean;
 };
 ```
+
+`caseSensitive` defaults to `false`: string filter values (such as symbols and chain ids) are lowercased before matching, so `usdt`, `USDT`, and `Usdt` all match. Set it to `true` to require an exact match.
+
+#### TokenAddressLookupOptions
+
+```typescript
+type TokenAddressLookupOptions = {
+  caseSensitive?: boolean;
+};
+```
+
+Options for `getTokenByAddress`. Same shape as `BaseAssetOptions`, but `caseSensitive` defaults to `true` so addresses match exactly.
 
 #### BaseAssetFilter
 
@@ -409,20 +421,30 @@ console.log(ethereumUsdt)
 
 Get token metadata by contract address.
 
+Unlike the other lookups, address matching is **case-sensitive by default** (`caseSensitive: true`), since token addresses are commonly checksummed. Pass `{ caseSensitive: false }` to match regardless of casing.
+
 **Parameters:**
 
 - `address` (string): Token address to look up
-- `opts` (`BaseAssetOptions`, optional): Lookup options such as `caseSensitive`
+- `opts` (`TokenAddressLookupOptions`, optional): Lookup options such as `caseSensitive` (defaults to `true`)
 
 **Returns:** `TokenAsset[]`
 
 **Example:**
 
 ```javascript
+// Case-sensitive (default): must match the exact (checksummed) address
 const assets = registry.getTokenByAddress(
   '0xdAC17F958D2ee523a2206206994597C13D831ec7'
 )
 console.log(assets)
+
+// Case-insensitive: match regardless of casing
+const anyCase = registry.getTokenByAddress(
+  '0xdac17f958d2ee523a2206206994597c13d831ec7',
+  { caseSensitive: false }
+)
+console.log(anyCase)
 ```
 
 ### Token Asset Utils
