@@ -22,6 +22,11 @@ import WdkBaseAssetRegistry from './wdk-base-asset-registry.js'
 /** @typedef {import("./wdk-base-asset-registry.js").BaseAssetOptions} BaseAssetOptions */
 
 /**
+ * @typedef {Object} TokenAddressLookupOptions
+ * @property {boolean} [caseSensitive] - Defaults to `true`. Matches the address exactly without lowercasing.
+ */
+
+/**
  * @extends {WdkBaseAssetRegistry<TokenAsset>}
  */
 export default class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
@@ -60,11 +65,11 @@ export default class WdkTokenAssetRegistry extends WdkBaseAssetRegistry {
    * Fetch tokens by contract address.
    *
    * @param {string} address - The token address.
-   * @param {BaseAssetOptions} [opts] - Optional lookup filters such as `caseSensitive`.
+   * @param {TokenAddressLookupOptions} [opts] - Optional lookup filters.
    * @returns {TokenAsset[]} A list of matching tokens.
    */
-  getTokenByAddress (address, opts = {}) {
-    return this.getAsset([{ address }], opts)
+  getTokenByAddress (address, { caseSensitive = true, ...opts } = {}) {
+    return this.getAsset([{ address }], { caseSensitive, ...opts })
   }
 
   /**
