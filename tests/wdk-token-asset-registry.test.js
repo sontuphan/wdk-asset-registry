@@ -99,9 +99,17 @@ describe('wallet-token-asset-registry', () => {
     expect(asset.address).toBe(TEST_ADDRESS)
   })
 
-  test('should support case sensitive address lookup', () => {
-    expect(wdkAssetRegistry.getTokenByAddress(TEST_ADDRESS, { caseSensitive: true }).length).toBeGreaterThan(0)
-    expect(wdkAssetRegistry.getTokenByAddress(TEST_ADDRESS.toLowerCase(), { caseSensitive: true })).toEqual([])
+  test('should match address case-sensitively by default', () => {
+    expect(wdkAssetRegistry.getTokenByAddress(TEST_ADDRESS).length).toBeGreaterThan(0)
+    expect(wdkAssetRegistry.getTokenByAddress(TEST_ADDRESS.toLowerCase())).toEqual([])
+  })
+
+  test('should support case insensitive address lookup when opted out', () => {
+    const exact = wdkAssetRegistry.getTokenByAddress(TEST_ADDRESS, { caseSensitive: false })
+    const lowerCased = wdkAssetRegistry.getTokenByAddress(TEST_ADDRESS.toLowerCase(), { caseSensitive: false })
+
+    expect(exact.length).toBeGreaterThan(0)
+    expect(lowerCased).toEqual(exact)
   })
 
   test('should get tokens by chain', () => {
