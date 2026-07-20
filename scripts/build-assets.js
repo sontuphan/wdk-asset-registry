@@ -16,15 +16,16 @@ for (const file of files) {
   const data = JSON.parse(raw)
   for (const [symbol, token] of Object.entries(data)) {
     for (const [chainId, address] of Object.entries(token.address)) {
-      assets.push({
-        id: `${chainId}/${address}`,
-        address,
+      const asset = {
+        id: address ? `${chainId}/${address}` : chainId,
         symbol,
         name: token.name,
         decimals: token.decimals,
         chainId,
         isNative: token.isNativeCoin
-      })
+      }
+      if (address) asset.address = address
+      assets.push(asset)
     }
   }
 }

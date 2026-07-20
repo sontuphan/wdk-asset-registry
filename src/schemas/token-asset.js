@@ -21,7 +21,7 @@ import { BaseAssetSchema } from './base-asset.js'
 /** @typedef {z.infer<typeof TokenAssetSchema>} TokenAsset */
 
 export const TokenAssetSchema = BaseAssetSchema.extend({
-  address: z.string(),
+  address: z.string().optional(),
   symbol: z.string(),
   name: z.string(),
   decimals: z.int().gte(0).lte(255),

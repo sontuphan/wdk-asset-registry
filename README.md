@@ -131,6 +131,25 @@ registry.registerAsset({
 })
 ```
 
+### Register a Native Coin
+
+Native coins have no contract address. Omit `address` and set the `id` to the bare `chainId`:
+
+```javascript
+registry.registerAsset({
+  id: 'eip155:1',
+  symbol: 'ETH',
+  name: 'Ether',
+  decimals: 18,
+  chainId: 'eip155:1',
+  isNative: true
+})
+
+// Look it up by its bare chain id
+const eth = registry.getTokenById('eip155:1')
+console.log(eth)
+```
+
 ### Normalize Third-Party Token Lists
 
 ```javascript
@@ -170,13 +189,15 @@ type BaseAsset = {
 
 ```typescript
 type TokenAsset = BaseAsset & {
-  address: string;
+  address?: string;
   symbol: string;
   name: string;
   decimals: number;
   isNative: boolean;
 };
 ```
+
+`address` is optional: native coins (e.g. ETH, BTC, SOL) have no contract address, so the field is omitted for them. In that case the asset `id` falls back to the bare `chainId` (e.g. `eip155:1`) instead of `${chainId}/${address}`.
 
 #### BaseAssetOptions
 
@@ -422,6 +443,8 @@ console.log(ethereumUsdt)
 Get token metadata by contract address.
 
 Unlike the other lookups, address matching is **case-sensitive by default** (`caseSensitive: true`), since addresses on most chains are case-sensitive (e.g. Solana, Tron, TON). EVM addresses are the exception: casing never changes the address, so EVM callers can pass { caseSensitive: false }.
+
+> **Native (addressless) assets:** Native coins have no `address` (their stored value is `undefined`). A lookup by a real address therefore never returns them. However, calling `getTokenByAddress(undefined)` (or with no argument) matches these assets, since `undefined === undefined` — so it returns all addressless native assets. A `null` argument matches nothing (`null !== undefined`). Pass a concrete address to avoid accidentally collecting native assets.
 
 **Parameters:**
 

@@ -29,6 +29,24 @@ describe('wallet-asset-schema', () => {
     expect(asset.chainId).toBe('eip155:1')
   })
 
+  test('should validate a native asset without an address', () => {
+    // Native coins (ETH, BTC, SOL, ...) have no contract address, so the build
+    // script falls back to the bare chain id and omits the address field.
+    const nativeAsset = {
+      id: 'eip155:1',
+      symbol: 'ETH',
+      name: 'Ether',
+      decimals: 18,
+      chainId: 'eip155:1',
+      isNative: true
+    }
+
+    const asset = TokenAssetSchema.parse(nativeAsset)
+
+    expect(asset).toEqual(nativeAsset)
+    expect(asset.address).toBeUndefined()
+  })
+
   test('should export a JSON schema for a single asset', () => {
     expect(TokenAssetJsonSchema.type).toBe('object')
     expect(TokenAssetJsonSchema.properties.symbol.type).toBe('string')

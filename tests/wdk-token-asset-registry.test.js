@@ -34,6 +34,14 @@ const TEST_EXTRA_ASSET = {
   chainId: 'eip155:10',
   isNative: false
 }
+const TEST_NATIVE_ASSET = {
+  id: 'eip155:1',
+  symbol: 'ETH',
+  name: 'Ether',
+  decimals: 18,
+  chainId: 'eip155:1',
+  isNative: true
+}
 
 describe('wallet-token-asset-registry', () => {
   let wdkAssetRegistry
@@ -130,6 +138,51 @@ describe('wallet-token-asset-registry', () => {
 
     expect(wdkAssetRegistry.getTokens()).toHaveLength(initialLength + 1)
     expect(asset).toEqual(TEST_NEW_ASSET)
+  })
+
+  test('should register a native asset without an address', () => {
+    wdkAssetRegistry.registerAsset(TEST_NATIVE_ASSET)
+    const asset = wdkAssetRegistry.getTokenById(TEST_NATIVE_ASSET.id)
+
+    expect(asset).toEqual(TEST_NATIVE_ASSET)
+    expect(asset.address).toBeUndefined()
+  })
+
+  test('should look up a native asset by its bare chain id', () => {
+    wdkAssetRegistry.registerAsset(TEST_NATIVE_ASSET)
+    const asset = wdkAssetRegistry.getTokenById('eip155:1')
+
+    expect(asset).toEqual(TEST_NATIVE_ASSET)
+  })
+
+  test('should find a registered native asset by symbol', () => {
+    wdkAssetRegistry.registerAsset(TEST_NATIVE_ASSET)
+    const [asset] = wdkAssetRegistry.getTokenBySymbol('ETH', { caseSensitive: true })
+
+    expect(asset).toEqual(TEST_NATIVE_ASSET)
+    expect(asset.isNative).toBe(true)
+  })
+
+  test('should not return native assets when looking up by a real address', () => {
+    wdkAssetRegistry.registerAsset(TEST_NATIVE_ASSET)
+
+    const assets = wdkAssetRegistry.getTokenByAddress(TEST_ADDRESS)
+
+    expect(assets.length).toBeGreaterThan(0)
+    expect(assets.every(asset => asset.symbol !== TEST_NATIVE_ASSET.symbol)).toBe(true)
+  })
+
+  test('should return native (addressless) assets when looking up by an empty address', () => {
+    wdkAssetRegistry.registerAsset(TEST_NATIVE_ASSET)
+
+    expect(wdkAssetRegistry.getTokenByAddress(undefined)).toContainEqual(TEST_NATIVE_ASSET)
+    expect(wdkAssetRegistry.getTokenByAddress()).toContainEqual(TEST_NATIVE_ASSET)
+  })
+
+  test('should not return native assets when looking up by a null address', () => {
+    wdkAssetRegistry.registerAsset(TEST_NATIVE_ASSET)
+
+    expect(wdkAssetRegistry.getTokenByAddress(null)).toEqual([])
   })
 
   test('should throw when registering a duplicate asset without upsert', () => {

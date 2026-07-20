@@ -1,7 +1,7 @@
 export const TokenAssetSchema: z.ZodObject<{
     id: z.ZodString;
     chainId: z.ZodUnion<readonly [z.ZodInt, z.ZodString]>;
-    address: z.ZodString;
+    address: z.ZodOptional<z.ZodString>;
     symbol: z.ZodString;
     name: z.ZodString;
     decimals: z.ZodInt;
@@ -10,7 +10,7 @@ export const TokenAssetSchema: z.ZodObject<{
 export const TokenAssetJsonSchema: z.core.ZodStandardJSONSchemaPayload<z.ZodObject<{
     id: z.ZodString;
     chainId: z.ZodUnion<readonly [z.ZodInt, z.ZodString]>;
-    address: z.ZodString;
+    address: z.ZodOptional<z.ZodString>;
     symbol: z.ZodString;
     name: z.ZodString;
     decimals: z.ZodInt;
